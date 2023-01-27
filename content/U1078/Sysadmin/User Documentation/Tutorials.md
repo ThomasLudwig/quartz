@@ -9,8 +9,8 @@ tags:
 
 ## How-To
 
-- [[Conda@U1078]]
-- [[Mettre à disposition des fichiers via https]]
+- [[Sysadmin/User Documentation/Conda@U1078]]
+- [[Sysadmin/User Documentation/Mettre à disposition des fichiers via https]]
 
 > [!INFO] **Paralleliser avec `xargs`**
 > 
