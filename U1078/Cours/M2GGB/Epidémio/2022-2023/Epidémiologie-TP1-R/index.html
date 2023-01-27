@@ -1,0 +1,670 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=description content="tags #m2ggb #epidemiologie contact : ludwig@univ-brest.fr
+1. Introduction R est un système d’analyse statistique et graphique créé par Ross Ihaka et Robert Gentleman."><title>BioInfo TP1 - Unix & Linux</title><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" type=image/png href=https://ThomasLudwig.github.io/quartz//icon.png><link href=https://ThomasLudwig.github.io/quartz/styles.547fb332ce56cdc523146ba5ede80d7f.min.css rel=stylesheet><link href=https://ThomasLudwig.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css rel=stylesheet id=theme-link><script src=https://ThomasLudwig.github.io/quartz/js/darkmode.80b387c6b2e1c9ae253f0ef0de27ef75.min.js></script>
+<script src=https://ThomasLudwig.github.io/quartz/js/util.6f22941e242efae60fd84e7c32e874fa.min.js></script>
+<link rel=preload href=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css as=style onload='this.onload=null,this.rel="stylesheet"' integrity=sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js integrity=sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js integrity=sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A crossorigin=anonymous></script>
+<script async src=https://unpkg.com/@floating-ui/core@0.7.3></script>
+<script async src=https://unpkg.com/@floating-ui/dom@0.5.4></script>
+<script async src=https://ThomasLudwig.github.io/quartz/js/popover.f03552ccb84d99ca615d1cfb9abde59e.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/code-title.ce4a43f09239a9efb48fee342e8ef2df.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/clipboard.2913da76d3cb21c5deaa4bae7da38c9f.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/callouts.7723cac461d613d118ee8bb8216b9838.min.js></script>
+<script>const SEARCH_ENABLED=!1,LATEX_ENABLED=!0,PRODUCTION=!0,BASE_URL="https://ThomasLudwig.github.io/quartz/",fetchData=Promise.all([fetch("https://ThomasLudwig.github.io/quartz/indices/linkIndex.f825b5e710ebe97349064fe077169bc8.min.json").then(e=>e.json()).then(e=>({index:e.index,links:e.links})),fetch("https://ThomasLudwig.github.io/quartz/indices/contentIndex.a308fc6d275b57823c5cf4cf0cae75b6.min.json").then(e=>e.json())]).then(([{index:e,links:t},n])=>({index:e,links:t,content:n})),render=()=>{const e=new URL(BASE_URL),t=e.pathname,n=window.location.pathname,s=t==n;addCopyButtons(),addTitleToCodeBlocks(),addCollapsibleCallouts(),initPopover("https://ThomasLudwig.github.io/quartz",!0);const o=document.getElementById("footer");if(o){const e=document.getElementById("graph-container");if(!e)return requestAnimationFrame(render);e.textContent="";const t=s&&!1;drawGraph("https://ThomasLudwig.github.io/quartz",t,[{"/moc":"#4388cc"}],t?{centerForce:1,depth:-1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.5,linkDistance:1,opacityScale:3,repelForce:1,scale:1.4}:{centerForce:1,depth:1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.6,linkDistance:1,opacityScale:3,repelForce:2,scale:1.2})}var i=document.getElementsByClassName("mermaid");i.length>0&&import("https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs").then(e=>{e.default.init()})},init=(e=document)=>{addCopyButtons(),addTitleToCodeBlocks(),renderMathInElement(e.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],macros:{'’':"'"},throwOnError:!1})}</script><script type=module>
+    import { attachSPARouting } from "https:\/\/ThomasLudwig.github.io\/quartz\/js\/router.9d4974281069e9ebb189f642ae1e3ca2.min.js"
+    attachSPARouting(init, render)
+  </script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-XYFD95KB4J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XYFD95KB4J",{anonymize_ip:!1})}</script><body><div id=search-container><div id=search-space><input autocomplete=off id=search-bar name=search type=text aria-label=Search placeholder="Search for something..."><div id=results-container></div></div></div><script src=https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin=anonymous defer></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/full-text-search.e6e2e0c213187ca0c703d6e2c7a77fcd.min.js></script><div class=singlePage><header><h1 id=page-title><a href=https://ThomasLudwig.github.io/quartz/>🪴 Quartz 3.3</a></h1><div class=spacer></div><div id=search-icon><p>Search</p><svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg></div><div class=darkmode><input class=toggle id=darkmode-toggle type=checkbox tabindex=-1>
+<label id=toggle-label-light for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="dayIcon" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35"><title>Light Mode</title><path d="M6 17.5C6 16.672 5.328 16 4.5 16h-3C.672 16 0 16.672.0 17.5S.672 19 1.5 19h3C5.328 19 6 18.328 6 17.5zM7.5 26c-.414.0-.789.168-1.061.439l-2 2C4.168 28.711 4 29.086 4 29.5 4 30.328 4.671 31 5.5 31c.414.0.789-.168 1.06-.44l2-2C8.832 28.289 9 27.914 9 27.5 9 26.672 8.329 26 7.5 26zm10-20C18.329 6 19 5.328 19 4.5v-3C19 .672 18.329.0 17.5.0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm10 3c.414.0.789-.168 1.06-.439l2-2C30.832 6.289 31 5.914 31 5.5 31 4.672 30.329 4 29.5 4c-.414.0-.789.168-1.061.44l-2 2C26.168 6.711 26 7.086 26 7.5 26 8.328 26.671 9 27.5 9zM6.439 8.561C6.711 8.832 7.086 9 7.5 9 8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2.001zM33.5 16h-3c-.828.0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828.0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM28.561 26.439C28.289 26.168 27.914 26 27.5 26c-.828.0-1.5.672-1.5 1.5.0.414.168.789.439 1.06l2 2C28.711 30.832 29.086 31 29.5 31c.828.0 1.5-.672 1.5-1.5.0-.414-.168-.789-.439-1.061l-2-2zM17.5 29c-.829.0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3C19 29.672 18.329 29 17.5 29zm0-22C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136.0-7.5-3.364-7.5-7.5s3.364-7.5 7.5-7.5 7.5 3.364 7.5 7.5S21.636 25 17.5 25z"/></svg></label><label id=toggle-label-dark for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="nightIcon" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'"><title>Dark Mode</title><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491-9.447 9.447-14.65 22.008-14.65 35.369.0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361.0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246C97.826 68.608 97.611 67.309 96.76 66.458z"/></svg></label></div></header><article><h1>BioInfo TP1 - Unix & Linux</h1><p class=meta>Last updated
+Unknown
+<a href=https://github.com/jackyzha0/quartz/tree/hugo/content/U1078/Cours/M2GGB/Epid%c3%a9mio/2022-2023/Epid%c3%a9miologie%20TP1%20-%20R.md rel=noopener>Edit Source</a></p><ul class=tags><li><a href=https://ThomasLudwig.github.io/quartz/tags/m2ggb/>M2ggb</a></li><li><a href=https://ThomasLudwig.github.io/quartz/tags/epidemiologie/>Epidemiologie</a></li></ul><aside class=mainTOC><details><summary>Table of Contents</summary><nav id=TableOfContents><ol><li><ol><li></li></ol></li><li><a href=#1-introduction>1. Introduction</a></li><li><a href=#2-prise-en-main>2. Prise en main</a><ol><li><a href=#21-lancer-r>2.1. Lancer R</a></li><li><a href=#22-quitter-r>2.2. Quitter R</a></li></ol></li><li><a href=#3-fonctionnement-de-r>3. Fonctionnement de R</a><ol><li><a href=#31-opérations-de-base>3.1 Opérations de base</a></li></ol></li><li><a href=#4-les-objets>4. Les objets</a><ol><li><a href=#41-simples-valeurs>4.1. Simples Valeurs</a></li><li><a href=#42-vecteurs>4.2. Vecteurs</a></li><li><a href=#43-matrices>4.3. Matrices</a></li><li><a href=#44-listes>4.4. Listes</a></li></ol></li><li><a href=#45-dataframes>4.5. Dataframes</a></li><li><a href=#5-lire-des-données-dans-un-fichier>5. Lire des données dans un fichier</a></li><li><a href=#6-enregistrer-les-données-dans-un-fichier>6. Enregistrer les données dans un fichier</a></li><li><a href=#7-générer-des-données>7. Générer des données</a><ol><li><a href=#71-séquences-régulières>7.1. Séquences régulières</a></li><li><a href=#72-séquences-aléatoires>7.2. Séquences aléatoires</a></li></ol></li><li><a href=#8-merge>8. Merge</a></li><li><a href=#9-selection-dans-un-vecteur>9. Selection dans un vecteur</a></li><li><a href=#10-statistiques>10. Statistiques</a></li><li><a href=#11-graphiques>11. Graphiques</a><ol><li><a href=#111-exemple>11.1. Exemple</a></li><li><a href=#112-export-dun-graphique-dans-une-image>11.2. Export d&rsquo;un graphique dans une image</a></li><li><a href=#113-fonctions-graphiques>11.3. Fonctions graphiques</a></li></ol></li><li><a href=#12-commandes-du-système-dexploitation>12. Commandes du système d&rsquo;exploitation</a></li><li><a href=#13-import>13. Import</a></li><li><a href=#14-which>14. which</a></li></ol></nav></details></aside><a href=#tags-m2ggb-epidemiologie><h6 id=tags-m2ggb-epidemiologie><span class=hanchor arialabel=Anchor># </span>tags #m2ggb #epidemiologie</h6></a><p><em>contact :</em>
+<a rel=noopener class="internal-link broken" data-src=mailto:ludwig@univ-brest.fr>ludwig@univ-brest.fr</a></p><a href=#1-introduction><h2 id=1-introduction><span class=hanchor arialabel=Anchor># </span>1. Introduction</h2></a><p>R est un système d’analyse statistique et graphique créé par Ross Ihaka et Robert Gentleman. R est à la fois un logiciel et un langage qualifié de dialecte du langage S créé par AT&T Bell Laboratories. Il y a des différences importantes dans la conception de R et celle de S.</p><p>R est distribué librement sous les termes de la GNU General Public Licence; son développement et sa distribution sont assurés par plusieurs statisticiens rassemblés dans le R Development Core Team.</p><p>R comporte de nombreuses fonctions pour les analyses statistiques et les graphiques; ceux-ci sont visualisés immédiatement dans une fenêtre propre et peuvent être exportés sous divers formats (jpg, png, bmp, ps, pdf, emf, pictex, xfig ; les formats disponibles peuvent dépendre du système d’exploitation). Les résultats des analyses statistiques sont affichés à l’écran, certains résultats partiels (valeurs de P, coefficients de régression, résidus, . . .) peuvent être sauvés à part, exportés dans un fichier ou utilisés dans des analyses ultérieures.</p><p>Le langage R permet, par exemple, de programmer des boucles qui vont analyser successivement différents jeux de données. Il est aussi possible de combiner dans le même programme différentes fonctions statistiques pour réaliser des analyses plus complexes. Les utilisateurs de R peuvent bénéficier des nombreux programmes écrits pour S et disponibles sur internet, la plupart de ces programmes étant directement utilisables avec R.</p><p>De prime abord, R peut sembler trop complexe pour une utilisation par un non-spécialiste. Ce n’est pas forcément le cas. En fait, R privilégie la flexibilité. Alors qu’un logiciel classique affichera directement les résultats d’une analyse, avec R ces résultats sont stockés dans un “objet”, si bien qu’une analyse peut être faite sans qu’aucun résultat ne soit affiché. L’utilisateur peut être déconcerté par ceci, mais cette facilité se révèle extrêmement utile. En effet, l’utilisateur peut alors extraire uniquement la partie des résultats qui l’intéresse. Par exemple, si l’on doit faire une série de 20 régressions et que l’on veuille comparer les coefficients des différentes régressions, R pourra afficher uniquement les coefficients estimés : les résultats tiendront donc sur une ligne, alors qu’un logiciel plus classique pourra ouvrir 20 fenêtres de résultats. On verra d’autres exemples illustrant la flexibilité d’un système comme R vis-à-vis des logiciels classiques.</p><a href=#2-prise-en-main><h2 id=2-prise-en-main><span class=hanchor arialabel=Anchor># </span>2. Prise en main</h2></a><a href=#21-lancer-r><h3 id=21-lancer-r><span class=hanchor arialabel=Anchor># </span>2.1. Lancer R</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>R
+</span></span></code></pre></td></tr></table></div></div><a href=#22-quitter-r><h3 id=22-quitter-r><span class=hanchor arialabel=Anchor># </span>2.2. Quitter R</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>q</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#3-fonctionnement-de-r><h2 id=3-fonctionnement-de-r><span class=hanchor arialabel=Anchor># </span>3. Fonctionnement de R</h2></a><p>R est un langage interprété, c&rsquo;est-à-dire que les commandes tapées au clavier sont directement exécutées sans qu&rsquo;il soit nécessaire de construire un programme.</p><p>La syntaxe de R se veut simple et intuitive. Avec R, une fonction, pour être exécutée, s&rsquo;écrit toujours avec des parenthèses, même si elle ne contiennent pas d&rsquo;argument (exemple <code>ls()</code>). Si l&rsquo;utilisateur tape le nom de la fonction sans parenthèses, R affichera le contenu des instructions de cette fonction. Ex:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>plot</span>
+</span></span><span class=line><span class=cl><span class=nf>function </span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=kc>...</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>UseMethod</span><span class=p>(</span><span class=s>&#34;plot&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;</span><span class=n>bytecode</span><span class=o>:</span> <span class=mh>0x2eefdd0</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>&lt;</span><span class=n>environment</span><span class=o>:</span> <span class=n>namespace</span><span class=o>:</span><span class=n>graphics</span><span class=o>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Quand R est utilisé, les variables, les données, les fonctions, les résultats, etc., sont stockés dans la mémoire de l’ordinateur sous forme d’<em>objets</em> qui ont chacun un <em>nom</em>. L’utilisateur va agir sur ces objets avec des opérateurs (arithmétiques, logiques, de comparaison, &mldr;) et des <em>fonctions</em> (qui sont elles-mêmes des objets).</p><a href=#31-opérations-de-base><h3 id=31-opérations-de-base><span class=hanchor arialabel=Anchor># </span>3.1 Opérations de base</h3></a><p>L&rsquo;affectation d&rsquo;une valeur à un objet peut se faire de plusieurs façon équivalente</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>a</span> <span class=o>&lt;-</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=m>2</span> <span class=o>-&gt;</span> <span class=n>b</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>d</span> <span class=o>=</span> <span class=m>3</span>
+</span></span></code></pre></td></tr></table></div></div><p>pour afficher le contenu d&rsquo;un objet on tape simplement son nom</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>a</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>b</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>2</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>3</span>
+</span></span></code></pre></td></tr></table></div></div><p>Si l&rsquo;objet existe déjà, sa valeur précédente est effacée.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>n</span> <span class=o>&lt;-</span> <span class=m>5</span> <span class=o>+</span> <span class=m>7</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>12</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>n</span> <span class=o>&lt;-</span> <span class=m>6</span> <span class=o>*</span> <span class=m>8</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>48</span>
+</span></span></code></pre></td></tr></table></div></div><p>La fonction <code>ls()</code> donne la liste des objets en mémoire</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>ls</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;a&#34;</span> <span class=s>&#34;b&#34;</span> <span class=s>&#34;d&#34;</span> <span class=s>&#34;n&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Pour obtenir de l&rsquo;aide, on utilise <code>?</code> ou <code>help()</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=o>?</span><span class=n>ls</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>help</span><span class=p>(</span><span class=s>&#34;ls&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#4-les-objets><h2 id=4-les-objets><span class=hanchor arialabel=Anchor># </span>4. Les objets</h2></a><a href=#41-simples-valeurs><h3 id=41-simples-valeurs><span class=hanchor arialabel=Anchor># </span>4.1. Simples Valeurs</h3></a><p>R manipule des objets : ceux-ci sont caractérisés par leur nom et leur contenu, mais aussi par des <em>attributs</em> qui vont spécifier le type de données représenté par un objet. Considérons une variable qui prendrait les valeurs 1, 2 ou 3 : une telle variable peut représenter une variable entière (par exemple, le nombre d’oeufs dans un nid), ou le codage d’une variable catégorique (par exemple, le sexe de crustacés : 1=mâle, 2=femelle ou 3=hermaphrodite).</p><p>Le traitement de cette variable ne sera pas le même dans les deux cas : les attributs de l’objet donnent l’information nécessaire. Plus techniquement, l’action d’une fonction sur un objet va dépendre des attributs de celui-ci.</p><p>Les objets ont tous deux attributs : le <em>mode</em> et la <em>longueur</em>. Le mode est le type des éléments d’un objet; il en existe quatre principaux :</p><ul><li>numérique</li><li>caractère</li><li>complexe</li><li>logique (<code>FALSE</code> ou <code>TRUE</code>).</li></ul><p>D’autres modes existent qui ne représentent pas des données, par exemple <em>fonction</em> ou <em>expression</em>.
+La longueur est le nombre d’éléments de l’objet. Pour connaître le mode et la longueur d’un objet on peut utiliser, respectivement, les fonctions <code>mode</code> et <code>length</code> :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span> <span class=o>&lt;-</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mode</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;numeric&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>text</span><span class=o>=</span><span class=s>&#34;May the force be with you&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mode</span><span class=p>(</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;character&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>length</span><span class=p>(</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>test</span><span class=o>=</span><span class=kc>TRUE</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mode</span><span class=p>(</span><span class=n>test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;logical&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>length</span><span class=p>(</span><span class=n>test</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>cmp</span><span class=o>=</span><span class=m>2i+1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mode</span><span class=p>(</span><span class=n>cmp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;complex&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>length</span><span class=p>(</span><span class=n>cmp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span></code></pre></td></tr></table></div></div><p>Dans tous ces exemple, la longueur est toujours 1. Mais R peut également manipuler des objets plus complexes, comme des vecteurs.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>v</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>17</span><span class=p>,</span><span class=m>-2.3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>v</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>17.0</span> <span class=m>-2.3</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mode</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;numeric&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>length</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>Quelque soit le mode, les valeurs manquantes sont représentées par <code>NA</code> (<em>not available</em>). Une valeur numérique très grande peut être spécifiée avec une notation exponentielle. Les valeurs $\pm\infty$ sont représentées par <code>Inf</code> et <code>-Inf</code>. Les résultats qui ne sont pas des nombres valides sont représentés par <code>NaN</code> (<em>Not a Number</em>).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>N</span> <span class=o>&lt;-</span> <span class=m>2.1e23</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>N</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>2.1e+23</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span> <span class=o>&lt;-</span> <span class=m>5</span><span class=o>/</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=kc>Inf</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>exp</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=kc>Inf</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>exp</span><span class=p>(</span><span class=o>-</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span> <span class=o>-</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=kc>NaN</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#42-vecteurs><h3 id=42-vecteurs><span class=hanchor arialabel=Anchor># </span>4.2. Vecteurs</h3></a><p>On crée un vecteur avec la fonction <code>c</code> (<em>concatenate</em>).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>c</span><span class=p>(</span><span class=m>1</span> <span class=p>,</span><span class=m>2.6</span><span class=p>,</span> <span class=m>47</span><span class=p>,</span> <span class=m>98</span><span class=p>,</span> <span class=m>44.4</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span>  <span class=m>1.0</span>  <span class=m>2.6</span> <span class=m>47.0</span> <span class=m>98.0</span> <span class=m>44.4</span>
+</span></span></code></pre></td></tr></table></div></div><p>il est possible d&rsquo;isoler une ou plusieurs valeurs d&rsquo;un vecteur avec <code>[]</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>1</span> <span class=p>,</span><span class=m>2.6</span><span class=p>,</span> <span class=m>47</span><span class=p>,</span> <span class=m>98</span><span class=p>,</span> <span class=m>44.4</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c[2]</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>2.6</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c[1]</span> <span class=o>&lt;-</span> <span class=m>1.1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span>  <span class=m>1.1</span>  <span class=m>2.6</span> <span class=m>47.0</span> <span class=m>98.0</span> <span class=m>44.4</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c</span> <span class=o>+</span> <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>il est aussi possible de concaténer deux vecteurs</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>a</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span><span class=m>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>b</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>3</span><span class=p>,</span><span class=m>7</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>c</span><span class=p>(</span><span class=n>a</span><span class=p>,</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span> <span class=m>3</span> <span class=m>3</span> <span class=m>7</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>c</span><span class=p>(</span><span class=n>a</span><span class=p>,</span><span class=m>2</span><span class=o>:</span><span class=m>8</span><span class=p>,</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span> <span class=m>3</span> <span class=m>2</span> <span class=m>3</span> <span class=m>4</span> <span class=m>5</span> <span class=m>6</span> <span class=m>7</span> <span class=m>8</span> <span class=m>3</span> <span class=m>7</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#43-matrices><h3 id=43-matrices><span class=hanchor arialabel=Anchor># </span>4.3. Matrices</h3></a><p>Les matrices peuvent être créées avec la fonction matrix:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>A</span> <span class=o>&lt;-</span> <span class=nf>matrix</span><span class=p>(</span> <span class=m>1</span><span class=o>:</span><span class=m>10</span><span class=p>,</span> <span class=n>ncol</span><span class=o>=</span><span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>A</span>
+</span></span><span class=line><span class=cl><span class=n>[</span><span class=p>,</span><span class=m>1</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>2</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>3</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>4</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>5</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[1</span><span class=p>,</span><span class=n>]</span> <span class=m>1</span> <span class=m>3</span> <span class=m>5</span> <span class=m>7</span> <span class=m>9</span>
+</span></span><span class=line><span class=cl><span class=n>[2</span><span class=p>,</span><span class=n>]</span> <span class=m>2</span> <span class=m>4</span> <span class=m>6</span> <span class=m>8</span> <span class=m>10</span>
+</span></span></code></pre></td></tr></table></div></div><p>Comme pour les vecteurs, il est possible d’extraire une valeur, une ligne ou une colonne avec <code>[]</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>A[1</span><span class=p>,</span><span class=m>4</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>7</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>A[2</span><span class=p>,</span> <span class=p>,</span> <span class=n>drop</span><span class=o>=</span><span class=kc>FALSE</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[</span><span class=p>,</span><span class=m>1</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>2</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>3</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>4</span><span class=n>]</span> <span class=n>[</span><span class=p>,</span><span class=m>5</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[1</span><span class=p>,</span><span class=n>]</span> <span class=m>2</span> <span class=m>4</span> <span class=m>6</span> <span class=m>8</span> <span class=m>10</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p>:pencil: l’option <code>drop=FALSE</code> permet de garder le résultat sous forme de matrice et non de vecteur.</p></blockquote><a href=#44-listes><h3 id=44-listes><span class=hanchor arialabel=Anchor># </span>4.4. Listes</h3></a><p>les listes d&rsquo;objets peuvent être créées avec la fonction <code>list()</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>l</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>Prenom</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;Ophelie&#34;</span><span class=p>,</span> <span class=s>&#34;Annabelle&#34;</span><span class=p>),</span> <span class=n>Nom</span><span class=o>=</span><span class=s>&#34;Dupont&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>l</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=n>Prenom</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;Ophelie&#34;</span> <span class=s>&#34;Annabelle&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=n>Nom</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;Dupont&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>les objets contenus dans la liste peuvent être extraits avec <code>$</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>l</span><span class=o>$</span><span class=n>Prenom</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;Ophelie&#34;</span> <span class=s>&#34;Annabelle&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#45-dataframes><h2 id=45-dataframes><span class=hanchor arialabel=Anchor># </span>4.5. Dataframes</h2></a><p>Un DataFrame est une liste particulière.</p><ul><li>c&rsquo;est une liste de vecteurs de données</li><li>ces vecteurs sont de même longueur</li><li>ces vecteurs peuvent être nommés</li><li>les lignes peuvent également être nommées</li><li>on peut manipuler un dataframe comme une matrice, par indices <code>[ligne, colonne]</code></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>annee</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>1995</span><span class=p>,</span><span class=m>2001</span><span class=p>,</span><span class=m>1987</span><span class=p>,</span><span class=m>2000</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>taille</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>172</span><span class=p>,</span><span class=m>153</span><span class=p>,</span><span class=m>190</span><span class=p>,</span><span class=m>168</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>sexe</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;M&#34;</span><span class=p>,</span><span class=s>&#34;F&#34;</span><span class=p>,</span><span class=s>&#34;M&#34;</span><span class=p>,</span><span class=kc>NA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=nf>list</span><span class=p>(</span><span class=n>annee</span><span class=p>,</span> <span class=n>taille</span><span class=p>,</span> <span class=n>sexe</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>colnames</span><span class=p>(</span><span class=n>frame</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;Année&#34;</span><span class=p>,</span><span class=s>&#34;Taille&#34;</span><span class=p>,</span><span class=s>&#34;Sexe&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>rownames</span><span class=p>(</span><span class=n>frame</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;Eric&#34;</span><span class=p>,</span> <span class=s>&#34;Diane&#34;</span><span class=p>,</span> <span class=s>&#34;Michael&#34;</span><span class=p>,</span> <span class=s>&#34;Alex&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>on peut obtenir des informations sur le data frame</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span>
+</span></span><span class=line><span class=cl>        <span class=n>Année</span> <span class=n>Taille</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>     <span class=m>1995</span>    <span class=m>172</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=n>Diane</span>    <span class=m>2001</span>    <span class=m>153</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=n>Michael</span>  <span class=m>1987</span>    <span class=m>190</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=n>Alex</span>     <span class=m>2000</span>    <span class=m>168</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>class</span><span class=p>(</span><span class=n>frame</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=s>&#34;data.frame&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>summary</span><span class=p>(</span><span class=n>frame</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>     <span class=n>Année</span>          <span class=n>Taille</span>        <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl> <span class=n>Min.</span>   <span class=o>:</span><span class=m>1987</span>   <span class=n>Min.</span>   <span class=o>:</span><span class=m>153.0</span>   <span class=bp>F</span>   <span class=o>:</span><span class=m>1</span>
+</span></span><span class=line><span class=cl> <span class=m>1</span><span class=n>st</span> <span class=n>Qu.</span><span class=o>:</span><span class=m>1993</span>   <span class=m>1</span><span class=n>st</span> <span class=n>Qu.</span><span class=o>:</span><span class=m>164.2</span>   <span class=n>M</span>   <span class=o>:</span><span class=m>2</span>
+</span></span><span class=line><span class=cl> <span class=n>Median</span> <span class=o>:</span><span class=m>1998</span>   <span class=n>Median</span> <span class=o>:</span><span class=m>170.0</span>   <span class=kc>NA</span><span class=s>&#39;</span><span class=err>s:1</span>
+</span></span><span class=line><span class=cl> <span class=n>Mean</span>   <span class=o>:</span><span class=m>1996</span>   <span class=n>Mean</span>   <span class=o>:</span><span class=m>170.8</span>
+</span></span><span class=line><span class=cl> <span class=m>3</span><span class=n>rd</span> <span class=n>Qu.</span><span class=o>:</span><span class=m>2000</span>   <span class=m>3</span><span class=n>rd</span> <span class=n>Qu.</span><span class=o>:</span><span class=m>176.5</span>
+</span></span><span class=line><span class=cl> <span class=n>Max.</span>   <span class=o>:</span><span class=m>2001</span>   <span class=n>Max.</span>   <span class=o>:</span><span class=m>190.0</span>
+</span></span></code></pre></td></tr></table></div></div><p>Accès aux variables</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span><span class=o>$</span><span class=n>Année</span> <span class=c1>#par nom</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[[1]]</span> <span class=c1>#format liste</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[</span><span class=p>,</span><span class=m>1</span><span class=n>]</span> <span class=c1>#format matrice</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame<a class="internal-link broken">span><span class=s>&</a></span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[</span><span class=p>,</span><span class=s>&#34;Année&#34;</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1995</span> <span class=m>2001</span> <span class=m>1987</span> <span class=m>2000</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[1]</span> <span class=c1># par num.col</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[</span><span class=s>&#34;Année&#34;</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>Année</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>     <span class=m>1995</span>
+</span></span><span class=line><span class=cl><span class=n>Diane</span>    <span class=m>2001</span>
+</span></span><span class=line><span class=cl><span class=n>Michael</span>  <span class=m>1987</span>
+</span></span><span class=line><span class=cl><span class=n>Alex</span>     <span class=m>2000</span>
+</span></span></code></pre></td></tr></table></div></div><p>Accès aux individus</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[1</span><span class=p>,</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>     <span class=n>Année</span> <span class=n>Taille</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>  <span class=m>1995</span>    <span class=m>172</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span><span class=nf>[c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span><span class=m>3</span><span class=p>),</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>Année</span> <span class=n>Taille</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>     <span class=m>1995</span>    <span class=m>172</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=n>Michael</span>  <span class=m>1987</span>    <span class=m>190</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame[</span><span class=s>&#34;Diane&#34;</span><span class=p>,</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>      <span class=n>Année</span> <span class=n>Taille</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Diane</span>  <span class=m>2001</span>    <span class=m>153</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span><span class=nf>[c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span><span class=m>3</span><span class=p>),</span><span class=m>2</span><span class=o>:</span><span class=m>3</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>        <span class=n>Taille</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>       <span class=m>172</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=n>Michael</span>    <span class=m>190</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>frame</span><span class=nf>[c</span><span class=p>(</span><span class=s>&#34;Eric&#34;</span><span class=p>,</span><span class=s>&#34;Diane&#34;</span><span class=p>),</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;Année&#34;</span><span class=p>,</span><span class=s>&#34;Sexe&#34;</span><span class=p>)</span><span class=n>]</span>
+</span></span><span class=line><span class=cl>      <span class=n>Année</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=n>Eric</span>   <span class=m>1995</span>    <span class=n>M</span>
+</span></span><span class=line><span class=cl><span class=n>Diane</span>  <span class=m>2001</span>    <span class=bp>F</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#5-lire-des-données-dans-un-fichier><h2 id=5-lire-des-données-dans-un-fichier><span class=hanchor arialabel=Anchor># </span>5. Lire des données dans un fichier</h2></a><p>Pour les lectures et écritures dans les fichiers, R utilise le <em>répertoire de travail</em>. Pour connaître ce répertoire, on peut utiliser la commande <code>getwd()</code> (<em>get working dirctory</em>). Il est possible de changer ce répertoire avec <code>setwd("/NOUVEAU/REPERTOIRE")</code>.</p><p>R peut lire des données stockés dans des fichiers texte à l&rsquo;aide de la fonction <code>read.table()</code></p><p>La fonction <code>read.table()</code> a pour effet de créer un Data Frame et est donc le moyen principal pour lire des fichiers de données. Par exemple, si on a un fichier nommé <em>data.dat</em>, la commande</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>mydata</span> <span class=o>&lt;-</span> <span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;data.dat&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>créera un tableau de données nommé <em>mydata</em>, et les variables, par défaut nommés <em>V1</em>,<em>V2</em>,&mldr;,<em>Vn</em>, pourront être accédées individuellement par</p><ul><li><code>mydata$V1</code>, <code>mydata$V2</code>,&mldr;,<code>mydata$Vn</code> ou</li><li><code>mydata["V1"]</code>, <code>mydata["V2"]</code>,&mldr;, <code>mydata["Vn"]</code>, ou encore</li><li><code>mydata[, 1]</code>, <code>mydata[, 2]</code>,&mldr;, <code>mydata[, n]</code>.</li></ul><p>Il y a plusieurs options dont voici les valeurs par défaut (c&rsquo;est à dire celles utilisés par R si elles sont omises par l&rsquo;utilisateur).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=nf>read.table</span><span class=p>(</span><span class=n>file</span><span class=p>,</span> <span class=n>header</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span> <span class=n>sep</span> <span class=o>=</span> <span class=s>&#34;&#34;</span><span class=p>,</span> <span class=n>quote</span> <span class=o>=</span> <span class=s>&#34;&#39;&#34;</span><span class=p>,</span> <span class=n>dec</span> <span class=o>=</span> <span class=s>&#34;.&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>row.names</span><span class=p>,</span> <span class=n>col.names</span><span class=p>,</span> <span class=n>as.is</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span> <span class=n>na.strings</span> <span class=o>=</span> <span class=s>&#34;NA&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>colClasses</span> <span class=o>=</span> <span class=kc>NA</span><span class=p>,</span> <span class=n>nrows</span> <span class=o>=</span> <span class=m>-1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>skip</span> <span class=o>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>check.names</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span> <span class=n>fill</span> <span class=o>=</span> <span class=o>!</span><span class=n>blank.lines.skip</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>strip.white</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span> <span class=n>blank.lines.skip</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>comment.char</span> <span class=o>=</span> <span class=s>&#34;#&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><table><thead><tr><th>Option</th><th>Description</th></tr></thead><tbody><tr><td><code>file</code></td><td>le nom du fichier (entre <code>""</code> ou une variable de mode caractère), éventuellement avec son chemin d’accès (le symbole <code>\</code> est interdit et doit être remplacé par <code>/</code>, même sous Windows), ou un accès distant à un fichier de type URL (<code>http://...</code>)</td></tr><tr><td><code>header</code></td><td>une valeur logique (<code>FALSE</code> ou <code>TRUE</code> indiquant si le fichier contient les noms des variables sur la 1$^{e}$ ligne</td></tr><tr><td><code>sep</code></td><td>le séparateur de champ dans le fichier, par exemple <code>sep="\t"</code> si c’est une tabulation</td></tr><tr><td><code>quote</code></td><td>les caractères utilisés pour citer les variables de mode caractère</td></tr><tr><td><code>dec</code></td><td>le caractère utilisé pour les décimales</td></tr><tr><td><code>row.names</code></td><td>un vecteur contenant les noms des lignes qui peut être un vecteur de mode character, ou le numéro (ou le nom) d’une variable du fichier (par défaut : <code>1</code>, <code>2</code>, <code>3</code>, &mldr;)</td></tr><tr><td><code>col.names</code></td><td>un vecteur contenant les noms des variables (par défaut : <code>V1</code>, <code>V2</code>, <code>V3</code>, &mldr;)</td></tr><tr><td><code>as.is</code></td><td>contrôle la conversion des variables caractères en facteur (si <code>FALSE</code>) ou les conserve en caractères (si <code>TRUE</code>) ; <code>as.is</code> peut être un vecteur logique, numérique ou caractère précisant les variables conservées en caractère</td></tr><tr><td><code>na.strings</code></td><td>indique la valeur des données manquantes (sera converti en <code>NA</code>)</td></tr><tr><td><code>colClasses</code></td><td>un vecteur de caractères donnant les classes à attribuer aux colonnes</td></tr><tr><td><code>nrows</code></td><td>le nombre maximum de lignes à lire (les valeurs négatives sont ignorées)</td></tr><tr><td><code>skip</code></td><td>le nombre de lignes à sauter avant de commencer la lecture des données</td></tr><tr><td><code>check.names</code></td><td>si <code>TRUE</code>, vérifie que les noms des variables sont valides pour R</td></tr><tr><td><code>fill</code></td><td>si <code>TRUE</code> et que les lignes n’ont pas tous le même nombre de variables, des <em>blancs</em> sont ajoutés</td></tr><tr><td><code>strip.white</code></td><td>(conditionnel à <code>sep</code>) si <code>TRUE</code>, efface les espaces (= blancs) avant et après les variables de mode caractère</td></tr><tr><td><code>blank.lines.skip</code></td><td>si <code>TRUE</code>, ignore les lignes <em>blanches</em></td></tr><tr><td><code>comment.char</code></td><td>un caractère qui définit des commentaires dans le fichier de données, la lecture des données passant à la ligne suivante (pour désactiver cet option, utiliser <code>comment.char = ""</code>)</td></tr></tbody></table><a href=#6-enregistrer-les-données-dans-un-fichier><h2 id=6-enregistrer-les-données-dans-un-fichier><span class=hanchor arialabel=Anchor># </span>6. Enregistrer les données dans un fichier</h2></a><p>La fonction <code>write.table</code> écrit dans un fichier un objet, typiquement un tableau de données, mais cela peut bien être un autre type d&rsquo;objet (vecteur, matrice, &mldr;). Les arguments et options sont :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=nf>write.table</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>file</span> <span class=o>=</span> <span class=s>&#34;&#34;</span><span class=p>,</span> <span class=n>append</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>,</span> <span class=n>quote</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span> <span class=n>sep</span> <span class=o>=</span> <span class=s>&#34; &#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>eol</span> <span class=o>=</span> <span class=s>&#34;\n&#34;</span><span class=p>,</span> <span class=n>na</span> <span class=o>=</span> <span class=s>&#34;NA&#34;</span><span class=p>,</span> <span class=n>dec</span> <span class=o>=</span> <span class=s>&#34;.&#34;</span><span class=p>,</span> <span class=n>row.names</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=n>col.names</span> <span class=o>=</span> <span class=kc>TRUE</span><span class=p>,</span> <span class=n>qmethod</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;escape&#34;</span><span class=p>,</span> <span class=s>&#34;double&#34;</span><span class=p>))</span>
+</span></span></code></pre></td></tr></table></div></div><table><thead><tr><th>Option</th><th>Description</th></tr></thead><tbody><tr><td><code>x</code></td><td>le nom de l’objet écrire</td></tr><tr><td><code>file</code></td><td>le nom du fichier (par défaut l’objet est affiché à l’écran)</td></tr><tr><td><code>append</code></td><td>si <code>TRUE</code> ajoute les données sans effacer celles éventuellement existantes dans le fichier</td></tr><tr><td><code>quote</code></td><td>une variable logique ou un vecteur numérique : si <code>TRUE</code> les variables de mode caractère et les facteurs sont écrits entre <code>""</code>, sinon le vecteur indique les numéros des variables à écrire entre <code>""</code> (dans les deux cas les noms des variables sont écrits entre <code>""</code> mais pas si <code>quote = FALSE</code>)</td></tr><tr><td><code>sep</code></td><td>le séparateur de champ dans le fichier</td></tr><tr><td><code>eol</code></td><td>le caractère imprimé à la fin de chaque ligne (<code>"\n"</code> correspond à un retour chariot)</td></tr><tr><td><code>na</code></td><td>indique le caractère utilisé pour les données manquantes</td></tr><tr><td><code>dec</code></td><td>le caractère utilisé pour les décimales</td></tr><tr><td><code>row.names</code></td><td>une variable logique indiquant si les noms des lignes doivent être écrits dans le fichier</td></tr><tr><td><code>col.names</code></td><td>idem pour les noms des colonnes</td></tr><tr><td><code>qmethod</code></td><td>spécifie, si <code>quote=TRUE</code>, comment sont traitées les guillemets doubles <code>"</code> incluses dans les variables de mode caractère : si <code>"escape"</code> (ou <code>"e"</code>, le défaut) chaque <code>"</code> est remplacée par <code>\"</code>, si <code>"d"</code> chaque <code>"</code> est remplacée par <code>""</code></td></tr></tbody></table><p>Pour écrire de façon plus simple un objet dans un fichier, on peut utiliser la commande <code>write.table(x, file="data.txt")</code> où <code>x</code> est le nom de l&rsquo;objet.</p><a href=#7-générer-des-données><h2 id=7-générer-des-données><span class=hanchor arialabel=Anchor># </span>7. Générer des données</h2></a><a href=#71-séquences-régulières><h3 id=71-séquences-régulières><span class=hanchor arialabel=Anchor># </span>7.1. Séquences régulières</h3></a><p>Tous les nombres de 1 à 30</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span> <span class=o>&lt;-</span> <span class=m>1</span><span class=o>:</span><span class=m>30</span>
+</span></span></code></pre></td></tr></table></div></div><p>On a ainsi un vecteur <code>x</code> avec 30 éléments.
+L&rsquo;opérateur <code>:</code> est prioritaire sur les opérations arithmétiques au sein d&rsquo;une expression :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=m>1</span><span class=o>:</span><span class=m>10-1</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0</span> <span class=m>1</span> <span class=m>2</span> <span class=m>3</span> <span class=m>4</span> <span class=m>5</span> <span class=m>6</span> <span class=m>7</span> <span class=m>8</span> <span class=m>9</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=m>1</span><span class=o>:</span><span class=p>(</span><span class=m>10-1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span> <span class=m>2</span> <span class=m>3</span> <span class=m>4</span> <span class=m>5</span> <span class=m>6</span> <span class=m>7</span> <span class=m>8</span> <span class=m>9</span>
+</span></span></code></pre></td></tr></table></div></div><p>La fonction <code>seq</code> peut générer des séquences de nombres réels de la manière suivante ;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>seq</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>5</span><span class=p>,</span> <span class=m>0.5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1.0</span> <span class=m>1.5</span> <span class=m>2.0</span> <span class=m>2.5</span> <span class=m>3.0</span> <span class=m>3.5</span> <span class=m>4.0</span> <span class=m>4.5</span> <span class=m>5.0</span>
+</span></span></code></pre></td></tr></table></div></div><p>où le premier nombre indique le début de la séquence, le second la fin, et le troisième l&rsquo;incrément.</p><p>La fonction <code>rep</code> crée un vecteur qui aura tous ses éléments identiques :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>rep</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>30</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span> <span class=m>1</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#72-séquences-aléatoires><h3 id=72-séquences-aléatoires><span class=hanchor arialabel=Anchor># </span>7.2. Séquences aléatoires</h3></a><p>Il est utile en statistique de pouvoir générer des données aléatoires, et R peut le faire pour un grand nombre de fonctions de densité de probabilité. Ces fonctions sont de la form <code>rfunc(n, p1, p2, ..., pn</code>), où <code>func</code> indique la loi de probabilité, <code>n</code> le nombre de données générées et <code>p1, p2, ..., pn</code> sont les valeurs des paramètres de la loi.</p><table><thead><tr><th>loi</th><th>fonction</th></tr></thead><tbody><tr><td><em>Gauss</em> (normale)</td><td><code>rnorm(n, mean=0, sd=1)</code></td></tr><tr><td>exponentielle</td><td><code>rexp(n, rate=1)</code></td></tr><tr><td>gamma</td><td><code>rgamma(n, shape, scale=1)</code></td></tr><tr><td><em>Poisson</em></td><td><code>rpois(n, lambda)</code></td></tr><tr><td><em>Weibull</em></td><td><code>rweibull(n, shape, scale=1)</code></td></tr><tr><td><em>Cauchy</em></td><td><code>rcauchy(n, location=0, scale=1)</code></td></tr><tr><td>beta</td><td><code>rbeta(n, shape1, shape2)</code></td></tr><tr><td><em>Student</em> (t)</td><td><code>rt(n, df)</code></td></tr><tr><td><em>Fisher–Snedecor</em> (F)</td><td><code>rf(n, df1, df2)</code></td></tr><tr><td><em>Pearson</em> ($\chi^2$)</td><td><code>rchisq(n, df)</code></td></tr><tr><td>binomiale</td><td><code>rbinom(n, size, prob)</code></td></tr><tr><td>multinomiale</td><td><code>rmultinom(n, size, prob)</code></td></tr><tr><td>géométrique</td><td><code>rgeom(n, prob)</code></td></tr><tr><td>hypergéométrique</td><td><code>rhyper(nn, m, n, k)</code></td></tr><tr><td>logistique</td><td><code>rlogis(n, location=0, scale=1)</code></td></tr><tr><td>lognormale</td><td><code>rlnorm(n, meanlog=0, sdlog=1)</code></td></tr><tr><td>binomiale négative</td><td><code>rnbinom(n, size, prob)</code></td></tr><tr><td>uniforme</td><td><code>runif(n, min=0, max=1)</code></td></tr><tr><td>statistiques de Wilcoxon</td><td><code>rwilcox(nn, m, n)</code>, <code>rsignrank(nn, n)</code></td></tr></tbody></table><a href=#8-merge><h2 id=8-merge><span class=hanchor arialabel=Anchor># </span>8. Merge</h2></a><p>La fonction <code>merge()</code> permet de joindre deux tables sur une clé (colonne) identique. Par défaut, la fonction renvoie l&rsquo;intersection des deux tables, mais il est également possible d&rsquo;obtenir l&rsquo;union des tables, ou de compléter les données d&rsquo;une des tables.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t1</span> <span class=o>&lt;-</span> <span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/table1.tsv&#34;</span><span class=p>,</span> <span class=n>header</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t1</span>
+</span></span><span class=line><span class=cl>         <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=m>1</span>     <span class=n>Emilie</span>  <span class=m>23</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>       <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>3</span> <span class=n>Christophe</span>  <span class=m>23</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>      <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>5</span>     <span class=n>Pierre</span>  <span class=m>25</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>     <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t2</span> <span class=o>&lt;-</span> <span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/table2.tsv&#34;</span><span class=p>,</span> <span class=n>header</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t2</span>
+</span></span><span class=line><span class=cl>   <span class=n>Prenom</span>    <span class=n>Ville</span>
+</span></span><span class=line><span class=cl><span class=m>1</span>   <span class=n>Aline</span>   <span class=n>Angers</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>    <span class=n>Jean</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>3</span> <span class=n>Caradoc</span>   <span class=n>Vannes</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>   <span class=n>Marie</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>5</span>  <span class=n>Sophie</span> <span class=n>Bordeaux</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>  <span class=n>Marcel</span> <span class=n>Toulouse</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>merge</span><span class=p>(</span><span class=n>t1</span><span class=p>,</span><span class=n>t2</span><span class=p>,</span><span class=n>by.x</span><span class=o>=</span><span class=s>&#34;Nom&#34;</span><span class=p>,</span><span class=n>by.y</span><span class=o>=</span><span class=s>&#34;Prenom&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>     <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>    <span class=n>Ville</span>
+</span></span><span class=line><span class=cl><span class=m>1</span>   <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>  <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>3</span> <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span> <span class=n>Bordeaux</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>merge</span><span class=p>(</span><span class=n>t1</span><span class=p>,</span><span class=n>t2</span><span class=p>,</span><span class=n>by.x</span><span class=o>=</span><span class=s>&#34;Nom&#34;</span><span class=p>,</span><span class=n>by.y</span><span class=o>=</span><span class=s>&#34;Prenom&#34;</span><span class=p>,</span><span class=n>all</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>         <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>    <span class=n>Ville</span>
+</span></span><span class=line><span class=cl><span class=m>1</span> <span class=n>Christophe</span>  <span class=m>23</span>    <span class=n>H</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>     <span class=n>Emilie</span>  <span class=m>23</span>    <span class=bp>F</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>3</span>       <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>      <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>5</span>     <span class=n>Pierre</span>  <span class=m>25</span>    <span class=n>H</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>     <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span> <span class=n>Bordeaux</span>
+</span></span><span class=line><span class=cl><span class=m>7</span>      <span class=n>Aline</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>   <span class=n>Angers</span>
+</span></span><span class=line><span class=cl><span class=m>8</span>    <span class=n>Caradoc</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>   <span class=n>Vannes</span>
+</span></span><span class=line><span class=cl><span class=m>9</span>     <span class=n>Marcel</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span> <span class=n>Toulouse</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>merge</span><span class=p>(</span><span class=n>t1</span><span class=p>,</span><span class=n>t2</span><span class=p>,</span><span class=n>by.x</span><span class=o>=</span><span class=s>&#34;Nom&#34;</span><span class=p>,</span><span class=n>by.y</span><span class=o>=</span><span class=s>&#34;Prenom&#34;</span><span class=p>,</span><span class=n>all.x</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>         <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>    <span class=n>Ville</span>
+</span></span><span class=line><span class=cl><span class=m>1</span> <span class=n>Christophe</span>  <span class=m>23</span>    <span class=n>H</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>     <span class=n>Emilie</span>  <span class=m>23</span>    <span class=bp>F</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>3</span>       <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>      <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>5</span>     <span class=n>Pierre</span>  <span class=m>25</span>    <span class=n>H</span>     <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>     <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span> <span class=n>Bordeaux</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>merge</span><span class=p>(</span><span class=n>t1</span><span class=p>,</span><span class=n>t2</span><span class=p>,</span><span class=n>by.x</span><span class=o>=</span><span class=s>&#34;Nom&#34;</span><span class=p>,</span><span class=n>by.y</span><span class=o>=</span><span class=s>&#34;Prenom&#34;</span><span class=p>,</span><span class=n>all.y</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>    <span class=n>Ville</span>
+</span></span><span class=line><span class=cl><span class=m>1</span>    <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>   <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>    <span class=n>Brest</span>
+</span></span><span class=line><span class=cl><span class=m>3</span>  <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span> <span class=n>Bordeaux</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>   <span class=n>Aline</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>   <span class=n>Angers</span>
+</span></span><span class=line><span class=cl><span class=m>5</span> <span class=n>Caradoc</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span>   <span class=n>Vannes</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>  <span class=n>Marcel</span>  <span class=kc>NA</span> <span class=o>&lt;</span><span class=kc>NA</span><span class=o>&gt;</span> <span class=n>Toulouse</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#9-selection-dans-un-vecteur><h2 id=9-selection-dans-un-vecteur><span class=hanchor arialabel=Anchor># </span>9. Selection dans un vecteur</h2></a><p>Il est possible de filtrer un tableau pour ne garder que certaines valeurs.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t1</span>
+</span></span><span class=line><span class=cl>         <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=m>1</span>     <span class=n>Emilie</span>  <span class=m>23</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>2</span>       <span class=n>Jean</span>  <span class=m>21</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>3</span> <span class=n>Christophe</span>  <span class=m>23</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>      <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>5</span>     <span class=n>Pierre</span>  <span class=m>25</span>    <span class=n>H</span>
+</span></span><span class=line><span class=cl><span class=m>6</span>     <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>subset</span><span class=p>(</span><span class=n>t1</span><span class=p>,</span> <span class=n>t1</span><span class=o>$</span><span class=n>Sexe</span> <span class=o>==</span> <span class=s>&#34;F&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>     <span class=n>Nom</span> <span class=n>Age</span> <span class=n>Sexe</span>
+</span></span><span class=line><span class=cl><span class=m>1</span> <span class=n>Emilie</span>  <span class=m>23</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>4</span>  <span class=n>Marie</span>  <span class=m>21</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl><span class=m>6</span> <span class=n>Sophie</span>  <span class=m>24</span>    <span class=bp>F</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>t1[t1</span><span class=o>$</span><span class=n>Age</span> <span class=o>&lt;</span> <span class=m>24</span><span class=p>,</span> <span class=s>&#34;Age&#34;</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>23</span> <span class=m>21</span> <span class=m>23</span> <span class=m>21</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#10-statistiques><h2 id=10-statistiques><span class=hanchor arialabel=Anchor># </span>10. Statistiques</h2></a><p>R est un langage de programmation avant tout utilisé pour sa puissance dans le domaine des statistiques.</p><p>Nous verrons quelques fonctions de base dans ce domaine.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>v</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=nf>sample.int</span><span class=p>(</span><span class=m>101</span><span class=p>,</span><span class=n>size</span><span class=o>=</span><span class=m>100</span><span class=p>,</span><span class=n>replace</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span><span class=m>-1</span><span class=p>)</span><span class=o>/</span><span class=m>100</span> <span class=c1># 100 nombre entre 0 et 1 arondi à 2 décimales</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>max</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>min</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>mean</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0.5852</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>median</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0.65</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>quantile</span><span class=p>(</span><span class=n>v</span><span class=p>,</span> <span class=m>.33</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>   <span class=m>33</span><span class=o>%
+</span></span></span><span class=line><span class=cl><span class=o>0.4567
+</span></span></span><span class=line><span class=cl><span class=o>&gt; quantile(v, c(.1,.2,.3,.4,.5,.6,.7,.8,.9))
+</span></span></span><span class=line><span class=cl><span class=o>  10%</span>   <span class=m>20</span><span class=o>%   30%</span>   <span class=m>40</span><span class=o>%   50%</span>   <span class=m>60</span><span class=o>%   70%</span>   <span class=m>80</span><span class=o>%   90%</span>
+</span></span><span class=line><span class=cl><span class=m>0.139</span> <span class=m>0.332</span> <span class=m>0.440</span> <span class=m>0.536</span> <span class=m>0.650</span> <span class=m>0.718</span> <span class=m>0.796</span> <span class=m>0.852</span> <span class=m>0.931</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>sum</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>58.52</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>sum</span><span class=p>(</span><span class=n>v</span> <span class=o>&gt;=</span> <span class=m>0.75</span><span class=p>)</span> <span class=c1># combien de valeur &gt;= 0.75 ?</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>37</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>var</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=c1>#variance</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0.08217067</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>sd</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=c1># standard deviation</span>
+</span></span><span class=line><span class=cl><span class=n>[1]</span> <span class=m>0.2866543</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>summary</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>   <span class=n>Min.</span> <span class=m>1</span><span class=n>st</span> <span class=n>Qu.</span>  <span class=n>Median</span>    <span class=n>Mean</span> <span class=m>3</span><span class=n>rd</span> <span class=n>Qu.</span>    <span class=n>Max.</span>
+</span></span><span class=line><span class=cl> <span class=m>0.0000</span>  <span class=m>0.3925</span>  <span class=m>0.6500</span>  <span class=m>0.5852</span>  <span class=m>0.8400</span>  <span class=m>1.0000</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>library</span><span class=p>(</span><span class=n>Hmisc</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>describe</span><span class=p>(</span><span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>       <span class=n>n</span>  <span class=n>missing</span> <span class=n>distinct</span>     <span class=n>Info</span>     <span class=n>Mean</span>      <span class=n>Gmd</span>      <span class=m>.05</span>      <span class=m>.10</span>
+</span></span><span class=line><span class=cl>     <span class=m>100</span>        <span class=m>0</span>       <span class=m>61</span>        <span class=m>1</span>   <span class=m>0.5852</span>   <span class=m>0.3277</span>   <span class=m>0.0890</span>   <span class=m>0.1390</span>
+</span></span><span class=line><span class=cl>     <span class=m>.25</span>      <span class=m>.50</span>      <span class=m>.75</span>      <span class=m>.90</span>      <span class=m>.95</span>
+</span></span><span class=line><span class=cl>  <span class=m>0.3925</span>   <span class=m>0.6500</span>   <span class=m>0.8400</span>   <span class=m>0.9310</span>   <span class=m>0.9600</span>
+</span></span><span class=line><span class=cl><span class=n>lowest</span> <span class=o>:</span> <span class=m>0.00</span> <span class=m>0.02</span> <span class=m>0.03</span> <span class=m>0.07</span> <span class=m>0.09</span><span class=p>,</span> <span class=n>highest</span><span class=o>:</span> <span class=m>0.95</span> <span class=m>0.96</span> <span class=m>0.97</span> <span class=m>0.98</span> <span class=m>1.00</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>table</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=c1># valeurs et nombre d&#39;occurrences</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># en regardant les sortie de v et diff(v), que fait la fonction diff ?</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>v</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>diff</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> 
+</span></span></code></pre></td></tr></table></div></div><a href=#11-graphiques><h2 id=11-graphiques><span class=hanchor arialabel=Anchor># </span>11. Graphiques</h2></a><p>R propose plusieurs fonctions pour généré des graphiques.</p><a href=#111-exemple><h3 id=111-exemple><span class=hanchor arialabel=Anchor># </span>11.1. Exemple</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>age</span> <span class=o>&lt;-</span> <span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/age.tsv&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>plot</span><span class=p>(</span><span class=n>age</span><span class=o>$</span><span class=n>V1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>hist</span><span class=p>(</span><span class=n>age</span><span class=o>$</span><span class=n>V1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>hist</span><span class=p>(</span><span class=n>age</span><span class=o>$</span><span class=n>V1</span><span class=p>,</span> <span class=n>breaks</span><span class=o>=</span><span class=nf>seq</span><span class=p>(</span><span class=m>0</span><span class=p>,</span><span class=m>330</span><span class=p>,</span><span class=n>by</span><span class=o>=</span><span class=m>30</span><span class=p>)</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>hist</span><span class=p>(</span><span class=n>age</span><span class=o>$</span><span class=n>V1</span><span class=p>,</span> <span class=n>breaks</span><span class=o>=</span><span class=nf>seq</span><span class=p>(</span><span class=m>0</span><span class=p>,</span><span class=m>330</span><span class=p>,</span><span class=n>by</span><span class=o>=</span><span class=m>15</span><span class=p>)</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>data</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span><span class=m>3</span><span class=p>,</span><span class=m>6</span><span class=p>,</span><span class=m>4</span><span class=p>,</span><span class=m>9</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>colors</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;red&#34;</span><span class=p>,</span><span class=s>&#34;yellow&#34;</span><span class=p>,</span><span class=s>&#34;green&#34;</span><span class=p>,</span><span class=s>&#34;blue&#34;</span><span class=p>,</span><span class=s>&#34;purple&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>cat</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;Bad&#34;</span><span class=p>,</span><span class=s>&#34;Warning&#34;</span><span class=p>,</span><span class=s>&#34;Good&#34;</span><span class=p>,</span><span class=s>&#34;OK&#34;</span><span class=p>,</span><span class=s>&#34;Unknown&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>pie</span><span class=p>(</span><span class=n>data</span><span class=p>,</span><span class=n>main</span><span class=o>=</span><span class=s>&#34;Show&#34;</span><span class=p>,</span> <span class=n>col</span><span class=o>=</span><span class=n>colors</span><span class=p>,</span> <span class=n>labels</span><span class=o>=</span><span class=n>data</span><span class=p>,</span> <span class=n>cex</span><span class=o>=</span><span class=m>0.8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>legend</span><span class=p>(</span><span class=m>-1.5</span><span class=p>,</span><span class=m>0.5</span><span class=p>,</span> <span class=n>cat</span><span class=p>,</span> <span class=n>cex</span><span class=o>=</span><span class=m>0.8</span><span class=p>,</span> <span class=n>fill</span><span class=o>=</span><span class=n>colors</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>boxplot</span><span class=p>(</span><span class=nf>sample.int</span><span class=p>(</span><span class=m>101</span><span class=p>,</span><span class=n>size</span><span class=o>=</span><span class=m>100</span><span class=p>,</span><span class=n>replace</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span><span class=m>-1</span><span class=p>)</span> <span class=c1># boxplot de 100 valeurs au hasard entre 0 et 100</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#112-export-dun-graphique-dans-une-image><h3 id=112-export-dun-graphique-dans-une-image><span class=hanchor arialabel=Anchor># </span>11.2. Export d&rsquo;un graphique dans une image</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>age</span> <span class=o>&lt;-</span> <span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/age.tsv&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>png</span><span class=p>(</span><span class=n>filename</span> <span class=o>=</span> <span class=s>&#34;monhistogramme.png&#34;</span><span class=p>,</span> <span class=n>bg</span> <span class=o>=</span> <span class=s>&#34;white&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>hist</span><span class=p>(</span><span class=n>age</span><span class=o>$</span><span class=n>V1</span><span class=p>,</span> <span class=n>breaks</span><span class=o>=</span><span class=nf>seq</span><span class=p>(</span><span class=m>0</span><span class=p>,</span><span class=m>330</span><span class=p>,</span><span class=n>by</span><span class=o>=</span><span class=m>15</span><span class=p>)</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>dev.off</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p><img src=http://lysine.univ-brest.fr/~tludwig/graphR.png width=auto alt></p><a href=#113-fonctions-graphiques><h3 id=113-fonctions-graphiques><span class=hanchor arialabel=Anchor># </span>11.3. Fonctions graphiques</h3></a><table><thead><tr><th>Fonction</th><th>Description</th></tr></thead><tbody><tr><td><code>plot(x)</code></td><td>graphe des valeurs de <code>x</code> (sur l’axe des <code>y</code>) ordonnées sur l’axe des <code>x</code></td></tr><tr><td><code>plot(x, y)</code></td><td>graphe bivarié de <code>x</code> (sur l’axe des <code>x</code>) et <code>y</code> (sur l’axe des <code>y</code>)</td></tr><tr><td><code>sunflowerplot(x,y)</code></td><td>idem que <code>plot()</code> mais les points superposés sont dessinés en forme de fleurs dont le nombre de pétales représente le nombre de points</td></tr><tr><td><code>pie(x)</code></td><td>graphe en camembert</td></tr><tr><td><code>boxplot(x)</code></td><td>graphe boites et moustaches</td></tr><tr><td><code>stripchart(x)</code></td><td>graphe des valeurs de <code>x</code> sur une ligne (une alternative à <code>boxplot()</code> pour des petits échantillons)</td></tr><tr><td><code>coplot(x~y | z)</code></td><td>graphe bivarié de <code>x</code> et <code>y</code> pour chaque valeur (ou intervalle de valeurs) de <code>z</code></td></tr><tr><td><code>interaction.plot(f1,f2,y)</code></td><td>si <code>f1</code> et <code>f2</code> sont des facteurs, graphe des moyennes de <code>y</code> (sur l’axe des <code>y</code>) en fonction des valeurs de <code>f1</code> (sur l’axe des <code>x</code>) et de <code>f2</code> (différentes courbes) ; l’option <code>fun</code> permet de choisir la statistique résumée de <code>y</code> (par défaut <code>fun=mean</code>)</td></tr><tr><td><code>matplot(x,y)</code></td><td>graphe bivarié de la 1$^{ère}$ colonne de <code>x</code> contre la 1$^{ère}$ de <code>y</code>, la 2$^{ème}$ de <code>x</code> contre la 2$^{ème}$ de <code>y</code>, etc.</td></tr><tr><td><code>dotchart(x)</code></td><td>si <code>x</code> est un tableau de données, dessine un graphe de Cleveland (graphes superposés ligne par ligne et colonne par colonne)</td></tr><tr><td><code>fourfoldplot(x)</code></td><td>visualise, avec des quarts de cercles, l’association entre deux variables dichotomiques pour différentes populations (<code>x</code> doit être un tableau avec <code>dim=c(2, 2, k)</code> ou une matrice avec <code>dim=c(2, 2)</code> si <code>k = 1</code>)</td></tr><tr><td><code>assocplot(x)</code></td><td>graphe de Cohen–Friendly indiquant les déviations de l’hypothèse d’indépendance des lignes et des colonnes dans un tableau de contingence à deux dimensions</td></tr><tr><td><code>mosaicplot(x)</code></td><td>graphe en <em>mosaïque</em> des résidus d’une régression log-linéaire sur une table de contingence</td></tr><tr><td><code>pairs(x)</code></td><td>si <code>x</code> est une matrice ou un tableau de données, dessine tous les graphes bivariés entre les colonnes de <code>x</code></td></tr><tr><td><code>plot.ts(x)</code></td><td>si <code>x</code> est un objet de classe <code>"ts"</code>, graphe de <code>x</code> en fonction du temps, <code>x</code> peut être multivarié mais les séries doivent avoir les mêmes fréquence et dates</td></tr><tr><td><code>ts.plot(x)</code></td><td>idem mais si <code>x</code> est multivarié les séries peuvent avoir des dates différentes et doivent avoir la même fréquence</td></tr><tr><td><code>hist(x)</code></td><td>histogramme des fréquences de <code>x</code></td></tr><tr><td><code>barplot(x)</code></td><td>histogramme des valeurs de <code>x</code></td></tr><tr><td><code>qqnorm(x)</code></td><td>quantiles de <code>x</code> en fonction des valeurs attendues selon une loi normale</td></tr><tr><td><code>qqplot(x, y)</code></td><td>quantiles de <code>y</code> en fonction des quantiles de <code>x</code></td></tr><tr><td><code>contour(x, y, z)</code></td><td>courbes de niveau (les données sont interpolées pour tracer les courbes), <code>x</code> et <code>y</code> doivent être des vecteurs et <code>z</code> une matrice telle que <code>dim(z)=c(length(x), length(y))</code> (<code>x</code> et <code>y</code> peuvent être omis)</td></tr><tr><td><code>filled.contour (x, y, z)</code></td><td>idem mais les aires entre les contours sont colorées, et une légende des couleurs est également dessinée</td></tr><tr><td><code>image(x, y, z)</code></td><td>idem mais les données sont représentées avec des couleurs</td></tr><tr><td><code>persp(x, y, z)</code></td><td>idem mais en perspective</td></tr><tr><td><code>stars(x)</code></td><td>si <code>x</code> est une matrice ou un tableau de données, dessine un graphe en segments ou en étoile où chaque ligne de <code>x</code> est représentée par une étoile et les colonnes par les longueurs des branches</td></tr><tr><td><code>symbols(x, y, ...)</code></td><td>dessine aux coordonnées données par <code>x</code> et <code>y</code> des symboles (cercles, carrés, rectangles, étoiles, thermomètres ou <em>boxplots</em>) dont les tailles, couleurs, etc, sont spécifiées par des arguments supplémentaires</td></tr><tr><td><code>termplot(mod.obj)</code></td><td>graphe des effets (partiels) d’un modèle de régression (<code>mod.obj</code>)</td></tr></tbody></table><a href=#12-commandes-du-système-dexploitation><h2 id=12-commandes-du-système-dexploitation><span class=hanchor arialabel=Anchor># </span>12. Commandes du système d&rsquo;exploitation</h2></a><p>Il est possible de lancer, depuis R, des commandes appartenant au système d&rsquo;exploitation (ici linux).</p><p>Cela peut-être utile en particulier pour demander l&rsquo;exécution d&rsquo;un programme externe, qui va lire/modifier/créer des fichiers dont les données pourront ensuite être exploitées par R.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>ta</span><span class=o>=</span><span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;generated.tsv&#34;</span><span class=p>)</span> <span class=c1># erreur, le fichier n&#39;existe pas</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>system</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/generate_data.sh&#34;</span><span class=p>)</span> <span class=c1>#execution d&#39;un programme qui genere des donnees</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>ta</span><span class=o>=</span><span class=nf>read.table</span><span class=p>(</span><span class=s>&#34;generated.tsv&#34;</span><span class=p>)</span> <span class=c1>#maintenant le fichier existe</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>ta</span>
+</span></span></code></pre></td></tr></table></div></div><p>Il est également possible de récuperer directement le résultat d&rsquo;une commande.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>existing</span><span class=o>=</span><span class=nf>system</span><span class=p>(</span><span class=s>&#34;ls /home&#34;</span><span class=p>,</span> <span class=n>intern</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span> <span class=c1>#quels utilisateurs existent sur ce serveur ?</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>existing</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>loggedin</span><span class=o>=</span><span class=nf>system</span><span class=p>(</span><span class=s>&#34;who | cut -d&#39; &#39; -f1 | sort -u&#34;</span><span class=p>,</span> <span class=n>intern</span><span class=o>=</span><span class=kc>TRUE</span><span class=p>)</span> <span class=c1>#quels utilisateurs sont actuellement presents ?</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>loggedin</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#13-import><h2 id=13-import><span class=hanchor arialabel=Anchor># </span>13. Import</h2></a><p>Pour ne pas avoir à retaper sans cesse les mêmes commandes et réécrire les mêmes fonctions, il est possible de les stocker dans des fichiers (monfichier.R) et de les charger en cas de besoin.</p><p>Dans ces fichiers, on pourra mettre des scripts (successions de commandes exécutées automatiquement) ou des fonctions que l&rsquo;on a défini nous même et qui pourront être appelées quand nécessaire.</p><p>Il est également possible d&rsquo;importer des librairies (ensemble de fichiers, publiquement disponibles) dans R.</p><p>Pour importer un fichier R, on utilise la fonction <code>source()</code>, tandis que pour importer des librairies, on utilise <code>library()</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>library</span><span class=p>(</span><span class=n>ggplot2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>source</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/script.R&#34;</span><span class=p>)</span> <span class=c1>#chargement d&#39;un script, qui s&#39;execute</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>d</span><span class=o>&lt;-</span><span class=nf>getdata</span><span class=p>()</span> <span class=c1>#Error: could not find function &#34;getdata&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>source</span><span class=p>(</span><span class=s>&#34;/home/tludwig/master2ggb/functions.R&#34;</span><span class=p>)</span> <span class=c1>#chargement du fichier qui contient la fonction</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>d</span><span class=o>&lt;-</span><span class=nf>getdata</span><span class=p>()</span> <span class=c1>#maintenant la fonction est connue</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>d</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#14-which><h2 id=14-which><span class=hanchor arialabel=Anchor># </span>14. which</h2></a><p>Pour un vecteur logique (qui contient des valeurs <code>TRUE</code>/<code>FALSE</code>), la commande which donne les indices du vecteurs dont la valeur est <code>TRUE</code> :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=o>&gt;</span> <span class=kc>LETTERS</span> <span class=c1>#un vecteur qui contient chaque lettre de l&#39;alphabet</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=kc>LETTERS</span> <span class=o>==</span> <span class=s>&#34;U&#34;</span> <span class=c1>#un vecteur qui contient TRUE si la lettre est &#34;U&#34;</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>which</span><span class=p>(</span><span class=kc>LETTERS</span> <span class=o>==</span> <span class=s>&#34;U&#34;</span><span class=p>)</span> <span class=c1>#quelle est la position de U dans l&#39;alphabet</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=m>1</span><span class=o>:</span><span class=m>150</span> <span class=c1>#un vecteur qui contient les valeurs entre 1 et 150</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=m>1</span><span class=o>:</span><span class=m>150</span> <span class=o>%%</span> <span class=m>17</span> <span class=o>==</span> <span class=m>0</span> <span class=c1>#un vecteur qui contient TRUE si la valeur est multiple de 17</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nf>which</span><span class=p>(</span><span class=m>1</span><span class=o>:</span><span class=m>150</span> <span class=o>%%</span> <span class=m>17</span> <span class=o>==</span> <span class=m>0</span><span class=p>)</span> <span class=c1>#les multiples de 17 entre 1 et 150</span>
+</span></span></code></pre></td></tr></table></div></div></article><hr><div class=page-end id=footer><div class=backlinks-container><h3>Backlinks</h3><ul class=backlinks><li>No backlinks found</li></ul></div><div><script async src=https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI=" crossorigin=anonymous></script><h3>Interactive Graph</h3><div id=graph-container></div><style>:root{--g-node:var(--secondary);--g-node-active:var(--primary);--g-node-inactive:var(--visited);--g-link:var(--outlinegray);--g-link-active:#5a7282}</style><script src=https://ThomasLudwig.github.io/quartz/js/graph.2d9e48dbe7ea47c0ef1c58296ce14448.js></script></div></div><div id=contact_buttons><footer><p>Made by Jacky Zhao using <a href=https://github.com/jackyzha0/quartz>Quartz</a>, © 2023</p><ul><li><a href=https://ThomasLudwig.github.io/quartz/>Home</a></li><li><a href=https://twitter.com/_jzhao>Twitter</a></li><li><a href=https://github.com/jackyzha0>GitHub</a></li></ul></footer></div></div></body></html>

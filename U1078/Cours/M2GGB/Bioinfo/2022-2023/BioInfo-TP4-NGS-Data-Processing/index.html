@@ -1,0 +1,527 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=description content="tags #m2ggb #bioinfo contact : ludwig@univ-brest.fr
+Part 1: NGS Workflow  [!success] Objective :bookmark_tabs: Identification of candidate variants involved in a pathology in the simple case of a mendelian disease."><title>BioInfo TP4 - NGS Data Processing</title><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" type=image/png href=https://ThomasLudwig.github.io/quartz//icon.png><link href=https://ThomasLudwig.github.io/quartz/styles.547fb332ce56cdc523146ba5ede80d7f.min.css rel=stylesheet><link href=https://ThomasLudwig.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css rel=stylesheet id=theme-link><script src=https://ThomasLudwig.github.io/quartz/js/darkmode.80b387c6b2e1c9ae253f0ef0de27ef75.min.js></script>
+<script src=https://ThomasLudwig.github.io/quartz/js/util.6f22941e242efae60fd84e7c32e874fa.min.js></script>
+<link rel=preload href=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css as=style onload='this.onload=null,this.rel="stylesheet"' integrity=sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js integrity=sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js integrity=sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A crossorigin=anonymous></script>
+<script async src=https://unpkg.com/@floating-ui/core@0.7.3></script>
+<script async src=https://unpkg.com/@floating-ui/dom@0.5.4></script>
+<script async src=https://ThomasLudwig.github.io/quartz/js/popover.f03552ccb84d99ca615d1cfb9abde59e.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/code-title.ce4a43f09239a9efb48fee342e8ef2df.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/clipboard.2913da76d3cb21c5deaa4bae7da38c9f.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/callouts.7723cac461d613d118ee8bb8216b9838.min.js></script>
+<script>const SEARCH_ENABLED=!1,LATEX_ENABLED=!0,PRODUCTION=!0,BASE_URL="https://ThomasLudwig.github.io/quartz/",fetchData=Promise.all([fetch("https://ThomasLudwig.github.io/quartz/indices/linkIndex.f825b5e710ebe97349064fe077169bc8.min.json").then(e=>e.json()).then(e=>({index:e.index,links:e.links})),fetch("https://ThomasLudwig.github.io/quartz/indices/contentIndex.a308fc6d275b57823c5cf4cf0cae75b6.min.json").then(e=>e.json())]).then(([{index:e,links:t},n])=>({index:e,links:t,content:n})),render=()=>{const e=new URL(BASE_URL),t=e.pathname,n=window.location.pathname,s=t==n;addCopyButtons(),addTitleToCodeBlocks(),addCollapsibleCallouts(),initPopover("https://ThomasLudwig.github.io/quartz",!0);const o=document.getElementById("footer");if(o){const e=document.getElementById("graph-container");if(!e)return requestAnimationFrame(render);e.textContent="";const t=s&&!1;drawGraph("https://ThomasLudwig.github.io/quartz",t,[{"/moc":"#4388cc"}],t?{centerForce:1,depth:-1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.5,linkDistance:1,opacityScale:3,repelForce:1,scale:1.4}:{centerForce:1,depth:1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.6,linkDistance:1,opacityScale:3,repelForce:2,scale:1.2})}var i=document.getElementsByClassName("mermaid");i.length>0&&import("https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs").then(e=>{e.default.init()})},init=(e=document)=>{addCopyButtons(),addTitleToCodeBlocks(),renderMathInElement(e.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],macros:{'’':"'"},throwOnError:!1})}</script><script type=module>
+    import { attachSPARouting } from "https:\/\/ThomasLudwig.github.io\/quartz\/js\/router.9d4974281069e9ebb189f642ae1e3ca2.min.js"
+    attachSPARouting(init, render)
+  </script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-XYFD95KB4J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XYFD95KB4J",{anonymize_ip:!1})}</script><body><div id=search-container><div id=search-space><input autocomplete=off id=search-bar name=search type=text aria-label=Search placeholder="Search for something..."><div id=results-container></div></div></div><script src=https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin=anonymous defer></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/full-text-search.e6e2e0c213187ca0c703d6e2c7a77fcd.min.js></script><div class=singlePage><header><h1 id=page-title><a href=https://ThomasLudwig.github.io/quartz/>🪴 Quartz 3.3</a></h1><div class=spacer></div><div id=search-icon><p>Search</p><svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg></div><div class=darkmode><input class=toggle id=darkmode-toggle type=checkbox tabindex=-1>
+<label id=toggle-label-light for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="dayIcon" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35"><title>Light Mode</title><path d="M6 17.5C6 16.672 5.328 16 4.5 16h-3C.672 16 0 16.672.0 17.5S.672 19 1.5 19h3C5.328 19 6 18.328 6 17.5zM7.5 26c-.414.0-.789.168-1.061.439l-2 2C4.168 28.711 4 29.086 4 29.5 4 30.328 4.671 31 5.5 31c.414.0.789-.168 1.06-.44l2-2C8.832 28.289 9 27.914 9 27.5 9 26.672 8.329 26 7.5 26zm10-20C18.329 6 19 5.328 19 4.5v-3C19 .672 18.329.0 17.5.0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm10 3c.414.0.789-.168 1.06-.439l2-2C30.832 6.289 31 5.914 31 5.5 31 4.672 30.329 4 29.5 4c-.414.0-.789.168-1.061.44l-2 2C26.168 6.711 26 7.086 26 7.5 26 8.328 26.671 9 27.5 9zM6.439 8.561C6.711 8.832 7.086 9 7.5 9 8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2.001zM33.5 16h-3c-.828.0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828.0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM28.561 26.439C28.289 26.168 27.914 26 27.5 26c-.828.0-1.5.672-1.5 1.5.0.414.168.789.439 1.06l2 2C28.711 30.832 29.086 31 29.5 31c.828.0 1.5-.672 1.5-1.5.0-.414-.168-.789-.439-1.061l-2-2zM17.5 29c-.829.0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3C19 29.672 18.329 29 17.5 29zm0-22C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136.0-7.5-3.364-7.5-7.5s3.364-7.5 7.5-7.5 7.5 3.364 7.5 7.5S21.636 25 17.5 25z"/></svg></label><label id=toggle-label-dark for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="nightIcon" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'"><title>Dark Mode</title><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491-9.447 9.447-14.65 22.008-14.65 35.369.0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361.0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246C97.826 68.608 97.611 67.309 96.76 66.458z"/></svg></label></div></header><article><h1>BioInfo TP4 - NGS Data Processing</h1><p class=meta>Last updated
+Jan 27, 2023
+<a href=https://github.com/jackyzha0/quartz/tree/hugo/content/U1078/Cours/M2GGB/Bioinfo/2022-2023/BioInfo%20TP4%20-%20NGS%20Data%20Processing.md rel=noopener>Edit Source</a></p><ul class=tags><li><a href=https://ThomasLudwig.github.io/quartz/tags/m2ggb/>M2ggb</a></li><li><a href=https://ThomasLudwig.github.io/quartz/tags/bioinfo/>Bioinfo</a></li></ul><aside class=mainTOC><details><summary>Table of Contents</summary><nav id=TableOfContents><ol><li><ol><li></li></ol></li><li><a href=#part-1-ngs-workflow>Part 1: NGS Workflow</a><ol><li><a href=#11-what-do-we-want->1.1. What do we want ?</a></li><li><a href=#12-how-to-process-data-from-the-sequencer->1.2. How to process data from the sequencer ?</a></li><li><a href=#13-what-is-a-variant->1.3. What is a variant ?</a></li><li><a href=#14-classic-ngs-workflow-wrench>1.4. Classic NGS Workflow :wrench:</a></li><li><a href=#15-the-fastq-file-format>1.5. The Fastq file format</a></li><li><a href=#16-qc-on-fastq-files-with-fastqc>1.6. QC on fastq files, with <em>FastQC</em></a></li><li><a href=#17-alignment>1.7. Alignment</a></li><li><a href=#18-processing-bam-files>1.8. Processing BAM files</a></li><li><a href=#19-calling-variants>1.9. Calling Variants</a></li><li><a href=#110-recalibrating-variant-quality-scores>1.10. Recalibrating Variant Quality Scores</a></li><li><a href=#111-variant-annotation>1.11. Variant Annotation</a></li><li><a href=#113-regions>1.13. Regions</a></li><li><a href=#112-searching-for-candidate-variants>1.12. Searching for Candidate Variants</a></li></ol></li><li><a href=#part-2-identifying-candidate-variants>Part 2: Identifying Candidate Variants</a><ol><li><a href=#21-annotation-with-variant-effect-predictor>2.1. Annotation with variant effect predictor</a></li><li><a href=#22-filtering-with-vcfprocessor>2.2. Filtering with VCFProcessor</a></li><li><a href=#23-results>2.3. Results</a></li></ol></li></ol></nav></details></aside><a href=#tags-m2ggb-bioinfo><h6 id=tags-m2ggb-bioinfo><span class=hanchor arialabel=Anchor># </span>tags #m2ggb #bioinfo</h6></a><p><em>contact :</em>
+<a rel=noopener class="internal-link broken" data-src=mailto:ludwig@univ-brest.fr>ludwig@univ-brest.fr</a></p><a href=#part-1-ngs-workflow><h2 id=part-1-ngs-workflow><span class=hanchor arialabel=Anchor># </span>Part 1: NGS Workflow</h2></a><blockquote class=success-callout><p><em><strong>Objective</strong></em> :bookmark_tabs:
+Identification of candidate variants involved in a pathology in the simple case of a mendelian disease.</p></blockquote><blockquote class=warning-callout><p><em><strong>Disclaimer</strong></em> :warning:</p><ul><li>Only Human Data will be addressed</li><li>Focus on constitutional (germline) variations</li><li>No time for in-depth analysis of every aspect of the workflow</li><li><em>&ldquo;Damn it, Jim ! I&rsquo;m a Computer-Scientist, not a Biologist !&rdquo;</em></li></ul></blockquote><a href=#11-what-do-we-want-><h3 id=11-what-do-we-want-><span class=hanchor arialabel=Anchor># </span>1.1. What do we want ?</h3></a><ul><li>We have DNA from several individuals. Some are cases and some are controls (in regard of a given pathology).</li><li>We want to identify <strong>THE</strong> genetic variant that is associated to the observed phenotype.</li><li>We look at every variants in all the individuals and try to find some candidates that match the supposed transmission pattern (dominant, recessive, <em>de novo</em>&mldr;)</li></ul><a href=#12-how-to-process-data-from-the-sequencer-><h3 id=12-how-to-process-data-from-the-sequencer-><span class=hanchor arialabel=Anchor># </span>1.2. How to process data from the sequencer ?</h3></a><ul><li>Trying to put every pieces of the text in its proper location: <strong>alignment</strong> against a &ldquo;<em>reference genome</em>&rdquo;.</li><li>Identifying the differences between the reconstructed text and the reference (biological variants, sequencing errors, alignment errors): <strong>variant calling</strong>.</li></ul><a href=#13-what-is-a-variant-><h3 id=13-what-is-a-variant-><span class=hanchor arialabel=Anchor># </span>1.3. What is a variant ?</h3></a><blockquote><p><em><strong>Small sized variations</strong></em></p><ul><li><strong>SNV</strong>: <strong>S</strong>ingle <strong>N</strong>ucleotide <strong>V</strong>ariant (abusively simplified as <strong>SNP</strong>)
+example : AGT<span style=color:green;font-weight:700>G</span>TGC→AGT<span style=color:red;font-weight:700>A</span>TGC</li><li>Short <strong>indel</strong>: <strong>in</strong>sertion or <strong>del</strong>eltion
+insertion : AGTGTGC→AGTG<span style=color:red;font-weight:700>ACGC</span>TGC
+deletion : AGT<span style=color:green;font-weight:700>GTG</span>C→AGTC</li></ul></blockquote><blockquote><p><img src=http://lysine.univ-brest.fr/~tludwig/oldstructuralvariantstlu.png width=auto alt>
+<em>length $\ge$ 1kb</em></p></blockquote><a href=#14-classic-ngs-workflow-wrench><h3 id=14-classic-ngs-workflow-wrench><span class=hanchor arialabel=Anchor># </span>1.4. Classic NGS Workflow :wrench:</h3></a><p><img src=http://lysine.univ-brest.fr/~tludwig/NGSWorkFlow.png width=auto alt></p><a href=#15-the-fastq-file-format><h3 id=15-the-fastq-file-format><span class=hanchor arialabel=Anchor># </span>1.5. The Fastq file format</h3></a><a href=#example><h4 id=example><span class=hanchor arialabel=Anchor># </span>Example</h4></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@HWI-1KL149:109:C8D6YACXX:1:1101:1076:64252/1
+</span></span><span class=line><span class=cl>CAGACTGCTTGTGTCCATGTCGTCCTCAGAGCCTAGTCCATGATGGCACAGTACTAGATCCACCAAGTCTTCTTTC
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>B@CFFFFFHHHHHHJJGIJJJJIJJJJJJEHIJJJJJJJJJIHJJIIFHGIHIIJIIIJJJJJIIGIJJEHJJJHH
+</span></span><span class=line><span class=cl>@HWI-1KL149:109:C8D6YACXX:1:1101:1093:50109/1
+</span></span><span class=line><span class=cl>GAGTCAAATAATCTTTAAGTGATGACAGAAAGTGAATCTTTTTCACTAAAACAAAACCTATCTGTGATACAAATGC
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>@CCDFFDFHHGHHJJJJJJJJIJJJJJJJIJJEHGIJJIJJJJJJJJJJIIIJBFGIJJIJIJJIJJJJJIAGIJG
+</span></span></code></pre></td></tr></table></div></div><a href=#quality-score><h4 id=quality-score><span class=hanchor arialabel=Anchor># </span>Quality Score</h4></a><ul><li>ASCII code from 33 <code>!</code> to 126 <code>~</code>: 93 scores available</li><li>Score = Phred$_{+33}$</li><li>$Q = -log_{10}(P) \Leftrightarrow P = 10^{\frac{-Q}{10}}$</li><li>Probability of incorrect identification $Q_{10} \rightarrow P=\frac{1}{10}$, $Q_{20} \rightarrow P=\frac{1}{100}$, $Q_{30} \rightarrow P=\frac{1}{1000}$,&mldr;</li><li>Example: <code>J</code> $\rightarrow$ code ASCII <code>74</code> $\rightarrow Q=74-33=41 \rightarrow P=10^{-4.1} = 7,9433e^{-5} = \frac{1}{12589}$</li></ul><a href=#16-qc-on-fastq-files-with-fastqc><h3 id=16-qc-on-fastq-files-with-fastqc><span class=hanchor arialabel=Anchor># </span>1.6. QC on fastq files, with <em>FastQC</em></h3></a><p>Quality Control of the <code>fastq</code> files produced by the sequencer</p><ul><li>Quality preservation along the Reads</li><li>Overall Quality of each Read</li><li>GC% offset and base repartition might indicate contamination</li></ul><blockquote class=info-callout><p><em><strong>Initialize Project</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> <span class=p>;</span> 
+</span></span><span class=line><span class=cl>cp -R /home/tludwig/master2ggb/tp4 .<span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> tp4<span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><blockquote class=info-callout><p><em><strong>Check fastq file with fastqc</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>fastqc
+</span></span></code></pre></td></tr></table></div></div><p>File, Open : data / father.R1.L001.fastq.gz</p></blockquote><a href=#good-per-base-quality><h4 id=good-per-base-quality><span class=hanchor arialabel=Anchor># </span>Good Per Base Quality</h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/good_per_base_quality.png width=auto alt></p><a href=#bad-per-base-quality><h4 id=bad-per-base-quality><span class=hanchor arialabel=Anchor># </span>Bad Per Base Quality</h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/bad_per_base_quality.png width=auto alt></p><a href=#good-per-sequence-quality><h4 id=good-per-sequence-quality><span class=hanchor arialabel=Anchor># </span>Good Per Sequence Quality</h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/good_per_sequence_quality.png width=auto alt></p><a href=#bad-per-sequence-quality><h4 id=bad-per-sequence-quality><span class=hanchor arialabel=Anchor># </span>Bad Per Sequence Quality</h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/bad_per_sequence_quality.png width=auto alt></p><a href=#17-alignment><h3 id=17-alignment><span class=hanchor arialabel=Anchor># </span>1.7. Alignment</h3></a><p>Map each read to a reference genome</p><a href=#several-algorithms-available><h4 id=several-algorithms-available><span class=hanchor arialabel=Anchor># </span>Several Algorithms available</h4></a><table><thead><tr><th>Aglorithm</th><th>Sensitivity &lt;100bp</th><th>Sensitivity >100bp</th><th>Specificity &lt;100bp</th><th>Specificity >100bp</th><th>Speed &lt;100bp</th><th>Speed >100bp</th><th>Tandem Low</th><th>Tandem High</th></tr></thead><tbody><tr><td>BWA</td><td>:star:</td><td>:star::star::star:</td><td>:star::star:</td><td>:star::star::star:</td><td>:star::star::star:</td><td>:star::star::star:</td><td>:star::star:</td><td>:star:</td></tr><tr><td>Bowtie2</td><td>:star:</td><td>:star::star::star:</td><td>:star:</td><td>:star:</td><td>:star::star:</td><td>:star::star:</td><td>:star::star:</td><td>:star:</td></tr><tr><td>NovoAlign</td><td>:star::star::star:</td><td>:star::star::star:</td><td>:star::star:</td><td>:star::star::star:</td><td>:star:</td><td>:star:</td><td>:star::star:</td><td>:star:</td></tr><tr><td>Smalt</td><td>:star:</td><td>:star::star::star:</td><td>:star:</td><td>:star:</td><td>:star::star:</td><td>:star::star:</td><td>:star::star:</td><td>:star:</td></tr><tr><td>Stampy</td><td>:star::star:</td><td>:star::star::star:</td><td>:star::star:</td><td>:star::star::star:</td><td>:star:</td><td>:star:</td><td>:star::star:</td><td>:star:</td></tr></tbody></table><p>An alignment <em>aligns</em> reads from a <code>fastq</code> file to a reference genome (<code>fasta</code> file) and produces a <code>SAM</code>/<code>BAM</code>/<code>CRAM</code> file</p><blockquote class=info-callout><p><em><strong>align fastq files in sam files</strong></em>
+<code>./script1.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>for</span> lane in L001 L002 L003<span class=p>;</span> <span class=k>do</span>
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;Aligning from father lane : </span><span class=nv>$lane</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    bwa mem -M ~/tp4/resources/reference.b37.fasta <span class=se>\\ </span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/data/father.R1.<span class=nv>$lane</span>.fastq.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/data/father.R2.<span class=nv>$lane</span>.fastq.gz <span class=se>\\ </span></span></span><span class=line><span class=cl><span class=se></span>   &gt; ~/tp4/results/father.<span class=nv>$lane</span>.sam <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><p>done</p><blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback></code></pre></td></tr></table></div></div></blockquote><a href=#a-view-from-igv><h4 id=a-view-from-igv><span class=hanchor arialabel=Anchor># </span>A view from <em>IGV</em></h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/igv.png width=auto alt></p><a href=#sam-sequence-alignment-map-file-format><h4 id=sam-sequence-alignment-map-file-format><span class=hanchor arialabel=Anchor># </span><strong>SAM</strong> (<strong>S</strong>equence <strong>A</strong>lignment <strong>M</strong>ap) file format</h4></a><table><thead><tr><th>#</th><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td>NAME</td><td>String</td><td>NAME</td></tr><tr><td>2</td><td>FLAG</td><td>Int</td><td>bitwise FLAG</td></tr><tr><td>3</td><td>RNAME</td><td>String</td><td>Reference sequence NAME (chr)</td></tr><tr><td>4</td><td>POS</td><td>Int</td><td>1-based leftmost mapping POSition</td></tr><tr><td>5</td><td>MAPQ</td><td>Int</td><td>MAPping Quality</td></tr><tr><td>6</td><td>CIGAR</td><td>String</td><td>CIGAR string</td></tr><tr><td>7</td><td>RNEXT</td><td>String</td><td>Ref. name of the mate read (chr)</td></tr><tr><td>8</td><td>PNEXT</td><td>Int</td><td>Position of the mate read</td></tr><tr><td>9</td><td>TLEN</td><td>Int</td><td>observed Template LENgth</td></tr><tr><td>10</td><td>SEQ</td><td>String</td><td>segment SEQuence</td></tr><tr><td>11</td><td>QUAL</td><td>String</td><td>ASCII base QUALity</td></tr><tr><td>12+</td><td>PGM</td><td>String</td><td>Program Annotations</td></tr></tbody></table><a href=#compressed-formats-for-sam-files><h4 id=compressed-formats-for-sam-files><span class=hanchor arialabel=Anchor># </span>Compressed formats for SAM files</h4></a><p><code>SAM</code> files are very <strong>BIG</strong>, so there are 2 binary formats that intend to reduce this size:</p><ul><li><strong>BAM</strong> $\frac{size}{4}$: gzipped version of the <strong>SAM</strong>, most used format</li><li><strong>CRAM</strong> $\frac{size}{7}$: increasingly used format. The reference genome <code>fasta</code> file is needed to read back the <code>CRAM</code> file</li></ul><a href=#18-processing-bam-files><h3 id=18-processing-bam-files><span class=hanchor arialabel=Anchor># </span>1.8. Processing BAM files</h3></a><a href=#merging><h4 id=merging><span class=hanchor arialabel=Anchor># </span>Merging</h4></a><p>For example, when there is one file per lane and you want one file per sample</p><blockquote class=info-callout><p><em><strong>merge multiple sam files into an unique bam file</strong></em>
+<code>./script2.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>picard-tools MergeSamFiles <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>I</span><span class=o>=</span>~/tp4/results/father.L001.sam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>I</span><span class=o>=</span>~/tp4/results/father.L002.sam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>I</span><span class=o>=</span>~/tp4/results/father.L003.sam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>O</span><span class=o>=</span>~/tp4/results/father.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>SO</span><span class=o>=</span>unsorted <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>USE_THREADING</span><span class=o>=</span><span class=nb>true</span> <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#sorting><h4 id=sorting><span class=hanchor arialabel=Anchor># </span>Sorting</h4></a><p>The <strong>reads</strong> are ordered by coordinates. This allows for quick search and extraction.</p><blockquote class=info-callout><p><em><strong>sort bam file (with picard or sambamba)</strong></em>
+<code>./script3.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>sambamba sort ~/tp4/results/father.bam -o ~/tp4/results/father.sorted.bam<span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#marking-duplicates><h4 id=marking-duplicates><span class=hanchor arialabel=Anchor># </span>Marking Duplicates</h4></a><p>Points out PCR artefacts.</p><p>Otherwise, one given read could falsely be present several hundreds times, and completly alter the subsequent variant calling.</p><blockquote class=warning-callout><p>Avoid this step in the case of amplicons.</p></blockquote><blockquote class=info-callout><p><em><strong>mark duplicates in bam file (with picard or sambamba)</strong></em>
+<code>./script4.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>sambamba markdup ~/tp4/results/father.sorted.bam  ~/tp4/results/father.dedup.bam <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#set-read-groups><h4 id=set-read-groups><span class=hanchor arialabel=Anchor># </span>Set Read Groups</h4></a><p>A read group refers to a set of reads that are generated from a single run of a sequencer.</p><p>In the simple case where a single library preparation derived from a single biological sample was run on a single lane of a flow cell, all the reads from that lane run belong to the same read group. When multiplexing is involved, then each subset of reads originating from a separate library run on that lane will constitute a separate read group.</p><p>Read groups have various properties:</p><ul><li><strong>ID</strong>: Read group <strong>Id</strong>entifier</li><li><strong>PU</strong>: <strong>P</strong>latform <strong>U</strong>nit</li><li><strong>SM</strong>: <strong>S</strong>a<strong>m</strong>ple</li><li><strong>PL</strong>: <strong>Pl</strong>atform/technology used to produce the read</li><li><strong>LB</strong>: DNA preparation <strong>l</strong>i<strong>b</strong>rary identifier</li></ul><blockquote class=info-callout><p><em><strong>create read groups</strong></em>
+<code>./script5.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>picard-tools AddOrReplaceReadGroups <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>I</span><span class=o>=</span>~/tp4/results/father.dedup.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>O</span><span class=o>=</span>~/tp4/results/father.withRG.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>RGLB</span><span class=o>=</span>lib1234 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>RGPL</span><span class=o>=</span>ILLUMINA <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>RGPU</span><span class=o>=</span>Unit17 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>RGSM</span><span class=o>=</span>FAM001FATHER <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    <span class=nv>RGCN</span><span class=o>=</span>SeqCenter <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#indel-local-realignment><h4 id=indel-local-realignment><span class=hanchor arialabel=Anchor># </span>Indel Local Realignment</h4></a><p>Improves Indel quality in subsequent variant calling (useful for legacy callers such as <em>UnifiedGenotyper</em> and <em>MuTect</em>, Redundant with new callers like <em>HaplotypeCaller</em> or <em>MuTect2</em>).</p><blockquote class=info-callout><p><em><strong>index bam file (with picard or sambamba)</strong></em>
+<code>./script6.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>sambamba index ~/tp4/results/father.withRG.bam <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><blockquote class=info-callout><p><em><strong>realign indels</strong></em>
+<code>./script7.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>GATK -T IndelRealigner <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -I ~/tp4/results/father.withRG.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -targetIntervals <span class=m>12</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -known ~/tp4/resources/Mills_and_1000G_gold_standard.indels.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -known ~/tp4/resources/1000G_phase1.indels.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/father.real.bam <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#base-quality-score-recalibration><h4 id=base-quality-score-recalibration><span class=hanchor arialabel=Anchor># </span>Base quality score recalibration</h4></a><p>Adjusts systematic techinical error regarding base call quality, using machine learning to model errors empirically.</p><blockquote class=info-callout><p><em><strong>tabulate data for recalibration</strong></em>
+<code>./script8.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>GATK -T BaseRecalibrator <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -I ~/tp4/results/father.real.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -knownSites ~/tp4/resources/dbSNP.150.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -knownSites ~/tp4/resources/Mills_and_1000G_gold_standard.indels.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -knownSites ~/tp4/resources/1000G_phase1.indels.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/father.table <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><blockquote class=info-callout><p><em><strong>recalibrate bam file</strong></em>
+<code>./script9.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>GATK -T PrintReads <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -I ~/tp4/results/father.real.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -BQSR ~/tp4/results/father.table <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/father.bqsr.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><blockquote class=info-callout><p><em><strong>Look at the alignment</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>igv results/father.bqsr.bam 12:497992
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#19-calling-variants><h3 id=19-calling-variants><span class=hanchor arialabel=Anchor># </span>1.9. Calling Variants</h3></a><p>Use the information in the alignment to infer the genotype of the individual at each genomic position</p><a href=#several-algorithms><h4 id=several-algorithms><span class=hanchor arialabel=Anchor># </span>Several Algorithms</h4></a><table><thead><tr><th>Algorithm</th><th><strong>TP</strong></th><th><strong>FP</strong></th></tr></thead><tbody><tr><td><strong>HaplotypeCaller</strong></td><td>21,707</td><td>367</td></tr><tr><td>FreeBayes</td><td>23,857</td><td>18,256</td></tr><tr><td>SAMtools Mpileup</td><td>25,081</td><td>2,129</td></tr><tr><td>SNPSVM</td><td>17,920</td><td>65</td></tr></tbody></table><a href=#algorithms-for-somatic-variants><h4 id=algorithms-for-somatic-variants><span class=hanchor arialabel=Anchor># </span>Algorithms for Somatic Variants</h4></a><ul><li>MuTect2</li><li>Strelka</li><li>EBCall</li><li>Seurat</li><li>VarScan2</li></ul><a href=#the-vcf-and-gvcf-file-format><h4 id=the-vcf-and-gvcf-file-format><span class=hanchor arialabel=Anchor># </span>The VCF (and gVCF) file format</h4></a><p><img src=http://lysine.univ-brest.fr/~tludwig/vcf_format.png width=auto alt></p><p><img src=http://lysine.univ-brest.fr/~tludwig/VCFexplained.png width=auto alt></p><a href=#vcf-vs-gvcf-file-formats><h4 id=vcf-vs-gvcf-file-formats><span class=hanchor arialabel=Anchor># </span>VCF vs. gVCF file formats</h4></a><ul><li><code>VCF</code> files provide information only for sites where at least one sample has a variant allele</li><li><code>gVCF</code> files (as produced by <em>HaplotypeCaller</em>) provide a genotype for each position and not just variant positions. This is useful to differentiate missing calls from position homozygous to the reference genome.</li></ul><blockquote class=info-callout><p><em><strong>call variant of the bam alignment into a gVCF file</strong></em>
+<code>./script10.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>GATK -T HaplotypeCaller <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -I ~/tp4/results/father.bqsr.bam <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/father.gvcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -L ~/tp4/resources/capture.kit.bed <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --interval_padding <span class=m>100</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --emitRefConfidence BP_RESOLUTION <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --variant_index_type LINEAR <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --variant_index_parameter <span class=m>128000</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -gt_mode DISCOVERY <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --dbsnp ~/tp4/resources/dbSNP.150.b37.vcf.gz <span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1># other options</span>
+</span></span><span class=line><span class=cl><span class=c1>#    -nct 8 # for multithreading</span>
+</span></span><span class=line><span class=cl><span class=c1>#    --dontUseSoftClippedBases # mostly for clinical data, if no further QC are done</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#combining-gvcf-files><h4 id=combining-gvcf-files><span class=hanchor arialabel=Anchor># </span>Combining gVCF files</h4></a><ul><li><code>gVCF</code> files produced by <em>HaplotypeCaller</em> contain a single sample</li><li>The actual genotyping (next step) will need to look simultaneously at the genotype of each sample</li><li>If a large (200+) amount of samples is present, this can be demanding (as the machine needs to keep a great number of very large files open at the same time)</li><li>Combining several mono-sample <code>gVCF</code> files into fewer multi-sample files can greatly speed-up the genotyping and be less resource demanding.</li></ul><p><img src=http://lysine.univ-brest.fr/~tludwig/gvcfscombine.png width=auto alt></p><blockquote class=info-callout><p><em><strong>combine multiple mono-sample gvcf files into a unique multi-sample gvcf file</strong></em>
+<code>./script11.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>for</span> fam in fam1 fam2 fam3<span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>do</span>
+</span></span><span class=line><span class=cl>    GATK -T CombineGVCFs <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>        -o ~/tp4/results/<span class=si>${</span><span class=nv>fam</span><span class=si>}</span>.gvcf.gz <span class=se>\\ </span></span></span><span class=line><span class=cl><span class=se></span>        -R ~/tp4/resources/reference.b37.fasta <span class=se>\\ </span></span></span><span class=line><span class=cl><span class=se></span>        -V ~/tp4/data/<span class=si>${</span><span class=nv>fam</span><span class=si>}</span>-E.gvcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>        -V ~/tp4/data/<span class=si>${</span><span class=nv>fam</span><span class=si>}</span>-M.gvcf.gz <span class=se>\\ </span></span></span><span class=line><span class=cl><span class=se></span>        -V ~/tp4/data/<span class=si>${</span><span class=nv>fam</span><span class=si>}</span>-P.gvcf.gz <span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#genotyping-gvcf-files><h4 id=genotyping-gvcf-files><span class=hanchor arialabel=Anchor># </span>Genotyping gVCF files</h4></a><ul><li>This step looks at the genotype of each sample at each position</li><li>It produces biallelic or multiallelic variants and affects genotypes to each sample</li><li>Only variant sites are kept</li><li>Several information (statistics, local frequencies, quality, etc.) are also provided.</li></ul><blockquote class=info-callout><p><em><strong>genotype multiple gVCF file into a VCF file</strong></em>
+<code>./script12.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span>GATK -T GenotypeGVCFs <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/genotyped.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -V ~/tp4/results/fam1.gvcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -V ~/tp4/results/fam2.gvcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -V ~/tp4/results/fam3.gvcf.gz <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#110-recalibrating-variant-quality-scores><h3 id=110-recalibrating-variant-quality-scores><span class=hanchor arialabel=Anchor># </span>1.10. Recalibrating Variant Quality Scores</h3></a><ul><li>Calculates a new quality score called <strong>VQSLOD</strong> (<strong>V</strong>ariant <strong>Q</strong>uality<strong>S</strong>core <strong>L</strong>og-<strong>Od</strong>ds)</li><li>Allowing to finely balance sensitivity (less FNs) and specificity(less FPs)</li><li>Uses Machine Learning to affect a score based on various contextual information</li><li>Trains on highly validated variant data (omni, 1000g, hapmap)</li><li>:warning: Large amount of data is needed to perform this step! At least exome wide and with as many samples as possible</li><li>The user defines a set of quality tranches, containing a certain amount of True/False Positives</li><li>Later, these tranches will be used to filter out data, depending on the needs.</li></ul><p><img src=http://lysine.univ-brest.fr/~tludwig/vqsr.png width=auto alt></p><blockquote class=warning-callout><p>given as an example, won&rsquo;t work on such a small dataset :warning:</p></blockquote><blockquote class=info-callout><p><em><strong>recalibrate variant quality scores</strong></em>
+<code>./script13.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1># Step1 Compute Recalibration for SNPs</span>
+</span></span><span class=line><span class=cl>GATK -T VariantRecalibrator <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -mode SNP <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -input ~/tp4/results/genotyped.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -resource:hapmap,known<span class=o>=</span>false,training<span class=o>=</span>true,truth<span class=o>=</span>true,prior<span class=o>=</span>15.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/resources/hapmap_3.3.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -resource:omni,known<span class=o>=</span>false,training<span class=o>=</span>true,truth<span class=o>=</span>true,prior<span class=o>=</span>12.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/resources/1000G_omni2.5.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -resource:1000G,known<span class=o>=</span>false,training<span class=o>=</span>true,truth<span class=o>=</span>false,prior<span class=o>=</span>10.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/resources/1000G_phase1.snps.high_confidence.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -resource:dbsnp,known<span class=o>=</span>true,training<span class=o>=</span>false,truth<span class=o>=</span>false,prior<span class=o>=</span>2.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/resources/dbSNP.150.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -an DP -an QD -an FS -an SOR -an MQ -an MQRankSum -an ReadPosRankSum <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 100.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 99.9 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 99.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 90.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -recalFile ~/tp4/results/snp.recalFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranchesFile ~/tp4/results/snp.tranchesFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>   -rscriptFile ~/tp4/results/out.SNP.R <span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl><span class=c1># Step2 Apply Recalibration for SNPs</span>
+</span></span><span class=line><span class=cl>GATK -T ApplyRecalibration <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -mode SNP <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -input ~/tp4/results/genotyped.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/recal.SNP.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -recalFile ~/tp4/results/snp.recalFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranchesFile ~/tp4/results/snp.tranchesFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --ts_filter_level <span class=m>90</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl><span class=c1># Step3 Compute Recalibration for INDELs</span>
+</span></span><span class=line><span class=cl>GATK -T VariantRecalibrator <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -mode INDEL <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -input ~/tp4/results/genotyped.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -resource:mills,known<span class=o>=</span>true,training<span class=o>=</span>true,truth<span class=o>=</span>true,prior<span class=o>=</span>12.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    ~/tp4/resources/Mills_and_1000G_gold_standard.indels.b37.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -an DP -an QD -an FS -an SOR -an MQRankSum -an ReadPosRankSum <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 100.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 99.9 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 99.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranche 90.0 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --maxGaussians <span class=m>4</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -recalFile ~/tp4/results/indel.recalFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranchesFile ~/tp4/results/indel.tranchesFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -rscriptFile ~/tp4/results/out.INDEL.R <span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl><span class=c1># Step4 Apply Recalibration for INDELs</span>
+</span></span><span class=line><span class=cl>GATK -T ApplyRecalibration <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -mode INDEL <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -R ~/tp4/resources/reference.b37.fasta <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -input ~/tp4/results/genotyped.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -o ~/tp4/results/recal.INDEL.vcf.gz <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -recalFile ~/tp4/results/indel.recalFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    -tranchesFile ~/tp4/results/indel.tranchesFile <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>   --ts_filter_level <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><blockquote class=warning-callout><p>won&rsquo;t work as the <code>script13</code> was not executed :warning:</p></blockquote><blockquote class=info-callout><p><em><strong>merge snp and indel recalibrated files</strong></em>
+<code>./script14.sh</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=nv>dir</span><span class=o>=</span><span class=s2>&#34;~/tp4/results&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>snp</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>/recal.SNP.vcf.gz&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>indel</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>/recal.INDEL.vcf.gz&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>outsnp</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>/VQSR.SNP.vcf.gz&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>outindel</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>/VQSR.INDEL.vcf.gz&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>output</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$dir</span><span class=s2>/VQSR.vcf&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># extract SNP</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Extract SNP to </span><span class=nv>$outsnp</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>zcat <span class=nv>$snp</span> <span class=p>|</span> awk ’<span class=o>{</span><span class=k>if</span><span class=o>((</span><span class=nv>$1</span> ~ <span class=s2>&#34;^#&#34;</span><span class=o>)</span> <span class=o>||</span> <span class=o>(</span><span class=nv>$7</span> !<span class=o>=</span> <span class=s2>&#34;.&#34;</span><span class=o>))</span> print <span class=nv>$0</span><span class=p>;</span><span class=o>}</span>’ <span class=p>|</span> bgzip &gt; &gt; <span class=nv>$outsnp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>tabix <span class=nv>$outsnp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># extract INDEL</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Extract INDEL to </span><span class=nv>$outindel</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>zcat <span class=nv>$indel</span> <span class=p>|</span> awk ’<span class=o>{</span><span class=k>if</span><span class=o>((</span><span class=nv>$1</span> ~ <span class=s2>&#34;^#&#34;</span><span class=o>)</span> <span class=o>||</span> <span class=o>(</span><span class=nv>$7</span> !<span class=o>=</span> <span class=s2>&#34;.&#34;</span><span class=o>))</span> print <span class=nv>$0</span><span class=p>;</span><span class=o>}</span>’ <span class=p>|</span> bgzip &gt; &gt; <span class=nv>$outindel</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>tabix <span class=nv>$outindel</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># merge SNP+INDEL</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Merge to </span><span class=nv>$output</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>head -2000 <span class=nv>$outsnp</span>  <span class=p>|</span> grep <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> cat -n &gt; head.snp
+</span></span><span class=line><span class=cl>head -2000 <span class=nv>$outindel</span> <span class=p>|</span> grep <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> cat -n &gt; head.indel
+</span></span><span class=line><span class=cl>cat head.snp head.indel <span class=p>|</span> sort -n <span class=p>|</span> uniq <span class=p>|</span> cut -f2- &gt; <span class=nv>$output</span>
+</span></span><span class=line><span class=cl>rm head.snp head.indel
+</span></span><span class=line><span class=cl>cat <span class=nv>$outsnp</span> <span class=nv>$outindel</span> <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> sort -V &gt;&gt; <span class=nv>$output</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;bgzip </span><span class=nv>$output</span><span class=s2>&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>bgzip <span class=nv>$output</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Tabix&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>tabix <span class=nv>$output</span>.gz<span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#111-variant-annotation><h3 id=111-variant-annotation><span class=hanchor arialabel=Anchor># </span>1.11. Variant Annotation</h3></a><p>Adding information from external sources:</p><ul><li>Genes/Transcripts Impacted</li><li>Consequences</li><li>Phenotypical Information</li><li>Validation</li><li>Frequencies from different populations</li></ul><p>Several Annotation Softwares:</p><ul><li><a href=https://annovar.openbioinformatics.org/en/latest/ rel=noopener>ANNOVAR</a></li><li><a href=http://pcingola.github.io/SnpEff/ rel=noopener>snpEff</a></li><li><a href=https://www.ensembl.org/info/docs/tools/vep/index.html rel=noopener>vep (Variant Effect Predictor)</a></li><li><a href=https://varaft.eu/ rel=noopener>VarAFT</a> (INSERM U1251)</li></ul><a href=#113-regions><h3 id=113-regions><span class=hanchor arialabel=Anchor># </span>1.13. Regions</h3></a><p>Sometimes we want to work on a subset of variants, defined by regions. Those regions can for example match a gene/set of genes or the positions taken into account by the capture kit.</p><p>The prevaling format to define regions is the <em><strong>BED</strong></em> (<strong>B</strong>rowser <strong>E</strong>xtensible <strong>D</strong>ata) file format. It a tabulated file, with the following columns:</p><table><thead><tr><th>#</th><th>Name</th><th>Description</th></tr></thead><tbody><tr><td>1</td><td>chrom</td><td>Chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671) name</td></tr><tr><td>2</td><td>chromStart</td><td>Start coordinate on the chromosome or scaffold for the sequence considered. In base$_0$</td></tr><tr><td>3</td><td>chromEnd</td><td>End coordinate on the chromosome or scaffold for the sequence considered. In base$_1$</td></tr></tbody></table><blockquote class=info-callout><p>- base$_0$ means that the first nulceotide of the the chromosome is 0</p><ul><li>base$_1$ means that the first nulceotide of the the chromosome is 1 (can also be view as base$_0$ excluded : <code>[start;end[</code>)</li></ul><p>VCF File are numbered in base$_1$, so if you want the chromosome 2 on position 11,12,13,14 et 15 you don&rsquo;t write <code>chr2 11 15</code> but <code>chr2 10 15</code> and for just the position 17, you write <code>chr 16 17</code></p></blockquote><a href=#112-searching-for-candidate-variants><h3 id=112-searching-for-candidate-variants><span class=hanchor arialabel=Anchor># </span>1.12. Searching for Candidate Variants</h3></a><p>The variant filtering, selection and priorization is based on several criteria:</p><ul><li>Variant Type (SNV, INDEL, SV)</li><li>Consequence on the transcript/protein</li><li>Frequency</li><li>Genotypes and transmission pattern</li><li>Affected Gene/Pathway</li></ul><hr><a href=#part-2-identifying-candidate-variants><h2 id=part-2-identifying-candidate-variants><span class=hanchor arialabel=Anchor># </span>Part 2: Identifying Candidate Variants</h2></a><blockquote class=success-callout><p><em><strong>Medical Information</strong></em></p><ul><li>Suspected recessive disease</li><li>Thickened, misshaped fingernails and toenails</li><li>Palmar keratoderma</li><li>Oral leukokeratosis</li><li>Cysts, including steatocystoma multiplex</li><li>Follicular hyperkeratosis</li><li>Blisters</li><li>Excessive sweating of the palms and soles</li></ul></blockquote><a href=#21-annotation-with-variant-effect-predictor><h3 id=21-annotation-with-variant-effect-predictor><span class=hanchor arialabel=Anchor># </span>2.1. Annotation with variant effect predictor</h3></a><p>Type this command</p><p><code>cp ~/tp4/data/family.annotated.vcf ~/tp4/results/family.annotated.vcf</code></p><p>Details:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#! /bin/sh
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=nv>invcf</span><span class=o>=</span><span class=nv>$1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>outvcf</span><span class=o>=</span><span class=nv>$2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nv>vep</span><span class=o>=</span>/PROGS/EXTERN/EnsEMBL/latest/vep
+</span></span><span class=line><span class=cl><span class=nv>VEP_CACHE_PATH</span><span class=o>=</span>/PUBLIC_DATA/Annotation/VEP/VEP_CACHE.latest
+</span></span><span class=line><span class=cl><span class=nv>cache</span><span class=o>=</span><span class=s2>&#34;--cache --merged --offline --dir </span><span class=nv>$VEP_CACHE_PATH</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>speed</span><span class=o>=</span><span class=s2>&#34;--fork 24 --buffer_size 25000&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>species</span><span class=o>=</span><span class=s2>&#34;homo_sapiens&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>assembly</span><span class=o>=</span><span class=s2>&#34;GRCh37&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>fasta</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$VEP_CACHE_PATH</span><span class=s2>/</span><span class=nv>$species</span><span class=s2>/91_</span><span class=nv>$assembly</span><span class=s2>/fasta.fa.gz&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --use_given_ref&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2>  --check_existing&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --allele_number&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --canonical&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --biotype&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --symbol&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --numbers&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --domains&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --sift b&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --polyphen b&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --regulatory&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --gene_phenotype&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --af&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --max_af&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --af_1kg&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --af_esp&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --af_gnomad&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --hgvs --hgvsg --fasta </span><span class=nv>$fasta</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --plugin dbNSFP,/PUBLIC_DATA/Annotation/dbNSFP/2.9/dbNSFP.gz,LRT_score,GERP++_RS&#34;</span>  <span class=c1>#GRCh37</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --plugin CADD,/PUBLIC_DATA/Annotation/CADD/CADD_v1.3/whole_genome_SNVs.tsv.gz&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>annotations</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$annotations</span><span class=s2> --plugin LoFtool,/PUBLIC_DATA/Annotation/VEP/VEP_CACHE.latest/Plugins/LoFtool_scores.txt&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>options</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$cache</span><span class=s2> </span><span class=nv>$speed</span><span class=s2> --species </span><span class=nv>$species</span><span class=s2> --assembly </span><span class=nv>$assembly</span><span class=s2> </span><span class=nv>$annotations</span><span class=s2> --vcf&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>command</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$vep</span><span class=s2> </span><span class=nv>$options</span><span class=s2> -i </span><span class=nv>$invcf</span><span class=s2> -o </span><span class=nv>$outvcf</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;Running: </span><span class=nv>$command</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>$command</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#22-filtering-with-vcfprocessor><h3 id=22-filtering-with-vcfprocessor><span class=hanchor arialabel=Anchor># </span>2.2. Filtering with VCFProcessor</h3></a><p>Documentation :
+<a href=http://lysine.univ-brest.fr/vcfprocessor/ rel=noopener>http://lysine.univ-brest.fr/vcfprocessor/</a></p><p>Get VCFProcessor</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone https://github.com/ThomasLudwig/VCFProcessor/
+</span></span><span class=line><span class=cl><span class=nb>cd</span> VCFProcessor/
+</span></span><span class=line><span class=cl>chmod +x gradlew
+</span></span><span class=line><span class=cl>./gradlew Deploy
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ..
+</span></span><span class=line><span class=cl>ln -s VCFProcessor/build/libs/VCFProcessor.jar
+</span></span></code></pre></td></tr></table></div></div><p>Keep only variants compatible with a recessive transmission pattern</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>java -jar VCFProcessor.jar Recessive <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --vcf ~/tp4/results/family.annotated.vcf <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --ped ~/tp4/data/family.ped <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --missing <span class=nb>false</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --nohomo <span class=nb>true</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --mode strict <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --out ~/tp4/results/recessive.vcf
+</span></span></code></pre></td></tr></table></div></div><p>Keep only rare variants</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>java -jar VCFProcessor.jar FilterGnomADFrequency <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --vcf ~/tp4/results/recessive.vcf <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --threshold 0.05 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --out ~/tp4/results/0.05.recessive.vcf
+</span></span></code></pre></td></tr></table></div></div><p>Keep only variants that strongly affect the protein</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>java -jar VCFProcessor.jar FilterConsequenceLevel <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --vcf ~/tp4/results/0.05.recessive.vcf <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --csq splice_region_variant <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --out ~/tp4/results/effect.0.05.recessive.vcf
+</span></span></code></pre></td></tr></table></div></div><a href=#23-results><h3 id=23-results><span class=hanchor arialabel=Anchor># </span>2.3. Results</h3></a><p>The last command shows a list of genes.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>java -jar VCFProcessor.jar GeneList <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --vcf ~/tp4/results/effect.0.05.recessive.vcf <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --out ~/tp4/results/effect.0.05.recessive.gene.list
+</span></span></code></pre></td></tr></table></div></div><p>Which gene (and thus variant) seems to be the best candidate to explain the patient&rsquo;s phenotype ?</p></article><hr><div class=page-end id=footer><div class=backlinks-container><h3>Backlinks</h3><ul class=backlinks><li>No backlinks found</li></ul></div><div><script async src=https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI=" crossorigin=anonymous></script><h3>Interactive Graph</h3><div id=graph-container></div><style>:root{--g-node:var(--secondary);--g-node-active:var(--primary);--g-node-inactive:var(--visited);--g-link:var(--outlinegray);--g-link-active:#5a7282}</style><script src=https://ThomasLudwig.github.io/quartz/js/graph.2d9e48dbe7ea47c0ef1c58296ce14448.js></script></div></div><div id=contact_buttons><footer><p>Made by Jacky Zhao using <a href=https://github.com/jackyzha0/quartz>Quartz</a>, © 2023</p><ul><li><a href=https://ThomasLudwig.github.io/quartz/>Home</a></li><li><a href=https://twitter.com/_jzhao>Twitter</a></li><li><a href=https://github.com/jackyzha0>GitHub</a></li></ul></footer></div></div></body></html>

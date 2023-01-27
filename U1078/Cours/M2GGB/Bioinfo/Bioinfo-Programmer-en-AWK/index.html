@@ -1,0 +1,336 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=description content="tags #m2ggb #bioinfo contact : ludwig@univ-brest.fr
+ [!success] AWK AWK est un langage pour traiter des fichiers textes, ligne-par-ligne. La ligne peut être séparée en champs (colonnes ou mots)."><title>Bioinfo - Programmer en AWK</title><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" type=image/png href=https://ThomasLudwig.github.io/quartz//icon.png><link href=https://ThomasLudwig.github.io/quartz/styles.547fb332ce56cdc523146ba5ede80d7f.min.css rel=stylesheet><link href=https://ThomasLudwig.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css rel=stylesheet id=theme-link><script src=https://ThomasLudwig.github.io/quartz/js/darkmode.80b387c6b2e1c9ae253f0ef0de27ef75.min.js></script>
+<script src=https://ThomasLudwig.github.io/quartz/js/util.6f22941e242efae60fd84e7c32e874fa.min.js></script>
+<link rel=preload href=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css as=style onload='this.onload=null,this.rel="stylesheet"' integrity=sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js integrity=sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js integrity=sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A crossorigin=anonymous></script>
+<script async src=https://unpkg.com/@floating-ui/core@0.7.3></script>
+<script async src=https://unpkg.com/@floating-ui/dom@0.5.4></script>
+<script async src=https://ThomasLudwig.github.io/quartz/js/popover.f03552ccb84d99ca615d1cfb9abde59e.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/code-title.ce4a43f09239a9efb48fee342e8ef2df.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/clipboard.2913da76d3cb21c5deaa4bae7da38c9f.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/callouts.7723cac461d613d118ee8bb8216b9838.min.js></script>
+<script>const SEARCH_ENABLED=!1,LATEX_ENABLED=!0,PRODUCTION=!0,BASE_URL="https://ThomasLudwig.github.io/quartz/",fetchData=Promise.all([fetch("https://ThomasLudwig.github.io/quartz/indices/linkIndex.f825b5e710ebe97349064fe077169bc8.min.json").then(e=>e.json()).then(e=>({index:e.index,links:e.links})),fetch("https://ThomasLudwig.github.io/quartz/indices/contentIndex.a308fc6d275b57823c5cf4cf0cae75b6.min.json").then(e=>e.json())]).then(([{index:e,links:t},n])=>({index:e,links:t,content:n})),render=()=>{const e=new URL(BASE_URL),t=e.pathname,n=window.location.pathname,s=t==n;addCopyButtons(),addTitleToCodeBlocks(),addCollapsibleCallouts(),initPopover("https://ThomasLudwig.github.io/quartz",!0);const o=document.getElementById("footer");if(o){const e=document.getElementById("graph-container");if(!e)return requestAnimationFrame(render);e.textContent="";const t=s&&!1;drawGraph("https://ThomasLudwig.github.io/quartz",t,[{"/moc":"#4388cc"}],t?{centerForce:1,depth:-1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.5,linkDistance:1,opacityScale:3,repelForce:1,scale:1.4}:{centerForce:1,depth:1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.6,linkDistance:1,opacityScale:3,repelForce:2,scale:1.2})}var i=document.getElementsByClassName("mermaid");i.length>0&&import("https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs").then(e=>{e.default.init()})},init=(e=document)=>{addCopyButtons(),addTitleToCodeBlocks(),renderMathInElement(e.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],macros:{'’':"'"},throwOnError:!1})}</script><script type=module>
+    import { attachSPARouting } from "https:\/\/ThomasLudwig.github.io\/quartz\/js\/router.9d4974281069e9ebb189f642ae1e3ca2.min.js"
+    attachSPARouting(init, render)
+  </script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-XYFD95KB4J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XYFD95KB4J",{anonymize_ip:!1})}</script><body><div id=search-container><div id=search-space><input autocomplete=off id=search-bar name=search type=text aria-label=Search placeholder="Search for something..."><div id=results-container></div></div></div><script src=https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin=anonymous defer></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/full-text-search.e6e2e0c213187ca0c703d6e2c7a77fcd.min.js></script><div class=singlePage><header><h1 id=page-title><a href=https://ThomasLudwig.github.io/quartz/>🪴 Quartz 3.3</a></h1><div class=spacer></div><div id=search-icon><p>Search</p><svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg></div><div class=darkmode><input class=toggle id=darkmode-toggle type=checkbox tabindex=-1>
+<label id=toggle-label-light for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="dayIcon" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35"><title>Light Mode</title><path d="M6 17.5C6 16.672 5.328 16 4.5 16h-3C.672 16 0 16.672.0 17.5S.672 19 1.5 19h3C5.328 19 6 18.328 6 17.5zM7.5 26c-.414.0-.789.168-1.061.439l-2 2C4.168 28.711 4 29.086 4 29.5 4 30.328 4.671 31 5.5 31c.414.0.789-.168 1.06-.44l2-2C8.832 28.289 9 27.914 9 27.5 9 26.672 8.329 26 7.5 26zm10-20C18.329 6 19 5.328 19 4.5v-3C19 .672 18.329.0 17.5.0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm10 3c.414.0.789-.168 1.06-.439l2-2C30.832 6.289 31 5.914 31 5.5 31 4.672 30.329 4 29.5 4c-.414.0-.789.168-1.061.44l-2 2C26.168 6.711 26 7.086 26 7.5 26 8.328 26.671 9 27.5 9zM6.439 8.561C6.711 8.832 7.086 9 7.5 9 8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2.001zM33.5 16h-3c-.828.0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828.0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM28.561 26.439C28.289 26.168 27.914 26 27.5 26c-.828.0-1.5.672-1.5 1.5.0.414.168.789.439 1.06l2 2C28.711 30.832 29.086 31 29.5 31c.828.0 1.5-.672 1.5-1.5.0-.414-.168-.789-.439-1.061l-2-2zM17.5 29c-.829.0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3C19 29.672 18.329 29 17.5 29zm0-22C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136.0-7.5-3.364-7.5-7.5s3.364-7.5 7.5-7.5 7.5 3.364 7.5 7.5S21.636 25 17.5 25z"/></svg></label><label id=toggle-label-dark for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="nightIcon" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'"><title>Dark Mode</title><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491-9.447 9.447-14.65 22.008-14.65 35.369.0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361.0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246C97.826 68.608 97.611 67.309 96.76 66.458z"/></svg></label></div></header><article><h1>Bioinfo - Programmer en AWK</h1><p class=meta>Last updated
+Jan 27, 2023
+<a href=https://github.com/jackyzha0/quartz/tree/hugo/content/U1078/Cours/M2GGB/Bioinfo/Bioinfo%20-%20Programmer%20en%20AWK.md rel=noopener>Edit Source</a></p><ul class=tags><li><a href=https://ThomasLudwig.github.io/quartz/tags/m2ggb/>M2ggb</a></li><li><a href=https://ThomasLudwig.github.io/quartz/tags/bioinfo/>Bioinfo</a></li></ul><aside class=mainTOC><details><summary>Table of Contents</summary><nav id=TableOfContents><ol><li><ol><li></li><li><a href=#1-un-programme-simple>1. Un programme simple</a></li><li><a href=#2-accéder-à-un-champ>2. Accéder à un champ</a></li><li><a href=#3-quelques-variables-globales>3. Quelques variables globales</a></li><li><a href=#4-utiliser-les-variables>4. Utiliser les variables</a></li><li><a href=#5-begin--end>5. BEGIN / END</a></li><li><a href=#6-multiples-instructions>6. Multiples instructions</a></li><li><a href=#7-conditionnelles>7. Conditionnelles</a></li><li><a href=#8-définir-et-utiliser-des-variables>8. Définir et utiliser des variables</a></li><li><a href=#9-tableaux>9. Tableaux</a></li><li><a href=#10-parcourir-un-tableau>10. Parcourir un tableau</a></li><li><a href=#11-un-peu-de-bioinfo->11. Un peu de bioinfo ?</a></li><li><a href=#12-smiling_imp-welcome-to-my-world-of-pain-smiling_imp>12. :smiling_imp: Welcome to my world of pain :smiling_imp:</a></li></ol></li></ol></nav></details></aside><a href=#tags-m2ggb-bioinfo><h6 id=tags-m2ggb-bioinfo><span class=hanchor arialabel=Anchor># </span>tags #m2ggb #bioinfo</h6></a><p><em>contact :</em>
+<a rel=noopener class="internal-link broken" data-src=mailto:ludwig@univ-brest.fr>ludwig@univ-brest.fr</a></p><blockquote class=success-callout><p><em><strong>AWK</strong></em>
+<em><strong>AWK</strong></em> est un langage pour traiter des fichiers <em>textes</em>, ligne-par-ligne. La ligne peut être séparée en <em>champs</em> (colonnes ou mots).</p></blockquote><p>Prennez les fichiers d&rsquo;entrées</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir ~/awk
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ~/awk
+</span></span><span class=line><span class=cl>cp /home/tludwig/master2ggb/tableawk.tsv .
+</span></span><span class=line><span class=cl>cp /home/tludwig/s.omalleysbar.txt .
+</span></span><span class=line><span class=cl>wget http://lysine.univ-brest.fr/~tludwig/master2/tp3/1.variants.vcf
+</span></span></code></pre></td></tr></table></div></div><a href=#1-un-programme-simple><h3 id=1-un-programme-simple><span class=hanchor arialabel=Anchor># </span>1. Un programme simple</h3></a><p>Affiche chaque ligne en entrée, sans modification:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;{print $0}&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p></p><ul><li><code>print</code> est la fonction qui permet d&rsquo;afficher du texte.</li><li><code>$0</code> signifie <em>toute la ligne</em></li></ul></blockquote><a href=#2-accéder-à-un-champ><h3 id=2-accéder-à-un-champ><span class=hanchor arialabel=Anchor># </span>2. Accéder à un champ</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;{print $2}&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p></p><ul><li><code>$i</code> signifie <em>la i$^{e}$ colonne</em></li></ul></blockquote><blockquote class=warning-callout><p>les espaces et tabulations ne se mélangent pas bien</p></blockquote><a href=#3-quelques-variables-globales><h3 id=3-quelques-variables-globales><span class=hanchor arialabel=Anchor># </span>3. Quelques variables globales</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat s.omalleysbar.txt <span class=p>|</span> awk <span class=s1>&#39;{print NF}&#39;</span> <span class=p>|</span> sort -n <span class=p>|</span> uniq -c
+</span></span><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;{print NR&#34;: &#34;$0}&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p></p><ul><li><code>NF</code> (<em>Number of Fields</em>) indique le nombre de colonne dans la ligne actuelle</li><li><code>NR</code> (<em>Number of Reccords</em>) indique le nombre de ligne lu jusqu&rsquo;à présent</li></ul></blockquote><a href=#4-utiliser-les-variables><h3 id=4-utiliser-les-variables><span class=hanchor arialabel=Anchor># </span>4. Utiliser les variables</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat s.omalleysbar.txt <span class=p>|</span> awk <span class=s1>&#39;{print $NF}&#39;</span> <span class=p>|</span> head
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p><code>$NF</code> signifie la dernière colonne (c&rsquo;est-à-dire la NF$^{e}$ colonne)</p></blockquote><a href=#5-begin--end><h3 id=5-begin--end><span class=hanchor arialabel=Anchor># </span>5. BEGIN / END</h3></a><ul><li>La section <code>BEGIN{}</code> est exécutée intégralement avant de lire la première ligne.</li><li>La section <code>END{}</code> est exécutée intégralement après avec traité la dernière ligne.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    BEGIN{
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;Lets-a-gooo&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        print $0
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;Il y avait &#34;NR&#34; lignes dans ce fichier.&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#6-multiples-instructions><h3 id=6-multiples-instructions><span class=hanchor arialabel=Anchor># </span>6. Multiples instructions</h3></a><p>Les instructions sont séparées par des point-virgules <code>;</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        print NR; 
+</span></span></span><span class=line><span class=cl><span class=s1>        print $0
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#7-conditionnelles><h3 id=7-conditionnelles><span class=hanchor arialabel=Anchor># </span>7. Conditionnelles</h3></a><ul><li><code>if(condition){block}</code> permet d&rsquo;exécuter <code>block</code> si <code>condition</code> est vrai</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 ~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            print &#34;il y a &#34;NF&#34; colonnes&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=info-callout><p><code>~ "^#"</code> indique les lignes qui commencent par <code>#</code></p></blockquote><ul><li><code>else{block2}</code> permet d&rsquo;exécuter <code>block2</code> quand <code>condition</code> est faux</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 ~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            print &#34;il y a &#34;NF&#34; colonnes&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>        } 
+</span></span></span><span class=line><span class=cl><span class=s1>        else{
+</span></span></span><span class=line><span class=cl><span class=s1>            print $0
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>On ne garde que les filles (et l&rsquo;en-tête)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 ~ &#34;^#&#34; || $3 == &#34;F&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            print $0
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#8-définir-et-utiliser-des-variables><h3 id=8-définir-et-utiliser-des-variables><span class=hanchor arialabel=Anchor># </span>8. Définir et utiliser des variables</h3></a><ul><li><code>nom_de_variable = 18</code> ou <code>nom_de_variable = "Texte"</code> permet d&rsquo;assigner une valeur à une variable</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    BEGIN{
+</span></span></span><span class=line><span class=cl><span class=s1>        male=0
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($3 == &#34;M&#34;)
+</span></span></span><span class=line><span class=cl><span class=s1>        {
+</span></span></span><span class=line><span class=cl><span class=s1>            male=male+1
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;There are &#34;male&#34; men&#34;
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote class=warning-callout><p>Ne pas confondre</p><ul><li><code>a = 2</code> $\rightarrow$ affecte la valeur 2 à la variant <code>a</code></li><li><code>b == 3</code> $\rightarrow$ renvoie <code>TRUE</code> si la variable <code>b</code> est égale à 3</li></ul></blockquote><p>On peut utiliser une variable dans un calcul</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    BEGIN{
+</span></span></span><span class=line><span class=cl><span class=s1>        height=0
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 !~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            height=height+$4
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        mean=height/(NR-1); 
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;mean height: &#34;mean
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#9-tableaux><h3 id=9-tableaux><span class=hanchor arialabel=Anchor># </span>9. Tableaux</h3></a><ul><li><code>x[]</code> indique un tableau du nom de <code>x</code></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    BEGIN{
+</span></span></span><span class=line><span class=cl><span class=s1>        height[&#34;M&#34;]=0;
+</span></span></span><span class=line><span class=cl><span class=s1>        height[&#34;F&#34;]=0;
+</span></span></span><span class=line><span class=cl><span class=s1>        nb[&#34;M&#34;]=0;
+</span></span></span><span class=line><span class=cl><span class=s1>        nb[&#34;F&#34;]=0;
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        height[$3]=height[$3]+$4;
+</span></span></span><span class=line><span class=cl><span class=s1>        nb[$3] = nb[$3] + 1;
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        mean[&#34;M&#34;]=height[&#34;M&#34;]/nb[&#34;M&#34;]; 
+</span></span></span><span class=line><span class=cl><span class=s1>        mean[&#34;F&#34;]=height[&#34;F&#34;]/nb[&#34;F&#34;]; 
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;mean height.&#34;;
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;for men &#34;mean[&#34;M&#34;];
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;for women &#34;mean[&#34;F&#34;];
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>Les <em>cases vides</em> des tableaux contiennent 0. On peut donc simplifier en</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        height[$3]=height[$3]+$4;
+</span></span></span><span class=line><span class=cl><span class=s1>        nb[$3] = nb[$3] + 1;
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        mean[&#34;M&#34;]=height[&#34;M&#34;]/nb[&#34;M&#34;]; 
+</span></span></span><span class=line><span class=cl><span class=s1>        mean[&#34;F&#34;]=height[&#34;F&#34;]/nb[&#34;F&#34;]; 
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;mean height.&#34;;
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;for men &#34;mean[&#34;M&#34;];
+</span></span></span><span class=line><span class=cl><span class=s1>        print &#34;for women &#34;mean[&#34;F&#34;];
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#10-parcourir-un-tableau><h3 id=10-parcourir-un-tableau><span class=hanchor arialabel=Anchor># </span>10. Parcourir un tableau</h3></a><ul><li><code>for (variable in tableau){block}</code> permet d&rsquo;affecter à <code>variable</code> succéssivement chaque clé d&rsquo;un tableau et d&rsquo;exécuter <code>block</code> pour cette clé.</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat tableawk.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 !~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            age[$2]=age[$2] + 1;
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        for(a in age){
+</span></span></span><span class=line><span class=cl><span class=s1>            print &#34;number of &#34;a&#34; years old : &#34;age[a];
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#11-un-peu-de-bioinfo-><h3 id=11-un-peu-de-bioinfo-><span class=hanchor arialabel=Anchor># </span>11. Un peu de bioinfo ?</h3></a><p>On considère le VCF <code>1.variants.vcf</code> et on veut connaître le première et le dernier variant de chaque chromosome.</p><ol><li>On va évider de traiter les lignes d&rsquo;en-tête grace à <code>if($0 !~ "^#")</code></li><li>On va stoquer les variants dans des tableaux <code>first[]</code> et <code>last[]</code></li><li>On va parcourir ces tableaux et afficher</li></ol><ul><li>:warning: On va chercher les minimums et maximum des positions. Les <em>cases vides</em> des tableaux contiennent 0.</li><li><code>||</code> signifie <em><strong>OU</strong></em></li><li><code>if(cond1 || cond2)</code> vérifie que <code>cond1</code> ou <code>cond2</code> (ou les deux) est VRAI</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($0 !~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            chr=$1; 
+</span></span></span><span class=line><span class=cl><span class=s1>            pos=$2;
+</span></span></span><span class=line><span class=cl><span class=s1>            if(pos &lt; first[chr] || first[chr] == 0){
+</span></span></span><span class=line><span class=cl><span class=s1>                first[chr] = pos;
+</span></span></span><span class=line><span class=cl><span class=s1>            }
+</span></span></span><span class=line><span class=cl><span class=s1>            if(pos &gt; last[chr]){
+</span></span></span><span class=line><span class=cl><span class=s1>                last[chr] = pos;
+</span></span></span><span class=line><span class=cl><span class=s1>            }            
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }
+</span></span></span><span class=line><span class=cl><span class=s1>    END{
+</span></span></span><span class=line><span class=cl><span class=s1>        for(chr in last){
+</span></span></span><span class=line><span class=cl><span class=s1>            print &#34;Chromosome &#34;chr&#34;:&#34;first[chr]&#34;-&#34;last[chr];
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#12-smiling_imp-welcome-to-my-world-of-pain-smiling_imp><h3 id=12-smiling_imp-welcome-to-my-world-of-pain-smiling_imp><span class=hanchor arialabel=Anchor># </span>12. :smiling_imp: Welcome to my world of pain :smiling_imp:</h3></a><p>On veut afficher tous les variants pour lesquels l&rsquo;enfant est homozyogote et les parents hétérozygotes.</p><a href=#rappel-du-format><h4 id=rappel-du-format><span class=hanchor arialabel=Anchor># </span>Rappel du format</h4></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> tail -1
+</span></span></code></pre></td></tr></table></div></div><a href=#eviter-les-en-têtes><h4 id=eviter-les-en-têtes><span class=hanchor arialabel=Anchor># </span>Eviter les en-têtes</h4></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> head
+</span></span></code></pre></td></tr></table></div></div><a href=#on-ne-prend-que-les-colonnes-qui-nous-intéressent><h4 id=on-ne-prend-que-les-colonnes-qui-nous-intéressent><span class=hanchor arialabel=Anchor># </span>On ne prend que les colonnes qui nous intéressent</h4></a><ul><li>chrom (1)</li><li>pos (2)</li><li>id (3)</li><li>ref (4)</li><li>alt (5)</li><li>enfant (10)</li><li>maman (11)</li><li>papa (12)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> head <span class=p>|</span> cut -f-5,10-
+</span></span></code></pre></td></tr></table></div></div><a href=#on-sintéresse-au-génotype-mais-pas-aux-annotations-qui-suivent><h4 id=on-sintéresse-au-génotype-mais-pas-aux-annotations-qui-suivent><span class=hanchor arialabel=Anchor># </span>On s&rsquo;intéresse au génotype, mais pas aux annotations qui suivent</h4></a><p>On transforme les colonnes en lignes</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> head <span class=p>|</span> cut -f-5,10- <span class=p>|</span> tr <span class=s2>&#34;\t&#34;</span> <span class=s2>&#34;\n&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>On enlève se qui suit les doubles points <code>:</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> head <span class=p>|</span> cut -f-5,10- <span class=p>|</span> tr <span class=s2>&#34;\t&#34;</span> <span class=s2>&#34;\n&#34;</span> <span class=p>|</span> cut -f1 -d<span class=s1>&#39;:&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><p>On reforme les lignes (il y avait 8 colonnes)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> cut -f-5,10- <span class=p>|</span> tr <span class=s2>&#34;\t&#34;</span> <span class=s2>&#34;\n&#34;</span> <span class=p>|</span> cut -f1 -d<span class=s1>&#39;:&#39;</span> <span class=p>|</span> paste - - - - - - - - &gt; variants.tsv
+</span></span><span class=line><span class=cl>cat variants.tsv <span class=p>|</span> head 
+</span></span></code></pre></td></tr></table></div></div><a href=#cest-parti><h4 id=cest-parti><span class=hanchor arialabel=Anchor># </span>C&rsquo;est parti</h4></a><p>Les génotypes sont dans les colonnes</p><ul><li>enfant : 6</li><li>maman : 7</li><li>papa : 8</li></ul><p>On affiche tout</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat variants.tsv <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($6 <mark> &#34;1/1&#34; &amp;&amp; $7 </mark> &#34;0/1&#34; &amp;&amp; $8 == &#34;0/1&#34;)
+</span></span></span><span class=line><span class=cl><span class=s1>        {
+</span></span></span><span class=line><span class=cl><span class=s1>            print $0
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span> 
+</span></span></code></pre></td></tr></table></div></div><a href=#solution-alternative-pour-garder-toute-la-ligne-et-faire-un-vcf-valide-avec-en-tête><h4 id=solution-alternative-pour-garder-toute-la-ligne-et-faire-un-vcf-valide-avec-en-tête><span class=hanchor arialabel=Anchor># </span>Solution alternative pour garder toute la ligne et faire un VCF valide avec en-tête</h4></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat 1.variants.vcf <span class=p>|</span> awk <span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    {
+</span></span></span><span class=line><span class=cl><span class=s1>        if($1 ~ &#34;^#&#34;){
+</span></span></span><span class=line><span class=cl><span class=s1>            print $0
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>        
+</span></span></span><span class=line><span class=cl><span class=s1>        if($10 ~ &#34;^1/1&#34; &amp;&amp; $11 ~ &#34;^0/1&#34; &amp;&amp; $12 ~ &#34;^0/1&#34;)
+</span></span></span><span class=line><span class=cl><span class=s1>        {
+</span></span></span><span class=line><span class=cl><span class=s1>            print $0
+</span></span></span><span class=line><span class=cl><span class=s1>        }
+</span></span></span><span class=line><span class=cl><span class=s1>    }&#39;</span> 
+</span></span></code></pre></td></tr></table></div></div><blockquote class=warning-callout><p>Ces solutions ne marchent que dans le cas des variants bialleliques.
+Pour un variant de type 1/1 | 0/1 | 1/2, il faut séparer les chromosomes</p></blockquote></article><hr><div class=page-end id=footer><div class=backlinks-container><h3>Backlinks</h3><ul class=backlinks><li>No backlinks found</li></ul></div><div><script async src=https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI=" crossorigin=anonymous></script><h3>Interactive Graph</h3><div id=graph-container></div><style>:root{--g-node:var(--secondary);--g-node-active:var(--primary);--g-node-inactive:var(--visited);--g-link:var(--outlinegray);--g-link-active:#5a7282}</style><script src=https://ThomasLudwig.github.io/quartz/js/graph.2d9e48dbe7ea47c0ef1c58296ce14448.js></script></div></div><div id=contact_buttons><footer><p>Made by Jacky Zhao using <a href=https://github.com/jackyzha0/quartz>Quartz</a>, © 2023</p><ul><li><a href=https://ThomasLudwig.github.io/quartz/>Home</a></li><li><a href=https://twitter.com/_jzhao>Twitter</a></li><li><a href=https://github.com/jackyzha0>GitHub</a></li></ul></footer></div></div></body></html>

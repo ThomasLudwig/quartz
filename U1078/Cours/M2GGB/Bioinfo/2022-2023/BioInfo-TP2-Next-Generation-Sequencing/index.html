@@ -1,0 +1,482 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=description content="tags #m2ggb #bioinfo contact : ludwig@univ-brest.fr
+Au cours de cette séance de TP nous allons chercher les mutations de novo d’un enfant dont l’exome ainsi que celui de ses deux parents ont été séquencés par la technologie Illumina."><title>BioInfo TP2 - Next Generation Sequencing</title><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" type=image/png href=https://ThomasLudwig.github.io/quartz//icon.png><link href=https://ThomasLudwig.github.io/quartz/styles.547fb332ce56cdc523146ba5ede80d7f.min.css rel=stylesheet><link href=https://ThomasLudwig.github.io/quartz/styles/_light_syntax.86a48a52faebeaaf42158b72922b1c90.min.css rel=stylesheet id=theme-link><script src=https://ThomasLudwig.github.io/quartz/js/darkmode.80b387c6b2e1c9ae253f0ef0de27ef75.min.js></script>
+<script src=https://ThomasLudwig.github.io/quartz/js/util.6f22941e242efae60fd84e7c32e874fa.min.js></script>
+<link rel=preload href=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css as=style onload='this.onload=null,this.rel="stylesheet"' integrity=sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js integrity=sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/copy-tex.min.js integrity=sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A crossorigin=anonymous></script>
+<script async src=https://unpkg.com/@floating-ui/core@0.7.3></script>
+<script async src=https://unpkg.com/@floating-ui/dom@0.5.4></script>
+<script async src=https://ThomasLudwig.github.io/quartz/js/popover.f03552ccb84d99ca615d1cfb9abde59e.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/code-title.ce4a43f09239a9efb48fee342e8ef2df.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/clipboard.2913da76d3cb21c5deaa4bae7da38c9f.min.js></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/callouts.7723cac461d613d118ee8bb8216b9838.min.js></script>
+<script>const SEARCH_ENABLED=!1,LATEX_ENABLED=!0,PRODUCTION=!0,BASE_URL="https://ThomasLudwig.github.io/quartz/",fetchData=Promise.all([fetch("https://ThomasLudwig.github.io/quartz/indices/linkIndex.f825b5e710ebe97349064fe077169bc8.min.json").then(e=>e.json()).then(e=>({index:e.index,links:e.links})),fetch("https://ThomasLudwig.github.io/quartz/indices/contentIndex.a308fc6d275b57823c5cf4cf0cae75b6.min.json").then(e=>e.json())]).then(([{index:e,links:t},n])=>({index:e,links:t,content:n})),render=()=>{const e=new URL(BASE_URL),t=e.pathname,n=window.location.pathname,s=t==n;addCopyButtons(),addTitleToCodeBlocks(),addCollapsibleCallouts(),initPopover("https://ThomasLudwig.github.io/quartz",!0);const o=document.getElementById("footer");if(o){const e=document.getElementById("graph-container");if(!e)return requestAnimationFrame(render);e.textContent="";const t=s&&!1;drawGraph("https://ThomasLudwig.github.io/quartz",t,[{"/moc":"#4388cc"}],t?{centerForce:1,depth:-1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.5,linkDistance:1,opacityScale:3,repelForce:1,scale:1.4}:{centerForce:1,depth:1,enableDrag:!0,enableLegend:!1,enableZoom:!0,fontSize:.6,linkDistance:1,opacityScale:3,repelForce:2,scale:1.2})}var i=document.getElementsByClassName("mermaid");i.length>0&&import("https://unpkg.com/mermaid@9/dist/mermaid.esm.min.mjs").then(e=>{e.default.init()})},init=(e=document)=>{addCopyButtons(),addTitleToCodeBlocks(),renderMathInElement(e.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],macros:{'’':"'"},throwOnError:!1})}</script><script type=module>
+    import { attachSPARouting } from "https:\/\/ThomasLudwig.github.io\/quartz\/js\/router.9d4974281069e9ebb189f642ae1e3ca2.min.js"
+    attachSPARouting(init, render)
+  </script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-XYFD95KB4J"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XYFD95KB4J",{anonymize_ip:!1})}</script><body><div id=search-container><div id=search-space><input autocomplete=off id=search-bar name=search type=text aria-label=Search placeholder="Search for something..."><div id=results-container></div></div></div><script src=https://cdn.jsdelivr.net/npm/flexsearch@0.7.21/dist/flexsearch.bundle.js integrity="sha256-i3A0NZGkhsKjVMzFxv3ksk0DZh3aXqu0l49Bbh0MdjE=" crossorigin=anonymous defer></script>
+<script defer src=https://ThomasLudwig.github.io/quartz/js/full-text-search.e6e2e0c213187ca0c703d6e2c7a77fcd.min.js></script><div class=singlePage><header><h1 id=page-title><a href=https://ThomasLudwig.github.io/quartz/>🪴 Quartz 3.3</a></h1><div class=spacer></div><div id=search-icon><p>Search</p><svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search Icon</title><desc id="desc">Icon to open search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"/><circle cx="8" cy="8" r="7"/></g></svg></div><div class=darkmode><input class=toggle id=darkmode-toggle type=checkbox tabindex=-1>
+<label id=toggle-label-light for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="dayIcon" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35"><title>Light Mode</title><path d="M6 17.5C6 16.672 5.328 16 4.5 16h-3C.672 16 0 16.672.0 17.5S.672 19 1.5 19h3C5.328 19 6 18.328 6 17.5zM7.5 26c-.414.0-.789.168-1.061.439l-2 2C4.168 28.711 4 29.086 4 29.5 4 30.328 4.671 31 5.5 31c.414.0.789-.168 1.06-.44l2-2C8.832 28.289 9 27.914 9 27.5 9 26.672 8.329 26 7.5 26zm10-20C18.329 6 19 5.328 19 4.5v-3C19 .672 18.329.0 17.5.0S16 .672 16 1.5v3C16 5.328 16.671 6 17.5 6zm10 3c.414.0.789-.168 1.06-.439l2-2C30.832 6.289 31 5.914 31 5.5 31 4.672 30.329 4 29.5 4c-.414.0-.789.168-1.061.44l-2 2C26.168 6.711 26 7.086 26 7.5 26 8.328 26.671 9 27.5 9zM6.439 8.561C6.711 8.832 7.086 9 7.5 9 8.328 9 9 8.328 9 7.5c0-.414-.168-.789-.439-1.061l-2-2C6.289 4.168 5.914 4 5.5 4 4.672 4 4 4.672 4 5.5c0 .414.168.789.439 1.06l2 2.001zM33.5 16h-3c-.828.0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5h3c.828.0 1.5-.672 1.5-1.5S34.328 16 33.5 16zM28.561 26.439C28.289 26.168 27.914 26 27.5 26c-.828.0-1.5.672-1.5 1.5.0.414.168.789.439 1.06l2 2C28.711 30.832 29.086 31 29.5 31c.828.0 1.5-.672 1.5-1.5.0-.414-.168-.789-.439-1.061l-2-2zM17.5 29c-.829.0-1.5.672-1.5 1.5v3c0 .828.671 1.5 1.5 1.5s1.5-.672 1.5-1.5v-3C19 29.672 18.329 29 17.5 29zm0-22C11.71 7 7 11.71 7 17.5S11.71 28 17.5 28 28 23.29 28 17.5 23.29 7 17.5 7zm0 18c-4.136.0-7.5-3.364-7.5-7.5s3.364-7.5 7.5-7.5 7.5 3.364 7.5 7.5S21.636 25 17.5 25z"/></svg></label><label id=toggle-label-dark for=darkmode-toggle tabindex=-1><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="nightIcon" viewBox="0 0 100 100" style="enable-background='new 0 0 100 100'"><title>Dark Mode</title><path d="M96.76 66.458c-.853-.852-2.15-1.064-3.23-.534-6.063 2.991-12.858 4.571-19.655 4.571C62.022 70.495 50.88 65.88 42.5 57.5 29.043 44.043 25.658 23.536 34.076 6.47c.532-1.08.318-2.379-.534-3.23-.851-.852-2.15-1.064-3.23-.534-4.918 2.427-9.375 5.619-13.246 9.491-9.447 9.447-14.65 22.008-14.65 35.369.0 13.36 5.203 25.921 14.65 35.368s22.008 14.65 35.368 14.65c13.361.0 25.921-5.203 35.369-14.65 3.872-3.871 7.064-8.328 9.491-13.246C97.826 68.608 97.611 67.309 96.76 66.458z"/></svg></label></div></header><article><h1>BioInfo TP2 - Next Generation Sequencing</h1><p class=meta>Last updated
+Jan 27, 2023
+<a href=https://github.com/jackyzha0/quartz/tree/hugo/content/U1078/Cours/M2GGB/Bioinfo/2022-2023/BioInfo%20TP2%20-%20Next%20Generation%20Sequencing.md rel=noopener>Edit Source</a></p><ul class=tags><li><a href=https://ThomasLudwig.github.io/quartz/tags/m2ggb/>M2ggb</a></li><li><a href=https://ThomasLudwig.github.io/quartz/tags/bioinfo/>Bioinfo</a></li></ul><aside class=mainTOC><details><summary>Table of Contents</summary><nav id=TableOfContents><ol><li><ol><li></li></ol></li><li><a href=#1-récupération-des-données-fastq>1. Récupération des données FASTQ</a><ol><li><a href=#11-téléchargez-et-extrayez-le-fichier-zip>1.1. Téléchargez et extrayez le fichier zip</a></li><li><a href=#12-comptez-le-nombre-de-lignes-r1aa-chez-lenfant-vérifiez-que-cest-un-multiple-de-4>1.2. Comptez le nombre de lignes <code>R1.aa</code> chez l&rsquo;enfant; Vérifiez que c&rsquo;est un multiple de 4.</a></li><li><a href=#13-comptez-le-nombre-de-lignes-r2aa-chez-lenfant-pourquoi-ce-même-nombre->1.3. Comptez le nombre de lignes <code>R2.aa</code> chez l&rsquo;enfant; Pourquoi ce même nombre ?</a></li><li><a href=#14-comparez-les-10-premiers-noms-de-reads-de-lenfant-entre-le-fichier-r1-et-r2-quelle-est-la-différence->1.4. Comparez les 10 premiers noms de reads de l&rsquo;enfant entre le fichier R1 et R2, quelle est la différence ?</a></li><li><a href=#15-quelle-est-la-longueur-des-short-reads-r1-chez-lenfant->1.5. Quelle est la longueur des short-reads R1 chez l&rsquo;enfant ?</a></li><li><a href=#16-dans-les-short-reads-r1-de-lenfant-extrayez-les-bases-des-séquences-dadn-quelle-est-la-proportion-de-ces-bases-nombre-de-a-nombre-de-t-nombre-de-g-etc---ny-a-t-il-que-a-t-g-c->1.6. Dans les short-reads R1 de l&rsquo;enfant, extrayez les bases des séquences d&rsquo;ADN, quelle est la proportion de ces bases (nombre de A, nombre de T, nombre de G, etc.) ? n&rsquo;y a-t-il que A-T-G-C ?</a></li><li><a href=#17-quels-sont-les-caractères-ascii-de-qualité-que-lon-trouve-dans-les-lignes-de-qualité->1.7. Quels sont les caractères ascii de qualité que l&rsquo;on trouve dans les lignes de qualité ?</a></li></ol></li><li><a href=#2-récupération-du-génome-de-référence>2. Récupération du génome de référence</a><ol><li><a href=#21-téléchargez-les-séquences-fagz-chr22-et-chrm-de-la-version-hg19grch37-du-génome-humain>2.1. Téléchargez les séquences <code>.fa.gz</code> <strong>chr22</strong> et <strong>chrM</strong> de la version <strong>hg19/GRCh37</strong> du génome humain.</a></li><li><a href=#22-dézippez-les-deux-fichiers>2.2. dézippez les deux fichiers.</a></li><li><a href=#23-quelle-est-la-taille-du-chromosome-22--quelle-est-la-taille-du-chrm->2.3. Quelle est la taille du chromosome 22 ? Quelle est la taille du chrM ?</a></li><li><a href=#24-quelles-sont-les-premières-bases-du-chromosomes-22->2.4. Quelles sont les premières bases du chromosomes 22 ?</a></li><li><a href=#25-pourquoi-observez-vous-cela--combien-de-lignes-y-a-t-il-avant-que-cela-change->2.5. Pourquoi observez-vous cela ? Combien de lignes y-a-t-il avant que cela change ?</a></li><li><a href=#26-a-laide-de-cat-concaténez-ces-deux-fichiers-dans-un-fichier-que-vous-nommerez-reffa>2.6. A l&rsquo;aide de cat, concaténez ces deux fichiers dans un fichier que vous nommerez <code>ref.fa</code></a></li></ol></li><li><a href=#3-prise-en-main-de-bwa>3. Prise en main de BWA</a></li><li><a href=#4-prise-en-main-de-samtools>4. Prise en main de SAMTOOLS</a></li><li><a href=#5-construction-de-lindex-du-génome-de-référence>5. Construction de l&rsquo;index du génome de référence</a><ol><li><a href=#51-construire-lindex-à-laide-de-bwa-index>5.1. Construire l&rsquo;index à l&rsquo;aide de bwa index</a></li><li><a href=#52-vérifiez-que-des-fichiers-dindex-ont-été-créés>5.2. Vérifiez que des fichiers d&rsquo;index ont été créés</a></li></ol></li><li><a href=#6-mapping-des-séquences-fastq-sur-la-référence>6. Mapping des séquences fastq sur la référence</a><ol><li><a href=#61-mappez-les-reads-de-lenfant-avec-cette-commande>6.1. Mappez les reads de l&rsquo;enfant avec cette commande</a></li><li><a href=#62-que-renvoie-la-commande-suivante-->6.2. Que renvoie la commande suivante ?</a></li><li><a href=#63-combien-y-a-t-il-de-lignes-dans-ce-fichier-sam->6.3. Combien y-a-t-il de lignes dans ce fichier sam ?</a></li><li><a href=#64-combien-y-a-t-il-de-lignes-dans-len-tête->6.4. Combien y-a-t-il de lignes dans l&rsquo;en-tête ?</a></li><li><a href=#65-observez-les-lignes-de-len-tête-commençant-par-sq--y-a-t-il-une-différence-avec-le-nombre-de-bases-que-vous-aviez-observé-dans-les-séquences-fasta-des-chr22-et-chrm->6.5. Observez les lignes de l&rsquo;en-tête commençant par <code>@SQ</code> , y a-t-il une différence avec le nombre de bases que vous aviez observé dans les séquences Fasta des chr22 et chrM ?</a></li><li><a href=#66-retrouvez-la-ligne-rg-du-read-group-dans-len-tête-vérifiez-que-tous-les-reads-dans-ce-fichier-portent-une-référence-à-ce-read-groupe-dans-la-colonne-de-métadonnées>6.6. Retrouvez la ligne <code>@RG</code> du &lsquo;read-group&rsquo; dans l&rsquo;en-tête, vérifiez que tous les reads dans ce fichier portent une référence à ce read groupe dans la colonne de métadonnées.</a></li><li><a href=#67-combien-y-a-t-il-dalignements->6.7. Combien y-a-t-il d&rsquo;alignements ?</a></li><li><a href=#68-comparez-au-nombre-de-reads-dans-les-fichiers-childr1aafqgz-et-childr2aafqgz>6.8. Comparez au nombre de reads dans les fichiers <code>child.R1.aa.fq.gz</code> et <code>child.R2.aa.fq.gz</code></a></li><li><a href=#69-identifiez-les-colonnes-dun-fichier-sam>6.9. Identifiez les colonnes d&rsquo;un fichier SAM:</a></li><li><a href=#610-quels-estsont-les-sam-flag-retrouvés-le-plus-souvent->6.10. Quel(s) est(sont) le(s) SAM Flag retrouvé(s) le plus souvent ?</a></li><li><a href=#611-cherchez-saleur-significations>6.11. Cherchez sa(leur) signification(s)</a></li><li><a href=#612-prenez-les-reads-suivants-et-vérifiez-que-vous-retrouvez-la-même-séquence--la-même-qualité-dans-le-fichier-fastq-originel>6.12. Prenez les reads suivants et vérifiez que vous retrouvez la même séquence & la même qualité dans le fichier FASTQ originel</a></li><li><a href=#613-observez-et-décrivez-les-cigar-des-reads-suivants>6.13. Observez et décrivez les CIGAR des reads suivants</a></li></ol></li><li><a href=#7-conversion-de-sam-en-bam>7. Conversion de SAM en BAM</a><ol><li><a href=#71-générez-le-fichier-child_unsortedaabam>7.1. Générez le fichier <code>child_unsorted.aa.bam</code></a></li><li><a href=#72-que-renvoie-la-commande-suivante->7.2. Que renvoie la commande suivante ?</a></li><li><a href=#73-affichez-les-options-de-samtools-view>7.3. Affichez les options de samtools view</a></li><li><a href=#74-affichez-le-corps-du-bam>7.4. Affichez le corps du BAM</a></li><li><a href=#75-affichez-len-tête-du-bam>7.5. Affichez l&rsquo;en-tête du BAM</a></li><li><a href=#76-affichez-le-bam-complet-avec>7.6. Affichez le bam complet avec</a></li><li><a href=#77-comptez-les-reads-qui-étaient-à-lorigine-dans-le-fichier-childr1aafqgz-aka-first-in-pair>7.7. Comptez les reads qui étaient à l&rsquo;origine dans le fichier <code>child.R1.aa.fq.gz</code> (a.k.a <em>first in pair</em>)</a></li></ol></li><li><a href=#8-tri-du-bam-sur-la-position-génomique>8. Tri du BAM sur la position génomique</a><ol><li><a href=#81-triez-child_unsortedaabam-pour-produire-un-fichier-child_sortedaabam>8.1. Triez <code>child_unsorted.aa.bam</code> pour produire un fichier <code>child_sorted.aa.bam</code></a></li><li><a href=#82-vérifiez-que-le-fichier-est-trié>8.2. Vérifiez que le fichier est trié</a></li></ol></li><li><a href=#9-mapping-de-la-deuxième-paire-childr1abfqgz-et-childr2abfqgz>9. Mapping de la deuxième paire <code>child.R1.ab.fq.gz</code> et <code>child.R2.ab.fq.gz</code></a><ol><li><a href=#procédez-pour-la-seconde-paire-comme-pour-la-première>Procédez pour la seconde paire, comme pour la première</a></li></ol></li><li><a href=#10-fusion-des-bam-pour-le-même-échantillon>10. Fusion des BAM pour le même échantillon.</a><ol><li><a href=#101-fusionnez-les-fichiers>10.1. Fusionnez les fichiers</a></li></ol></li><li><a href=#11-indexation-du-bam>11. Indexation du BAM</a><ol><li><a href=#111-indexez-le-fichier-childbam>11.1. Indexez le fichier child.bam</a></li><li><a href=#112-vérifiez-le-fonctionnement-de-lindex>11.2. Vérifiez le fonctionnement de l&rsquo;index</a></li></ol></li><li><a href=#12-indexation-du-genome-de-reference-avec-samtools>12. Indexation du genome de reference avec samtools</a><ol><li><a href=#121-indexez-votre-génome-de-reference>12.1. Indexez votre génome de reference.</a></li><li><a href=#122-extrayez-la-sequence-chrm50-200>12.2. Extrayez la sequence chrM:50-200</a></li></ol></li><li><a href=#13-visualisation-interactive-avec-tview>13. Visualisation interactive avec tview</a><ol><li><a href=#131-affichez-les-premiers-reads-mappés-dans-childbam>13.1. Affichez les premiers reads mappés dans <code>child.bam</code></a></li><li><a href=#132-affichez-childsam>13.2. Affichez <code>child.sam</code></a></li><li><a href=#133-naviguez-dans-le-fichier>13.3. Naviguez dans le fichier</a></li></ol></li><li><a href=#14-mapping-des-fichiers-parentaux>14. Mapping des fichiers parentaux.</a><ol><li><a href=#141-refaire-tout-le-tp-pour-les-reads-de-la-mère-et-du-père>14.1. Refaire tout le TP pour les reads de la mère et du père</a></li></ol></li><li><a href=#15-calling-des-mutations>15. Calling des mutations</a></li><li><a href=#16-fichier-vcf>16. Fichier VCF</a><ol><li><a href=#réperez-la-ligne-commençant-par-chrom>Réperez la ligne commençant par <code>#CHROM</code></a></li></ol></li><li><a href=#17-recherche-du-variant-causal>17. Recherche du variant causal</a><ol><li><a href=#171-calling-des-variants>17.1. Calling des variants</a></li><li><a href=#181-combien-y-a-t-il-de-variants-dans-le-fichier->18.1. Combien y a t-il de variants dans le fichier ?</a></li><li><a href=#182-extraction-des-variants-de-novo>18.2. Extraction des variants <em>de novo</em></a></li><li><a href=#183-annotation-du-fichier>18.3. Annotation du fichier</a></li><li><a href=#184-extraction-des-variants-délétaires>18.4. Extraction des variants délétaires</a></li><li><a href=#185-recherche-des-gènes-impactés>18.5. Recherche des gènes impactés</a></li></ol></li></ol></nav></details></aside><a href=#tags-m2ggb-bioinfo><h6 id=tags-m2ggb-bioinfo><span class=hanchor arialabel=Anchor># </span>tags #m2ggb #bioinfo</h6></a><p><em>contact :</em>
+<a rel=noopener class="internal-link broken" data-src=mailto:ludwig@univ-brest.fr>ludwig@univ-brest.fr</a></p><p>Au cours de cette séance de TP nous allons chercher les mutations <em>de novo</em> d’un enfant dont l’exome ainsi que celui de ses deux parents ont été séquencés par la technologie Illumina. Il vous faudra aligner les reads sur un génome de référence, extraire les mutations et annoter ces variations.</p><a href=#1-récupération-des-données-fastq><h2 id=1-récupération-des-données-fastq><span class=hanchor arialabel=Anchor># </span>1. Récupération des données FASTQ</h2></a><a href=#11-téléchargez-et-extrayez-le-fichier-zip><h3 id=11-téléchargez-et-extrayez-le-fichier-zip><span class=hanchor arialabel=Anchor># </span>1.1. Téléchargez et extrayez le fichier zip</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir ~/TP2
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ~/TP2
+</span></span><span class=line><span class=cl>wget http://lysine.univ-brest.fr/~tludwig/master2/DATA.zip
+</span></span><span class=line><span class=cl>unzip DATA.zip
+</span></span></code></pre></td></tr></table></div></div><p>Dans le répertoire <code>DATA</code> se trouvent les fichiers FASTQ contenant les short-reads pour father/mother/child.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>DATA/child.R2.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/child.R2.aa.fq.gz
+</span></span><span class=line><span class=cl>DATA/father.R1.aa.fq.gz
+</span></span><span class=line><span class=cl>DATA/father.R2.aa.fq.gz
+</span></span><span class=line><span class=cl>DATA/mother.R2.aa.fq.gz
+</span></span><span class=line><span class=cl>DATA/mother.R1.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/mother.R2.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/father.R1.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/father.R2.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/child.R1.aa.fq.gz
+</span></span><span class=line><span class=cl>DATA/child.R1.ab.fq.gz
+</span></span><span class=line><span class=cl>DATA/mother.R1.aa.fq.gz
+</span></span></code></pre></td></tr></table></div></div><p>Nous travaillons en <strong>paired-end</strong> : il y a donc un fichier <strong>R1</strong> et <strong>R2</strong> pour chaque individu.</p><p><img src=http://lysine.univ-brest.fr/~tludwig/paired-end-read.jpg width=auto alt></p><p>Par ailleurs on peut disposer de plusieurs jeux de données pour un même individu. C&rsquo;est notament le cas lorsqu&rsquo;on a utiliser plusieurs <em>lanes</em> pour un individu. Dans notre exemple, chaque individu pocède des données <code>aa</code> et <code>ab</code>.</p><a href=#12-comptez-le-nombre-de-lignes-r1aa-chez-lenfant-vérifiez-que-cest-un-multiple-de-4><h3 id=12-comptez-le-nombre-de-lignes-r1aa-chez-lenfant-vérifiez-que-cest-un-multiple-de-4><span class=hanchor arialabel=Anchor># </span>1.2. Comptez le nombre de lignes <code>R1.aa</code> chez l&rsquo;enfant; Vérifiez que c&rsquo;est un multiple de 4.</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> wc -l
+</span></span></code></pre></td></tr></table></div></div><a href=#13-comptez-le-nombre-de-lignes-r2aa-chez-lenfant-pourquoi-ce-même-nombre-><h3 id=13-comptez-le-nombre-de-lignes-r2aa-chez-lenfant-pourquoi-ce-même-nombre-><span class=hanchor arialabel=Anchor># </span>1.3. Comptez le nombre de lignes <code>R2.aa</code> chez l&rsquo;enfant; Pourquoi ce même nombre ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R2.aa.fq.gz <span class=p>|</span> wc -l
+</span></span></code></pre></td></tr></table></div></div><a href=#14-comparez-les-10-premiers-noms-de-reads-de-lenfant-entre-le-fichier-r1-et-r2-quelle-est-la-différence-><h3 id=14-comparez-les-10-premiers-noms-de-reads-de-lenfant-entre-le-fichier-r1-et-r2-quelle-est-la-différence-><span class=hanchor arialabel=Anchor># </span>1.4. Comparez les 10 premiers noms de reads de l&rsquo;enfant entre le fichier R1 et R2, quelle est la différence ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>1</span> <span class=p>|</span> head
+</span></span><span class=line><span class=cl>zcat DATA/child.R2.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>1</span> <span class=p>|</span> head
+</span></span></code></pre></td></tr></table></div></div><a href=#15-quelle-est-la-longueur-des-short-reads-r1-chez-lenfant-><h3 id=15-quelle-est-la-longueur-des-short-reads-r1-chez-lenfant-><span class=hanchor arialabel=Anchor># </span>1.5. Quelle est la longueur des short-reads R1 chez l&rsquo;enfant ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>2</span> <span class=p>|</span> head
+</span></span><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>2</span> <span class=p>|</span> head -1 <span class=p>|</span> tr -d <span class=s1>&#39;\n&#39;</span><span class=p>|</span> wc -c
+</span></span></code></pre></td></tr></table></div></div><a href=#16-dans-les-short-reads-r1-de-lenfant-extrayez-les-bases-des-séquences-dadn-quelle-est-la-proportion-de-ces-bases-nombre-de-a-nombre-de-t-nombre-de-g-etc---ny-a-t-il-que-a-t-g-c-><h3 id=16-dans-les-short-reads-r1-de-lenfant-extrayez-les-bases-des-séquences-dadn-quelle-est-la-proportion-de-ces-bases-nombre-de-a-nombre-de-t-nombre-de-g-etc---ny-a-t-il-que-a-t-g-c-><span class=hanchor arialabel=Anchor># </span>1.6. Dans les short-reads R1 de l&rsquo;enfant, extrayez les bases des séquences d&rsquo;ADN, quelle est la proportion de ces bases (nombre de A, nombre de T, nombre de G, etc.) ? n&rsquo;y a-t-il que A-T-G-C ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>2</span> <span class=p>|</span> grep -o . <span class=p>|</span> sort <span class=p>|</span> uniq -c
+</span></span></code></pre></td></tr></table></div></div><p>ici <code>grep</code> utilise une <em>expression régulière</em> ou <em>Regex</em>. C&rsquo;est un language qui permet de décrire un texte. Le caractère <code>.</code> signifie <em>n&rsquo;importe quel caractère</em></p><a href=#17-quels-sont-les-caractères-ascii-de-qualité-que-lon-trouve-dans-les-lignes-de-qualité-><h3 id=17-quels-sont-les-caractères-ascii-de-qualité-que-lon-trouve-dans-les-lignes-de-qualité-><span class=hanchor arialabel=Anchor># </span>1.7. Quels sont les caractères ascii de qualité que l&rsquo;on trouve dans les lignes de qualité ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz <span class=p>|</span> paste - - - - <span class=p>|</span> cut -f <span class=m>4</span> <span class=p>|</span> grep -o . <span class=p>|</span> sort <span class=p>|</span> uniq <span class=p>|</span> paste - - - - - -
+</span></span></code></pre></td></tr></table></div></div><a href=#2-récupération-du-génome-de-référence><h2 id=2-récupération-du-génome-de-référence><span class=hanchor arialabel=Anchor># </span>2. Récupération du génome de référence</h2></a><p>Pour aller vite, nous nous contenterons des chromosomes 22 et de l&rsquo;ADN mitochondrial.</p><a href=#21-téléchargez-les-séquences-fagz-chr22-et-chrm-de-la-version-hg19grch37-du-génome-humain><h3 id=21-téléchargez-les-séquences-fagz-chr22-et-chrm-de-la-version-hg19grch37-du-génome-humain><span class=hanchor arialabel=Anchor># </span>2.1. Téléchargez les séquences <code>.fa.gz</code> <strong>chr22</strong> et <strong>chrM</strong> de la version <strong>hg19/GRCh37</strong> du génome humain.</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>wget <span class=s2>&#34;http://lysine.univ-brest.fr/~tludwig/master2/hg19/chr22.fa.gz&#34;</span>
+</span></span><span class=line><span class=cl>wget <span class=s2>&#34;http://lysine.univ-brest.fr/~tludwig/master2/hg19/chrM.fa.gz&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#22-dézippez-les-deux-fichiers><h3 id=22-dézippez-les-deux-fichiers><span class=hanchor arialabel=Anchor># </span>2.2. dézippez les deux fichiers.</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>gunzip chr22.fa.gz chrM.fa.gz
+</span></span></code></pre></td></tr></table></div></div><a href=#23-quelle-est-la-taille-du-chromosome-22--quelle-est-la-taille-du-chrm-><h3 id=23-quelle-est-la-taille-du-chromosome-22--quelle-est-la-taille-du-chrm-><span class=hanchor arialabel=Anchor># </span>2.3. Quelle est la taille du chromosome 22 ? Quelle est la taille du chrM ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>grep -v <span class=s1>&#39;&gt;&#39;</span> chr22.fa <span class=p>|</span> tr -d <span class=s1>&#39;\n&#39;</span> <span class=p>|</span> wc -c
+</span></span><span class=line><span class=cl>grep -v <span class=s1>&#39;&gt;&#39;</span> chrM.fa  <span class=p>|</span> tr -d <span class=s1>&#39;\n&#39;</span> <span class=p>|</span> wc -c
+</span></span></code></pre></td></tr></table></div></div><a href=#24-quelles-sont-les-premières-bases-du-chromosomes-22-><h3 id=24-quelles-sont-les-premières-bases-du-chromosomes-22-><span class=hanchor arialabel=Anchor># </span>2.4. Quelles sont les premières bases du chromosomes 22 ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>less chr22.fa
+</span></span></code></pre></td></tr></table></div></div><a href=#25-pourquoi-observez-vous-cela--combien-de-lignes-y-a-t-il-avant-que-cela-change-><h3 id=25-pourquoi-observez-vous-cela--combien-de-lignes-y-a-t-il-avant-que-cela-change-><span class=hanchor arialabel=Anchor># </span>2.5. Pourquoi observez-vous cela ? Combien de lignes y-a-t-il avant que cela change ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat -n chr22.fa <span class=p>|</span> grep -v <span class=s1>&#39;&gt;&#39;</span>  <span class=p>|</span> grep -v <span class=s1>&#39;N&#39;</span> <span class=p>|</span> head 
+</span></span></code></pre></td></tr></table></div></div><a href=#26-a-laide-de-cat-concaténez-ces-deux-fichiers-dans-un-fichier-que-vous-nommerez-reffa><h3 id=26-a-laide-de-cat-concaténez-ces-deux-fichiers-dans-un-fichier-que-vous-nommerez-reffa><span class=hanchor arialabel=Anchor># </span>2.6. A l&rsquo;aide de cat, concaténez ces deux fichiers dans un fichier que vous nommerez <code>ref.fa</code></h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat chr22.fa  chrM.fa &gt; ref.fa
+</span></span></code></pre></td></tr></table></div></div><a href=#3-prise-en-main-de-bwa><h2 id=3-prise-en-main-de-bwa><span class=hanchor arialabel=Anchor># </span>3. Prise en main de BWA</h2></a><p><em>BWA</em> est l&rsquo;outil qui va nous permettre de mapper les reads sur le génome de référence. <em>BWA</em> lui-même contient une série de sous programmes que l&rsquo;on peut lister en tapant <code>bwa</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bwa
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Program: bwa (alignment via Burrows-Wheeler transformation)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Usage:   bwa &lt;command&gt; [options]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Command: index         index sequences in the FASTA format
+</span></span><span class=line><span class=cl>         mem           BWA-MEM algorithm
+</span></span><span class=line><span class=cl>(...)
+</span></span><span class=line><span class=cl>On peut obtenir l&#39;aide de chaque sous-programme en invoquant le nom du sous-programme.
+</span></span><span class=line><span class=cl>bwa index
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Usage:   bwa index [-a bwtsw|is] [-c] &lt;in.fasta&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Options: -a STR    BWT construction algorithm: bwtsw or is [auto]
+</span></span><span class=line><span class=cl>         -p STR    prefix of the index [same as fasta name]
+</span></span><span class=line><span class=cl>         -6        index files named as &lt;in.fasta&gt;.64.* instead of &lt;in.fasta&gt;.* 
+</span></span></code></pre></td></tr></table></div></div><a href=#4-prise-en-main-de-samtools><h2 id=4-prise-en-main-de-samtools><span class=hanchor arialabel=Anchor># </span>4. Prise en main de SAMTOOLS</h2></a><p><em>samtools</em> est le couteau suisse des formats en NGS. Tout comme <em>bwa</em>, <em>samtools</em> lui-même contient une série de sous programmes que l&rsquo;on peut afficher en tapant <code>samtools</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>samtools
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Program: samtools (Tools for alignments in the SAM format)
+</span></span><span class=line><span class=cl>Version: 0.1.19-44428cd
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Usage:   samtools &lt;command&gt; [options]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Command: view        SAM&lt;-&gt;BAM conversion
+</span></span><span class=line><span class=cl>         sort        sort alignment file
+</span></span><span class=line><span class=cl>         mpileup     multi-way pileup
+</span></span><span class=line><span class=cl>         depth       compute the depth
+</span></span><span class=line><span class=cl>         faidx       index/extract FASTA
+</span></span><span class=line><span class=cl>         tview       text alignment viewer
+</span></span><span class=line><span class=cl>         index       index alignment
+</span></span><span class=line><span class=cl>         idxstats    BAM index stats (r595 or later)
+</span></span><span class=line><span class=cl>         fixmate     fix mate information
+</span></span><span class=line><span class=cl>         flagstat    simple stats
+</span></span><span class=line><span class=cl>         calmd       recalculate MD/NM tags and &#39;=&#39; bases
+</span></span><span class=line><span class=cl>         merge       merge sorted alignments
+</span></span><span class=line><span class=cl>         rmdup       remove PCR duplicates
+</span></span><span class=line><span class=cl>         reheader    replace BAM header
+</span></span><span class=line><span class=cl>         cat         concatenate BAMs
+</span></span><span class=line><span class=cl>         bedcov      read depth per BED region
+</span></span><span class=line><span class=cl>         targetcut   cut fosmid regions (for fosmid pool only)
+</span></span><span class=line><span class=cl>         phase       phase heterozygotes
+</span></span><span class=line><span class=cl>         bamshuf     shuffle and group alignments by name
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>(...)
+</span></span></code></pre></td></tr></table></div></div><p>On peut également obtenir l&rsquo;aide de chaque sous-programme en invoquant le nom du sous-programme.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>samtools view
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Usage:   samtools view [options] &lt;in.bam&gt;|&lt;in.sam&gt; [region1 [...]]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Options: -b       output BAM
+</span></span><span class=line><span class=cl>         -h       print header for the SAM output
+</span></span><span class=line><span class=cl>         -H       print header only (no alignments)
+</span></span><span class=line><span class=cl>         -S       input is SAM
+</span></span><span class=line><span class=cl>         -u       uncompressed BAM output (force -b)
+</span></span><span class=line><span class=cl>         -1       fast compression (force -b)
+</span></span><span class=line><span class=cl>         -x       output FLAG in HEX (samtools-C specific)
+</span></span><span class=line><span class=cl>         -X       output FLAG in string (samtools-C specific)
+</span></span><span class=line><span class=cl>         -c       print only the count of matching records
+</span></span><span class=line><span class=cl>         -B       collapse the backward CIGAR operation
+</span></span><span class=line><span class=cl>         -@ INT   number of BAM compression threads [0]
+</span></span><span class=line><span class=cl>         -L FILE  output alignments overlapping the input BED FILE [null]
+</span></span><span class=line><span class=cl>         -t FILE  list of reference names and lengths (force -S) [null]
+</span></span><span class=line><span class=cl>         -T FILE  reference sequence file (force -S) [null]
+</span></span><span class=line><span class=cl>         -o FILE  output file name [stdout]
+</span></span><span class=line><span class=cl>         -R FILE  list of read groups to be outputted [null]
+</span></span><span class=line><span class=cl>         -f INT   required flag, 0 for unset [0]
+</span></span><span class=line><span class=cl>         -F INT   filtering flag, 0 for unset [0]
+</span></span><span class=line><span class=cl>         -q INT   minimum mapping quality [0]
+</span></span><span class=line><span class=cl>         -l STR   only output reads in library STR [null]
+</span></span><span class=line><span class=cl>         -r STR   only output reads in read group STR [null]
+</span></span><span class=line><span class=cl>         -s FLOAT fraction of templates to subsample; integer part as seed [-1]
+</span></span><span class=line><span class=cl>         -?       longer help
+</span></span></code></pre></td></tr></table></div></div><a href=#5-construction-de-lindex-du-génome-de-référence><h2 id=5-construction-de-lindex-du-génome-de-référence><span class=hanchor arialabel=Anchor># </span>5. Construction de l&rsquo;index du génome de référence</h2></a><a href=#51-construire-lindex-à-laide-de-bwa-index><h3 id=51-construire-lindex-à-laide-de-bwa-index><span class=hanchor arialabel=Anchor># </span>5.1. Construire l&rsquo;index à l&rsquo;aide de bwa index</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bwa index ref.fa
+</span></span></code></pre></td></tr></table></div></div><p>devrait afficher quelque chose dans le genre :</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[bwa_index] Pack FASTA... 0.51 sec
+</span></span><span class=line><span class=cl>[bwa_index] Construct BWT for the packed sequence...
+</span></span><span class=line><span class=cl>[BWTIncCreate] textLength=102642274, availableWord=19222168
+</span></span><span class=line><span class=cl>[BWTIncConstructFromPacked] 10 iterations done. 31707250 characters processed.
+</span></span><span class=line><span class=cl>[BWTIncConstructFromPacked] 20 iterations done. 58575122 characters processed.
+</span></span><span class=line><span class=cl>[BWTIncConstructFromPacked] 30 iterations done. 82451330 characters processed.
+</span></span><span class=line><span class=cl>[BWTIncConstructFromPacked] 40 iterations done. 102642274 characters processed.
+</span></span><span class=line><span class=cl>[bwt_gen] Finished constructing BWT in 40 iterations.
+</span></span><span class=line><span class=cl>[bwa_index] 32.52 seconds elapse.
+</span></span><span class=line><span class=cl>[bwa_index] Update BWT... 0.26 sec
+</span></span><span class=line><span class=cl>[bwa_index] Pack forward-only FASTA... 0.40 sec
+</span></span><span class=line><span class=cl>[bwa_index] Construct SA from BWT and Occ... 7.81 sec
+</span></span><span class=line><span class=cl>[main] Version: 0.7.12-r1039
+</span></span><span class=line><span class=cl>[main] CMD: bwa index ref.fa
+</span></span><span class=line><span class=cl>[main] Real time: 41.542 sec; CPU: 41.500 sec
+</span></span></code></pre></td></tr></table></div></div><a href=#52-vérifiez-que-des-fichiers-dindex-ont-été-créés><h3 id=52-vérifiez-que-des-fichiers-dindex-ont-été-créés><span class=hanchor arialabel=Anchor># </span>5.2. Vérifiez que des fichiers d&rsquo;index ont été créés</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ls ref.fa.*
+</span></span></code></pre></td></tr></table></div></div><a href=#6-mapping-des-séquences-fastq-sur-la-référence><h2 id=6-mapping-des-séquences-fastq-sur-la-référence><span class=hanchor arialabel=Anchor># </span>6. Mapping des séquences fastq sur la référence</h2></a><p>Maintenant que l&rsquo;index du génome de référence a été créé, nous cherchons a connaitre la position des reads sur ce génome de référence.</p><p>:::info
+<em><strong>synopsis</strong></em> de la commande <em>bwa</em> pour mapper les reads</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bwa mem  -R <span class=s1>&#39;@RG\tID:SAMPLENAME-aa\tSM:SAMPLENAME&#39;</span> reference.fa &gt; sample.R1.gz sample.R2.gz &gt; sample.sam
+</span></span></code></pre></td></tr></table></div></div><p>L’option <code>-R</code> permet de créer un <strong>READ-GROUP</strong> pour associer les reads a un échantillon (donc ici, remplacez SAMPLENAME par &lsquo;<em>child</em>&rsquo;).
+:::warning
+:warning: ne pas taper cette commande :warning:
+:::</p><p>La sortie standard de cette commande est un &lsquo;<em>fichier texte</em>&rsquo; <strong>SAM</strong>.</p><a href=#61-mappez-les-reads-de-lenfant-avec-cette-commande><h3 id=61-mappez-les-reads-de-lenfant-avec-cette-commande><span class=hanchor arialabel=Anchor># </span>6.1. Mappez les reads de l&rsquo;enfant avec cette commande</h3></a><p>Utilisez en entrée <code>child.R1.aa.fq.gz</code> et <code>child.R2.aa.fq.gz</code> et redirigez la sortie standard vers un fichier <code>child_unsorted.aa.sam</code> (à l&rsquo;aide de l&rsquo;opérateur <code>></code>)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bwa mem  -R <span class=s1>&#39;@RG\tID:child-aa\tSM:child&#39;</span> ref.fa DATA/child.R1.aa.fq.gz DATA/child.R2.aa.fq.gz &gt; child_unsorted.aa.sam
+</span></span></code></pre></td></tr></table></div></div><a href=#62-que-renvoie-la-commande-suivante--><h3 id=62-que-renvoie-la-commande-suivante--><span class=hanchor arialabel=Anchor># </span>6.2. Que renvoie la commande suivante ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>file child_unsorted.aa.sam
+</span></span></code></pre></td></tr></table></div></div><a href=#63-combien-y-a-t-il-de-lignes-dans-ce-fichier-sam-><h3 id=63-combien-y-a-t-il-de-lignes-dans-ce-fichier-sam-><span class=hanchor arialabel=Anchor># </span>6.3. Combien y-a-t-il de lignes dans ce fichier sam ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>wc -l child_unsorted.aa.sam 
+</span></span></code></pre></td></tr></table></div></div><a href=#64-combien-y-a-t-il-de-lignes-dans-len-tête-><h3 id=64-combien-y-a-t-il-de-lignes-dans-len-tête-><span class=hanchor arialabel=Anchor># </span>6.4. Combien y-a-t-il de lignes dans l&rsquo;en-tête ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>grep <span class=s1>&#39;^@&#39;</span> child_unsorted.aa.sam <span class=p>|</span> wc -l
+</span></span></code></pre></td></tr></table></div></div><p>En <em>regex</em> le caractère <code>^</code> signifie <em>commence par</em></p><a href=#65-observez-les-lignes-de-len-tête-commençant-par-sq--y-a-t-il-une-différence-avec-le-nombre-de-bases-que-vous-aviez-observé-dans-les-séquences-fasta-des-chr22-et-chrm-><h3 id=65-observez-les-lignes-de-len-tête-commençant-par-sq--y-a-t-il-une-différence-avec-le-nombre-de-bases-que-vous-aviez-observé-dans-les-séquences-fasta-des-chr22-et-chrm-><span class=hanchor arialabel=Anchor># </span>6.5. Observez les lignes de l&rsquo;en-tête commençant par <code>@SQ</code> , y a-t-il une différence avec le nombre de bases que vous aviez observé dans les séquences Fasta des chr22 et chrM ?</h3></a><a href=#66-retrouvez-la-ligne-rg-du-read-group-dans-len-tête-vérifiez-que-tous-les-reads-dans-ce-fichier-portent-une-référence-à-ce-read-groupe-dans-la-colonne-de-métadonnées><h3 id=66-retrouvez-la-ligne-rg-du-read-group-dans-len-tête-vérifiez-que-tous-les-reads-dans-ce-fichier-portent-une-référence-à-ce-read-groupe-dans-la-colonne-de-métadonnées><span class=hanchor arialabel=Anchor># </span>6.6. Retrouvez la ligne <code>@RG</code> du &lsquo;read-group&rsquo; dans l&rsquo;en-tête, vérifiez que tous les reads dans ce fichier portent une référence à ce read groupe dans la colonne de métadonnées.</h3></a><a href=#67-combien-y-a-t-il-dalignements-><h3 id=67-combien-y-a-t-il-dalignements-><span class=hanchor arialabel=Anchor># </span>6.7. Combien y-a-t-il d&rsquo;alignements ?</h3></a><a href=#68-comparez-au-nombre-de-reads-dans-les-fichiers-childr1aafqgz-et-childr2aafqgz><h3 id=68-comparez-au-nombre-de-reads-dans-les-fichiers-childr1aafqgz-et-childr2aafqgz><span class=hanchor arialabel=Anchor># </span>6.8. Comparez au nombre de reads dans les fichiers <code>child.R1.aa.fq.gz</code> et <code>child.R2.aa.fq.gz</code></h3></a><a href=#69-identifiez-les-colonnes-dun-fichier-sam><h3 id=69-identifiez-les-colonnes-dun-fichier-sam><span class=hanchor arialabel=Anchor># </span>6.9. Identifiez les colonnes d&rsquo;un fichier SAM:</h3></a><table><thead><tr><th>#</th><th>Colonne</th></tr></thead><tbody><tr><td>1</td><td>READ NAME</td></tr><tr><td>2</td><td>FLAG</td></tr><tr><td>3</td><td>CHROMOSOME</td></tr><tr><td>4</td><td>POS</td></tr><tr><td>5</td><td>MAPPING QUALITY</td></tr><tr><td>6</td><td>CIGAR <em>(représentation compacte de l&rsquo;alignement)</em></td></tr><tr><td>7</td><td>MATE CHROMOSOME</td></tr><tr><td>8</td><td>MATE POS</td></tr><tr><td>9</td><td>DISTANCE READ-MATE <em>(négatif si mate placé devant)</em></td></tr><tr><td>10</td><td>DNA SEQ</td></tr><tr><td>11</td><td>QUALITIES</td></tr></tbody></table><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>grep -v <span class=s1>&#39;^@&#39;</span> child_unsorted.aa.sam <span class=p>|</span> head -1 <span class=p>|</span> tr <span class=s2>&#34;\t&#34;</span> <span class=s2>&#34;\n&#34;</span> <span class=p>|</span> cat -n
+</span></span></code></pre></td></tr></table></div></div><p>La deuxième colonne contient le <em>SAM FLAG</em>: des méta-informations sur le mapping des reads.</p><a href=#610-quels-estsont-les-sam-flag-retrouvés-le-plus-souvent-><h3 id=610-quels-estsont-les-sam-flag-retrouvés-le-plus-souvent-><span class=hanchor arialabel=Anchor># </span>6.10. Quel(s) est(sont) le(s) SAM Flag retrouvé(s) le plus souvent ?</h3></a><a href=#611-cherchez-saleur-significations><h3 id=611-cherchez-saleur-significations><span class=hanchor arialabel=Anchor># </span>6.11. Cherchez sa(leur) signification(s)</h3></a><p>Référez vous à
+<a href=http://broadinstitute.github.io/picard/explain-flags.html rel=noopener>http://broadinstitute.github.io/picard/explain-flags.html</a></p><a href=#612-prenez-les-reads-suivants-et-vérifiez-que-vous-retrouvez-la-même-séquence--la-même-qualité-dans-le-fichier-fastq-originel><h3 id=612-prenez-les-reads-suivants-et-vérifiez-que-vous-retrouvez-la-même-séquence--la-même-qualité-dans-le-fichier-fastq-originel><span class=hanchor arialabel=Anchor># </span>6.12. Prenez les reads suivants et vérifiez que vous retrouvez la même séquence & la même qualité dans le fichier FASTQ originel</h3></a><table><thead><tr><th>#</th><th>ID</th><th>Flag</th><th>??</th></tr></thead><tbody><tr><td>#1326</td><td><code>HWI-1KL149:97:C6Y6VACXX:5:1107:14195:70766</code></td><td>163</td><td>R2 - Forward</td></tr><tr><td>#3533</td><td><code>HWI-1KL149:97:C6Y6VACXX:5:2113:7047:14280</code></td><td>83</td><td>R1 - Reverse</td></tr></tbody></table><blockquote class=info-callout><p>Pour extraire le read <code>1440</code> du BAM et du fastq, il faut taper</p><ul><li>Pour voir l&rsquo;identifiant, la séquence et la qualité:</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>grep -v <span class=s2>&#34;^@&#34;</span> child_unsorted.aa.sam <span class=p>|</span> head -1440 <span class=p>|</span> tail -1 <span class=p>|</span> cut -f1,2,10,11 <span class=p>|</span> tr <span class=s2>&#34;\t&#34;</span> <span class=s2>&#34;\n&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>Pour voir la séquence original dans les fastq:</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># récurérer l&#39;identifiant du read, ici</span>
+</span></span><span class=line><span class=cl><span class=c1># HWI-1KL149:97:C6Y6VACXX:5:1206:9505:92003</span>
+</span></span><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz DATA/child.R2.aa.fq.gz <span class=p>|</span> grep -A3 <span class=s2>&#34;HWI-1KL149:97:C6Y6VACXX:5:1206:9505:92003&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># ou directement avec la commande</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>zcat DATA/child.R1.aa.fq.gz DATA/child.R2.aa.fq.gz <span class=p>|</span> grep -A3 <span class=sb>`</span>grep -v <span class=s2>&#34;^@&#34;</span>  child_unsorted.aa.sam <span class=p>|</span> head -1440 <span class=p>|</span> tail -1 <span class=p>|</span> cut -f1<span class=sb>`</span>
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#613-observez-et-décrivez-les-cigar-des-reads-suivants><h3 id=613-observez-et-décrivez-les-cigar-des-reads-suivants><span class=hanchor arialabel=Anchor># </span>6.13. Observez et décrivez les CIGAR des reads suivants</h3></a><p>Pour le fichier <code>child_unsorted.aa.sam</code></p><blockquote class=info-callout><p>Adaptez la première commande de la section précedante, mais ne récupérez que la 6$^e$ colonne. Utilisez les commandes <code>grep -v "^@"</code>, <code>head -XXXX</code>, <code>tail -1</code>, <code>cut -f6</code></p></blockquote><ul><li>#10</li><li>#6</li><li>#110</li><li>#1915</li><li>#11391</li><li>#842</li></ul><table><thead><tr><th>Letter</th><th>Description</th></tr></thead><tbody><tr><td>M</td><td>Alignment <strong>M</strong>atch <em>(can be a sequence match or mismatch)</em></td></tr><tr><td>I</td><td><strong>I</strong>nsertion to the reference</td></tr><tr><td>D</td><td><strong>D</strong>eletion from the reference</td></tr><tr><td>S</td><td><strong>S</strong>oft clipping <em>(clipped sequences present in SEQ)</em></td></tr><tr><td>H</td><td><strong>H</strong>ard clipping <em>(clipped sequences <strong>NOT</strong> present in SEQ)</em></td></tr><tr><td>*</td><td>No known bases in the read</td></tr></tbody></table><a href=#7-conversion-de-sam-en-bam><h2 id=7-conversion-de-sam-en-bam><span class=hanchor arialabel=Anchor># </span>7. Conversion de SAM en BAM</h2></a><p>Pour permettre aux algorithmes d&rsquo;aller plus vite, nous utilisons samtools pour convertir le fichier en format <em>texte</em>/<strong>SAM</strong> <code>child.aa.sam</code> en format <em>binaire</em>/<strong>BAM</strong> <code>child_unsorted.aa.bam</code>.
+Les fichiers <strong>BAM</strong> sont en fait des fichiers <strong>SAM</strong> compressés avec <code>gzip</code>. Ainsi, ils prenent 6 $\times$ mois de place sur les fichiers <strong>BAM</strong>. Leur traitement devrait en revanche être plus long, car ils doivent être décompressés pour être lu, mais grace à l&rsquo;utilisateur d&rsquo;<em>index</em>, l&rsquo;accès à des données précises être extrémement plus rapide.</p><blockquote class=info-callout><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view -bS -o out.bam in.sam
+</span></span></code></pre></td></tr></table></div></div><ul><li>Option <code>-S</code> : l&rsquo;entrée est du SAM</li><li>Option <code>-b</code> : la sortie est du binaire (BAM)</li><li>Option <code>-o</code> : nom du fichier de sortie</li></ul><blockquote class=warning-callout><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#71-générez-le-fichier-child_unsortedaabam><h3 id=71-générez-le-fichier-child_unsortedaabam><span class=hanchor arialabel=Anchor># </span>7.1. Générez le fichier <code>child_unsorted.aa.bam</code></h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view -bS -o child_unsorted.aa.bam child_unsorted.aa.sam
+</span></span></code></pre></td></tr></table></div></div><a href=#72-que-renvoie-la-commande-suivante-><h3 id=72-que-renvoie-la-commande-suivante-><span class=hanchor arialabel=Anchor># </span>7.2. Que renvoie la commande suivante ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>file child_unsorted.aa.bam
+</span></span></code></pre></td></tr></table></div></div><a href=#73-affichez-les-options-de-samtools-view><h3 id=73-affichez-les-options-de-samtools-view><span class=hanchor arialabel=Anchor># </span>7.3. Affichez les options de samtools view</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view
+</span></span></code></pre></td></tr></table></div></div><a href=#74-affichez-le-corps-du-bam><h3 id=74-affichez-le-corps-du-bam><span class=hanchor arialabel=Anchor># </span>7.4. Affichez le corps du BAM</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view child_unsorted.aa.bam <span class=p>|</span> less
+</span></span></code></pre></td></tr></table></div></div><a href=#75-affichez-len-tête-du-bam><h3 id=75-affichez-len-tête-du-bam><span class=hanchor arialabel=Anchor># </span>7.5. Affichez l&rsquo;en-tête du BAM</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view -H child_unsorted.aa.bam
+</span></span></code></pre></td></tr></table></div></div><a href=#76-affichez-le-bam-complet-avec><h3 id=76-affichez-le-bam-complet-avec><span class=hanchor arialabel=Anchor># </span>7.6. Affichez le bam complet avec</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view -h child_unsorted.aa.bam <span class=p>|</span> less
+</span></span></code></pre></td></tr></table></div></div><a href=#77-comptez-les-reads-qui-étaient-à-lorigine-dans-le-fichier-childr1aafqgz-aka-first-in-pair><h3 id=77-comptez-les-reads-qui-étaient-à-lorigine-dans-le-fichier-childr1aafqgz-aka-first-in-pair><span class=hanchor arialabel=Anchor># </span>7.7. Comptez les reads qui étaient à l&rsquo;origine dans le fichier <code>child.R1.aa.fq.gz</code> (a.k.a <em>first in pair</em>)</h3></a><p>Aidez-vous de
+<a href=http://broadinstitute.github.io/picard/explain-flags.html rel=noopener>http://broadinstitute.github.io/picard/explain-flags.html</a> et de l&rsquo;option <code>-f flag</code> de <code>samtools view</code>.</p><a href=#8-tri-du-bam-sur-la-position-génomique><h2 id=8-tri-du-bam-sur-la-position-génomique><span class=hanchor arialabel=Anchor># </span>8. Tri du BAM sur la position génomique</h2></a><p>Pour l&rsquo;instant, les alignements dans le <strong>BAM</strong> sont dans le même ordre que les <em>reads</em> dans les <strong>FASTQ</strong>, c&rsquo;est à dire qu&rsquo;ils sont totalement mélangés.</p><p>Pour aller plus vite, les algorithmes détectant les mutations (et autres) ont besoin que les reads soient triés en fonction de leurs coordonnées génomiques.</p><p>Pour cela on utilise <code>samtools sort</code></p><blockquote><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools sort -o out.bam -T out in-unsorted.bam
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>-T PREFIX</code> Write temporary files to <code>PREFIX.nnnn.bam</code></li><li><code>-o FILE</code> Write final output to <code>FILE</code> rather than <em>standard output</em></li></ul><blockquote class=info-callout><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#81-triez-child_unsortedaabam-pour-produire-un-fichier-child_sortedaabam><h3 id=81-triez-child_unsortedaabam-pour-produire-un-fichier-child_sortedaabam><span class=hanchor arialabel=Anchor># </span>8.1. Triez <code>child_unsorted.aa.bam</code> pour produire un fichier <code>child_sorted.aa.bam</code></h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools sort -T tmp -o child_sorted.aa.bam child_unsorted.aa.bam
+</span></span></code></pre></td></tr></table></div></div><a href=#82-vérifiez-que-le-fichier-est-trié><h3 id=82-vérifiez-que-le-fichier-est-trié><span class=hanchor arialabel=Anchor># </span>8.2. Vérifiez que le fichier est trié</h3></a><p>La première ligne de son en-tête qui doit contenir le mot <em>coordinate</em>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view -H child_sorted.aa.bam 
+</span></span></code></pre></td></tr></table></div></div><p>En utilisant <code>samtools view</code>, en observant la position croissante CHROM/POS des reads dans le fichier <strong>BAM</strong>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view  child_sorted.aa.bam <span class=p>|</span> cut -f 3,4 <span class=p>|</span> head -100
+</span></span></code></pre></td></tr></table></div></div><a href=#9-mapping-de-la-deuxième-paire-childr1abfqgz-et-childr2abfqgz><h2 id=9-mapping-de-la-deuxième-paire-childr1abfqgz-et-childr2abfqgz><span class=hanchor arialabel=Anchor># </span>9. Mapping de la deuxième paire <code>child.R1.ab.fq.gz</code> et <code>child.R2.ab.fq.gz</code></h2></a><a href=#procédez-pour-la-seconde-paire-comme-pour-la-première><h3 id=procédez-pour-la-seconde-paire-comme-pour-la-première><span class=hanchor arialabel=Anchor># </span>Procédez pour la seconde paire, comme pour la première</h3></a><p>Mappez les fichiers <code>child.R1.ab.fq.gz</code> et <code>child.R2.ab.fq.gz</code> de manière à produire un fichier BAM <code>child_sorted.ab.bam</code></p><blockquote class=warning-callout><p><em><strong>NOTE:</strong></em> Dans un environnement parallélisé (cluster&mldr;), le mapping de <code>child_sorted.aa.bam</code> et <code>child_sorted.ab.bam</code> pourrait être fait en parallèle&mldr;</p></blockquote><p>Afin de ne pas avoir à retaper/adapter toutes les commandes, et éviter les fautes de frappes, un script est disponible. Il générera également toutes les données précédentes (et les corrigera si nécessaire).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/home/tludwig/master2ggb/tp2.step9.sh
+</span></span></code></pre></td></tr></table></div></div><a href=#10-fusion-des-bam-pour-le-même-échantillon><h2 id=10-fusion-des-bam-pour-le-même-échantillon><span class=hanchor arialabel=Anchor># </span>10. Fusion des BAM pour le même échantillon.</h2></a><p>Maintenant que nous avons <code>child_sorted.aa.bam</code> et <code>child_sorted.ab.bam</code>, nous pouvons les fusionner en un seul fichier <strong>BAM</strong> <code>child.bam</code> pour cela on utilise la commande <code>samtools merge</code></p><blockquote class=info-callout><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools merge -f  out.bam in1.bam in2.bam in3.bam ....
+</span></span></code></pre></td></tr></table></div></div><ul><li>option <code>-f</code> : <em>forcer</em> la création du fichier.</li></ul><blockquote class=warning-callout><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#101-fusionnez-les-fichiers><h3 id=101-fusionnez-les-fichiers><span class=hanchor arialabel=Anchor># </span>10.1. Fusionnez les fichiers</h3></a><p>Fusionnez <code>child_sorted.aa.bam</code> et <code>child_sorted.ab.bam</code> pour produire child.bam.</p><p>A l&rsquo;aide de <code>samtools view</code>, vérifiez que le fichier est toujours trié et que le nombre d&rsquo;alignements total est conservé.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools merge -f child.bam child_sorted.aa.bam child_sorted.ab.bam
+</span></span></code></pre></td></tr></table></div></div><a href=#11-indexation-du-bam><h2 id=11-indexation-du-bam><span class=hanchor arialabel=Anchor># </span>11. Indexation du BAM</h2></a><p>L&rsquo;indexation consiste à créer un fichier d&rsquo;<em>index</em> <code>.bai</code> à partir d&rsquo;un bam trié. Cet index fonctionne comme une sorte d&rsquo;annuaire qui permet d&rsquo;accéder rapidement aux reads mappés dans une région génomique précise. Ici on se sert de la commande <code>samtools index</code></p><blockquote class=info-callout><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools index in.bam
+</span></span></code></pre></td></tr></table></div></div><blockquote class=warning-callout><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#111-indexez-le-fichier-childbam><h3 id=111-indexez-le-fichier-childbam><span class=hanchor arialabel=Anchor># </span>11.1. Indexez le fichier child.bam</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=k>for</span> i in <span class=o>{</span>1..10<span class=o>}</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl><span class=k>do</span> 
+</span></span><span class=line><span class=cl>    <span class=nb>echo</span> <span class=s2>&#34;J&#39;ai copié/collé la commande sans réflechir au lieu d&#39;adapter le synopsis&#34;</span> <span class=p>;</span> 
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></td></tr></table></div></div><a href=#112-vérifiez-le-fonctionnement-de-lindex><h3 id=112-vérifiez-le-fonctionnement-de-lindex><span class=hanchor arialabel=Anchor># </span>11.2. Vérifiez le fonctionnement de l&rsquo;index</h3></a><p>Effectuez des requêtes par région</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools view child.bam chr22 <span class=p>|</span> head 
+</span></span><span class=line><span class=cl>samtools view child.bam chrM <span class=p>|</span> head 
+</span></span><span class=line><span class=cl>samtools view child.bam chr22:18300000-18900000 <span class=p>|</span> head
+</span></span></code></pre></td></tr></table></div></div><a href=#12-indexation-du-genome-de-reference-avec-samtools><h2 id=12-indexation-du-genome-de-reference-avec-samtools><span class=hanchor arialabel=Anchor># </span>12. Indexation du genome de reference avec samtools</h2></a><p>Samtools doit pouvoir accèder rapidement à des régions du génome de reference. Pour cela il lui faut préalablement créer un petit fichier d&rsquo;index pour la séquence de reference.</p><blockquote><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools faidx reference.fa
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#121-indexez-votre-génome-de-reference><h3 id=121-indexez-votre-génome-de-reference><span class=hanchor arialabel=Anchor># </span>12.1. Indexez votre génome de reference.</h3></a><p>La commande doit générer un fichier <code>.fai</code> qui contient les informations nécessaires (offset de la séquence dans le fichier, taille des lignes,&mldr;. ) pour accèder à des sous-séquences.</p><a href=#122-extrayez-la-sequence-chrm50-200><h3 id=122-extrayez-la-sequence-chrm50-200><span class=hanchor arialabel=Anchor># </span>12.2. Extrayez la sequence chrM:50-200</h3></a><p>Une fois indexé, on peut rapidement obtenir des sous-régions du genome de référence au format fasta.</p><blockquote><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools faidx reference.fa chr:start-end
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>ne pas taper cette commande :warning:</p></blockquote></blockquote><a href=#13-visualisation-interactive-avec-tview><h2 id=13-visualisation-interactive-avec-tview><span class=hanchor arialabel=Anchor># </span>13. Visualisation interactive avec tview</h2></a><p>La commande <code>samtools tview</code> permet de visualiser interactivement les reads dans une région donnée. Il faut que le BAM et la séquence de référence soient indexés.</p><blockquote><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools tview sorted.bam ref.fa
+</span></span></code></pre></td></tr></table></div></div></blockquote><a href=#131-affichez-les-premiers-reads-mappés-dans-childbam><h3 id=131-affichez-les-premiers-reads-mappés-dans-childbam><span class=hanchor arialabel=Anchor># </span>13.1. Affichez les premiers reads mappés dans <code>child.bam</code></h3></a><p>A l&rsquo;aide de <code>samtools view</code>.
+Notez la position génomique du 1$^{er}$ read mappé.</p><a href=#132-affichez-childsam><h3 id=132-affichez-childsam><span class=hanchor arialabel=Anchor># </span>13.2. Affichez <code>child.sam</code></h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>samtools tview child.bam ref.fa
+</span></span></code></pre></td></tr></table></div></div><a href=#133-naviguez-dans-le-fichier><h3 id=133-naviguez-dans-le-fichier><span class=hanchor arialabel=Anchor># </span>13.3. Naviguez dans le fichier</h3></a><p>Appuyez sur la touch <code>g</code> (pour <em>go to</em>) et tapez la position <code>chr22:22707361</code> du read identifier précedemment.</p><p>Utilisez les flêches pour naviguer et <code>?</code> pour obtenir de l&rsquo;aide, <code>Q</code> pour quitter.</p><p>Vous pouvez notamment jouer avec les touches <code>m</code>,<code>n</code>,<code>b</code> et <code>.</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=m>22707361</span>  <span class=m>22707371</span>  <span class=m>22707381</span>  <span class=m>22707391</span>  <span class=m>22707401</span>  <span class=m>22707411</span>  
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>Y...........................................................
+</span></span><span class=line><span class=cl>T agccacacagcctgattctgactcttgtgtaaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>C  GCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>C  gccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>TCA ccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>TCAGCCA   AGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAG  TGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCC GATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCT ATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTG TTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGA TCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGA   TGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACT  TGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCT GTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTT TGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTG CAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAA ATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAG TCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCA TAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCAC AAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCT AAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>ccagcacctcagcctgattctgactcttctggcaaagatccct AAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcact  AAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTNA AAAAATATTACCTT
+</span></span><span class=line><span class=cl>ccagcacctcagcctgattctgactcttctggcaaagatccctaa AAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAA AAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAA aaatattacctt
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAA AATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAA  ATTACCTT
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCTAAAAAA atattacctt
+</span></span><span class=line><span class=cl>ccagcacctcagcctgattctgactcttctggcaaagatccctaaaaaa  TATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAAT   acctt
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatatt CCTT
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCTAAAAAA  tattacctt
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCTAAAAAA   ATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACC t
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttg*gtcaaagatcactaaaaaaaatattacct 
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCTAAAAAA    TTACCTT
+</span></span><span class=line><span class=cl>CCAGCACCTCAGCCTGATTCTGACTCTTCTGGCAAAGATCCCTAAAAAA    TTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>ccagcacctcagcctgattctgactcttctggcaaagatccctaaaaaa      acctt
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span><span class=line><span class=cl>tcagccacacagcctgattctgactcttgtgtcaaagatcactaaaaaaaatattacctt
+</span></span><span class=line><span class=cl>TCAGCCACACAGCCTGATTCTGACTCTTGTGTCAAAGATCACTAAAAAAAATATTACCTT
+</span></span></code></pre></td></tr></table></div></div><a href=#14-mapping-des-fichiers-parentaux><h2 id=14-mapping-des-fichiers-parentaux><span class=hanchor arialabel=Anchor># </span>14. Mapping des fichiers parentaux.</h2></a><a href=#141-refaire-tout-le-tp-pour-les-reads-de-la-mère-et-du-père><h3 id=141-refaire-tout-le-tp-pour-les-reads-de-la-mère-et-du-père><span class=hanchor arialabel=Anchor># </span>14.1. Refaire tout le TP pour les reads de la mère et du père</h3></a><p>A partir des fichiers</p><ul><li><code>DATA/mother.R1.aa.fq.gz</code></li><li><code>DATA/mother.R1.ab.fq.gz</code></li><li><code>DATA/mother.R2.aa.fq.gz</code></li><li><code>DATA/mother.R2.ab.fq.gz</code></li><li><code>DATA/father.R1.aa.fq.gz</code></li><li><code>DATA/father.R1.ab.fq.gz</code></li><li><code>DATA/father.R2.aa.fq.gz</code></li><li><code>DATA/father.R2.ab.fq.gz</code></li></ul><p>Afin de ne pas avoir à retaper toutes les commandes, et éviter les fautes de frappes, un script est disponible. Il générera également toutes les données précédentes (et les corrigera si nécessaire).</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/home/tludwig/master2ggb/tp2.step14.sh
+</span></span></code></pre></td></tr></table></div></div><a href=#15-calling-des-mutations><h2 id=15-calling-des-mutations><span class=hanchor arialabel=Anchor># </span>15. Calling des mutations</h2></a><p>Le calling des mutations se fait à l&rsquo;aide de</p><ul><li><code>bcftools mpileup</code> qui va générer les bases trouvées à toutes les positions pour les 3 bams. Cet outil génére un fichier <em>binaire</em> de variants <strong>BCF</strong>.</li><li><code>bcftools call</code> va transformer le <strong>BCF</strong> (<em>binaire</em>) en format <em>texte</em> <strong>VCF</strong> (Variant Call Format).</li></ul><blockquote><p><em><strong>Synopsis</strong></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bcftools mpileup --fasta-ref ref.fa --output mutations.bcf  file1.bam file2.bam ... fileN.bam 
+</span></span><span class=line><span class=cl>bcftools call  --multiallelic-caller --variants-only --output-type z -o result.vcf.gz --format-fields GQ,GP input.bcf
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>ne pas taper ces commandes :warning:</p></blockquote></blockquote><a href=#16-fichier-vcf><h2 id=16-fichier-vcf><span class=hanchor arialabel=Anchor># </span>16. Fichier VCF</h2></a><a href=#réperez-la-ligne-commençant-par-chrom><h3 id=réperez-la-ligne-commençant-par-chrom><span class=hanchor arialabel=Anchor># </span>Réperez la ligne commençant par <code>#CHROM</code></h3></a><p>C&rsquo;est l&rsquo;en-tête standard d&rsquo;un fichier VCF, dont voici les colonnes</p><table><thead><tr><th>#</th><th>Colonne</th></tr></thead><tbody><tr><td>1</td><td>CHROM</td></tr><tr><td>2</td><td>POS</td></tr><tr><td>3</td><td>ID</td></tr><tr><td>4</td><td>REF</td></tr><tr><td>5</td><td>ALT</td></tr><tr><td>6</td><td>QUAL</td></tr><tr><td>7</td><td>FILTER</td></tr><tr><td>8</td><td>INFO</td></tr><tr><td>9</td><td>FORMAT</td></tr><tr><td>10</td><td>child</td></tr><tr><td>11</td><td>mother</td></tr><tr><td>12</td><td>father</td></tr></tbody></table><p>Le contenu d&rsquo;un fichier VCF sera étudié en détail lors de la prochaine séance.</p><a href=#17-recherche-du-variant-causal><h2 id=17-recherche-du-variant-causal><span class=hanchor arialabel=Anchor># </span>17. Recherche du variant causal</h2></a><a href=#171-calling-des-variants><h3 id=171-calling-des-variants><span class=hanchor arialabel=Anchor># </span>17.1. Calling des variants</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>bcftools mpileup --fasta-ref ref.fa --output mutations.bcf  child.bam father.bam mother.bam
+</span></span><span class=line><span class=cl>bcftools call  --multiallelic-caller --variants-only --output-type z -o result.vcf.gz --format-fields GQ,GP mutations.bcf
+</span></span></code></pre></td></tr></table></div></div><a href=#181-combien-y-a-t-il-de-variants-dans-le-fichier-><h3 id=181-combien-y-a-t-il-de-variants-dans-le-fichier-><span class=hanchor arialabel=Anchor># </span>18.1. Combien y a t-il de variants dans le fichier ?</h3></a><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat result.vcf.gz <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> wc -l
+</span></span></code></pre></td></tr></table></div></div><a href=#182-extraction-des-variants-de-novo><h3 id=182-extraction-des-variants-de-novo><span class=hanchor arialabel=Anchor># </span>18.2. Extraction des variants <em>de novo</em></h3></a><p>On regarde quels variants (lignes) sont absents chez les 2 parents (homozygotes à la référence). Combien y en a t-il ?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>zcat result.vcf.gz <span class=p>|</span> awk <span class=s1>&#39;($1 ~ &#34;^#&#34; || ($11 ~ &#34;0/0&#34; &amp;&amp; $12 ~ &#34;0/0&#34;)) {print $0;}&#39;</span> &gt; denovo.vcf
+</span></span></code></pre></td></tr></table></div></div><a href=#183-annotation-du-fichier><h3 id=183-annotation-du-fichier><span class=hanchor arialabel=Anchor># </span>18.3. Annotation du fichier</h3></a><p>L&rsquo;annotation ajoute un certain nombre d&rsquo;informations utiles dans le fichier. Le nombre de variants ne change pas, mais chaque ligne est enrichie.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vep denovo.vcf annotated.vcf
+</span></span></code></pre></td></tr></table></div></div><a href=#184-extraction-des-variants-délétaires><h3 id=184-extraction-des-variants-délétaires><span class=hanchor arialabel=Anchor># </span>18.4. Extraction des variants délétaires</h3></a><p>On va rechercher, grace aux annotations, les variants ayant un impact fort (<em><strong>HIGH</strong></em>) ou modéré (<em><strong>MODERATE</strong></em>) sur la protéine traduite.</p><p>Combien y en a t&rsquo;il ?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat annotated.vcf <span class=p>|</span> grep -v <span class=s2>&#34;^#&#34;</span> <span class=p>|</span> grep -E <span class=s1>&#39;(HIGH|MODERATE)&#39;</span> &gt; variants.list
+</span></span></code></pre></td></tr></table></div></div><a href=#185-recherche-des-gènes-impactés><h3 id=185-recherche-des-gènes-impactés><span class=hanchor arialabel=Anchor># </span>18.5. Recherche des gènes impactés</h3></a><p>On extrait la liste des gènes impactés. Un même variant peut impacter plusieurs protéines. Il peut également avoir plusieurs impacts sur une même protéine (notamment en impactant différents transcrits). Combien de gènes sont touchés ? A quelle famille de gènes appartiennent-ils ?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cat variants.list <span class=p>|</span> cut -f8 <span class=p>|</span> tr <span class=s1>&#39;;&#39;</span> <span class=s1>&#39;\n&#39;</span> <span class=p>|</span> grep <span class=s2>&#34;^CSQ&#34;</span> <span class=p>|</span> tr <span class=s1>&#39;,&#39;</span> <span class=s1>&#39;\n&#39;</span> <span class=p>|</span> cut -d <span class=s1>&#39;|&#39;</span> -f4 <span class=p>|</span> sort -u
+</span></span></code></pre></td></tr></table></div></div></article><hr><div class=page-end id=footer><div class=backlinks-container><h3>Backlinks</h3><ul class=backlinks><li>No backlinks found</li></ul></div><div><script async src=https://cdn.jsdelivr.net/npm/d3@6.7.0/dist/d3.min.js integrity="sha256-+7jaYCp29O1JusNWHaYtgUn6EhuP0VaFuswhNV06MyI=" crossorigin=anonymous></script><h3>Interactive Graph</h3><div id=graph-container></div><style>:root{--g-node:var(--secondary);--g-node-active:var(--primary);--g-node-inactive:var(--visited);--g-link:var(--outlinegray);--g-link-active:#5a7282}</style><script src=https://ThomasLudwig.github.io/quartz/js/graph.2d9e48dbe7ea47c0ef1c58296ce14448.js></script></div></div><div id=contact_buttons><footer><p>Made by Jacky Zhao using <a href=https://github.com/jackyzha0/quartz>Quartz</a>, © 2023</p><ul><li><a href=https://ThomasLudwig.github.io/quartz/>Home</a></li><li><a href=https://twitter.com/_jzhao>Twitter</a></li><li><a href=https://github.com/jackyzha0>GitHub</a></li></ul></footer></div></div></body></html>
