@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.DragonFly_fine_grained }}
+          github_token: ${{ secrets.TLUDWIG }}
           publish_dir: ./public
           publish_branch: master  # deploying branch
           cname: ThomasLudwig.github.io
