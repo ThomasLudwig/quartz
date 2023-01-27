@@ -18,8 +18,33 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "9024793c0b1e62b1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Cours/M2GGB/TP M2GGB.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "add7850ce4472296",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -85,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Sysadmin/User Documentation/Tutorials.md",
+                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Sysadmin/User Documentation/Tutorials.md",
+                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Sysadmin/User Documentation/Tutorials.md"
+                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md"
               }
             }
           }
@@ -146,13 +171,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "9e357c915ea268f6",
+  "active": "add7850ce4472296",
   "lastOpenFiles": [
-    "Sysadmin/User Documentation/U1078 Servers.md",
+    "Cours/M2GGB/TP M2GGB.md",
     "Sysadmin/User Documentation/Tutorials.md",
+    "Sysadmin/User Documentation/U1078 Servers.md",
     "Sysadmin/User Documentation/Mettre à disposition des fichiers via https.md",
     "Sysadmin/User Documentation/Conda@U1078.md",
-    "Cours/M2GGB/TP M2GGB.md",
     "Cours/M2GGB/Evaluations/2022-2023 Evaluation UE Bioinformatique.md",
     "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
     "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP1 - Unix & Linux.md",
