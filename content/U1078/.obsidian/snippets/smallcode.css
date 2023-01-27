@@ -1,0 +1,8 @@
+.markdown-body code:not(pre>code) {
+    color: #254ec7 !important;
+    background-color: #f2f4f9!important;
+    font-weight: bold;
+/* 
+    border: 1px dotted black; 
+*/
+}

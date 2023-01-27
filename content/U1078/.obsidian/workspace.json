@@ -1,0 +1,162 @@
+{
+  "main": {
+    "id": "2145fb574fbd4112",
+    "type": "split",
+    "children": [
+      {
+        "id": "556d297503cb3fa5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9e357c915ea268f6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Sysadmin/User Documentation/Tutorials.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "84c5afa0ec627bea",
+    "type": "split",
+    "children": [
+      {
+        "id": "36a9686726cead16",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "07e9a7fece82eeca",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "fda1fff8d7de4649",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#template",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "42a83806b122c8c1",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 409.5
+  },
+  "right": {
+    "id": "19fd4eb36db511c3",
+    "type": "split",
+    "children": [
+      {
+        "id": "cb83c039e55cc933",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e4676e0b4801b83e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Sysadmin/User Documentation/Tutorials.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "91dfabc3c1b8d89d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Sysadmin/User Documentation/Tutorials.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b748b6f386ef839d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "9062cc717b16c4e0",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Sysadmin/User Documentation/Tutorials.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "9e357c915ea268f6",
+  "lastOpenFiles": [
+    "Sysadmin/User Documentation/U1078 Servers.md",
+    "Sysadmin/User Documentation/Tutorials.md",
+    "Sysadmin/User Documentation/Mettre à disposition des fichiers via https.md",
+    "Sysadmin/User Documentation/Conda@U1078.md",
+    "Cours/M2GGB/TP M2GGB.md",
+    "Cours/M2GGB/Evaluations/2022-2023 Evaluation UE Bioinformatique.md",
+    "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+    "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP1 - Unix & Linux.md",
+    "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP2 - Next Generation Sequencing.md",
+    "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP3 - Interprétation d’un fichier de variants (VCF) issu d’une analyse NGS.md"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "immediateReplace": true,
+  "suggester": true,
+  "historyPriority": true,
+  "historyLimit": 100,
+  "history": [
+    ":no_entry:",
+    ":large_orange_diamond:",
+    ":large_blue_diamond:",
+    ":white_circle:",
+    ":red_circle:",
+    ":black_circle:",
+    ":heavy_check_mark:"
+  ]
+}
