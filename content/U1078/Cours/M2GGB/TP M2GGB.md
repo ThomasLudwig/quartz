@@ -122,19 +122,19 @@ Taper votre mot de passe
 ## TP Bioinfo
 
 > [!danger] :bomb: ***Evaluation*** à rendre pour le 21 Novembre 2022 :skull:
-> - [[Cours/M2GGB/Evaluations/2022-2023 Evaluation UE Bioinformatique]]
+> - [[Evaluations/2022-2023 Evaluation UE Bioinformatique]]
 
-- [[Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP1 - Unix & Linux]]
-- [[Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP2 - Next Generation Sequencing]]
-- [[Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP3 - Interprétation d’un fichier de variants (VCF) issu d’une analyse NGS]]
-- [[Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP4 - NGS Data Processing]]
+- [[Bioinfo/2022-2023/BioInfo TP1 - Unix & Linux]]
+- [[Bioinfo/2022-2023/BioInfo TP2 - Next Generation Sequencing]]
+- [[Bioinfo/2022-2023/BioInfo TP3 - Interprétation d’un fichier de variants (VCF) issu d’une analyse NGS]]
+- [[Bioinfo/2022-2023/BioInfo TP4 - NGS Data Processing]]
 
 Pour aller plus loin
-- [[Cours/M2GGB/Bioinfo/BioInfo - Exercices Bash]]
-- [[Cours/M2GGB/Bioinfo/Bioinfo - Programmer en AWK]]
-- [[Cours/M2GGB/Bioinfo/BioInfo - Introduction à Python]]
+- [[Bioinfo/BioInfo - Exercices Bash]]
+- [[Bioinfo/Bioinfo - Programmer en AWK]]
+- [[Bioinfo/BioInfo - Introduction à Python]]
 
 ## TP Epidémio
 
-- [[Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R]]
+- [[Epidémio/2022-2023/Epidémiologie TP1 - R]]
 - [Bases de Données](https://lysine.univ-brest.fr/~tludwig/master2/2022_M2_Genet_Epidemio_TP1_TLU.pdf)

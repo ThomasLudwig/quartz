@@ -9,8 +9,8 @@ tags:
 
 ## How-To
 
-- [[Sysadmin/User Documentation/Conda@U1078]]
-- [[Sysadmin/User Documentation/Mettre à disposition des fichiers via https]]
+- [[Conda@U1078]]
+- [[Mettre à disposition des fichiers via https]]
 
 > [!INFO] **Paralleliser avec `xargs`**
 > 
@@ -35,4 +35,4 @@ tags:
 
 ## Cours M2GGB
 
-Des TP de bioinfo, des tutoriaux informatiques et des exercies sont disponibles en bas de cette page : [[Cours/M2GGB/TP M2GGB]]
+Des TP de bioinfo, des tutoriaux informatiques et des exercies sont disponibles en bas de cette page : [[../../Cours/M2GGB/TP M2GGB]]
