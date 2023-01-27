@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+                "file": "Cours/M2GGB/TP M2GGB.md",
                 "mode": "source",
                 "source": false
               }
@@ -110,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+                "file": "Cours/M2GGB/TP M2GGB.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+                "file": "Cours/M2GGB/TP M2GGB.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md"
+                "file": "Cours/M2GGB/TP M2GGB.md"
               }
             }
           }
@@ -173,13 +173,13 @@
   },
   "active": "add7850ce4472296",
   "lastOpenFiles": [
-    "Cours/M2GGB/TP M2GGB.md",
     "Sysadmin/User Documentation/Tutorials.md",
+    "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
+    "Cours/M2GGB/TP M2GGB.md",
     "Sysadmin/User Documentation/U1078 Servers.md",
     "Sysadmin/User Documentation/Mettre à disposition des fichiers via https.md",
     "Sysadmin/User Documentation/Conda@U1078.md",
     "Cours/M2GGB/Evaluations/2022-2023 Evaluation UE Bioinformatique.md",
-    "Cours/M2GGB/Epidémio/2022-2023/Epidémiologie TP1 - R.md",
     "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP1 - Unix & Linux.md",
     "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP2 - Next Generation Sequencing.md",
     "Cours/M2GGB/Bioinfo/2022-2023/BioInfo TP3 - Interprétation d’un fichier de variants (VCF) issu d’une analyse NGS.md"
